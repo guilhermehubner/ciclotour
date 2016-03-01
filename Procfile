@@ -1,0 +1,1 @@
+web: gunicorn ciclotour.wsgi --log-file -

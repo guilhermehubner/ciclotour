@@ -1,0 +1,139 @@
+/* Customizações */
+body{
+    background-image: url("../img/mountain_bike.png")
+}
+
+nav.menu{
+    box-shadow: 0 0 20px 0 #36DB4A;
+}
+
+.menu div{
+    background: #009639;
+}
+
+.menu button{
+    background: #ffffff;
+}
+
+.menu a.logo{
+    color: #ffffff !important;
+}
+
+.menu input.search{
+    min-width: 190px;
+}
+
+.profile{
+    border: 2px solid #009639;
+    background-color: #AAEEAA;
+    margin-left: 5px;
+}
+
+@media (max-width: 991px) {
+    .profile{
+        margin: 0 20px 20px 20px;
+    }
+}
+
+.profile img{
+    display: block;
+    float: left;
+    max-height: 100px;
+}
+
+.profile span{
+    text-align: left;
+    font-weight: bolder;
+    white-space: pre-wrap;
+}
+
+.profile a{
+    text-decoration:none;
+    font-weight: bolder;
+    font-size: 1.3em;
+}
+
+.profile div.name{
+    max-height: 80px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    word-break: break-all;
+}
+
+.profile div.icons{
+    float: left;
+    max-height: 20px;
+    overflow-y: hidden;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.icons .green{
+    color: #13ae21;
+}
+
+.icons .blue{
+    color: #3768F0;
+}
+
+.icons .red{
+    color: #F51625;
+}
+
+.profile .row+.row{
+    padding-top: 5px;
+}
+
+.feed{
+    border: 2px solid #009639;
+    background-color: #AAEEAA;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.feed ul{
+    margin-top: 5px;
+}
+
+.feed .nav-tabs.nav-justified>li>a{
+    border-bottom: 2px solid #009639;
+    font-weight: bold;
+}
+
+.feed .nav-tabs.nav-justified>.active>a,
+.nav-tabs.nav-justified>.active>a:focus,
+.nav-tabs.nav-justified>.active>a:hover{
+    border: 2px solid #009639;
+}
+
+.feed .media{
+    background: #fff;
+    border: 1px solid #009639;
+    margin-bottom: 10px;
+}
+
+.feed .media-heading a{
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.feed .media-left a img{
+    width: 40px;
+    height: 40px;
+    margin: 5px 0 0 5px;
+}
+
+.feed .media-heading{
+    margin-top: 10px;
+}
+
+.feed .content{
+
+}
+
+.feed .media-body hr{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+/* Fim Customizações */
