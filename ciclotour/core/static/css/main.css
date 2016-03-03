@@ -1,6 +1,21 @@
 /* Customizações */
 body{
-    background-image: url("../img/mountain_bike.png")
+    background: #b4e391; /* Old browsers */
+    background: -moz-linear-gradient(top, #b4e391 0%, #61c419 50%, #b4e391 100%);
+    background: -webkit-linear-gradient(top, #b4e391 0%,#61c419 50%,#b4e391 100%);
+    background: linear-gradient(to bottom, #b4e391 0%,#61c419 50%,#b4e391 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b4e391', endColorstr='#b4e391',GradientType=0 );
+
+    overflow-y: hidden;
+}
+
+.footer{
+    position:absolute;
+    bottom:0;
+    width: 100%;
+    height: 200px;
+    z-index: -1;
+    background-image: url("../img/trees.png");
 }
 
 nav.menu{
@@ -25,8 +40,13 @@ nav.menu{
 
 .profile{
     border: 2px solid #009639;
-    background-color: #AAEEAA;
     margin-left: 5px;
+
+    background: #c9de96; /* Old browsers */
+    background: -moz-linear-gradient(-45deg,  #c9de96 0%, #8ab66b 44%, #398235 100%);
+    background: -webkit-linear-gradient(-45deg,  #c9de96 0%,#8ab66b 44%,#398235 100%);
+    background: linear-gradient(135deg,  #c9de96 0%,#8ab66b 44%,#398235 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c9de96', endColorstr='#398235',GradientType=1 );
 }
 
 @media (max-width: 991px) {
@@ -69,7 +89,7 @@ nav.menu{
 }
 
 .icons .green{
-    color: #13ae21;
+    color: #129015;
 }
 
 .icons .blue{
@@ -84,26 +104,37 @@ nav.menu{
     padding-top: 5px;
 }
 
-.feed{
+.main_panel{
     border: 2px solid #009639;
-    background-color: #AAEEAA;
     margin-left: 20px;
     margin-right: 20px;
+
+    background: #c9de96;
+    background: -moz-linear-gradient(-45deg,  #c9de96 0%, #8ab66b 44%, #398235 100%);
+    background: -webkit-linear-gradient(-45deg,  #c9de96 0%,#8ab66b 44%,#398235 100%);
+    background: linear-gradient(135deg,  #c9de96 0%,#8ab66b 44%,#398235 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c9de96', endColorstr='#398235',GradientType=1 );
+
+    overflow-y: auto;
 }
 
-.feed ul{
+.main_panel ul{
     margin-top: 5px;
 }
 
-.feed .nav-tabs.nav-justified>li>a{
+.main_panel .nav-tabs.nav-justified>li>a{
     border-bottom: 2px solid #009639;
     font-weight: bold;
 }
 
-.feed .nav-tabs.nav-justified>.active>a,
+.main_panel .nav-tabs.nav-justified>.active>a,
 .nav-tabs.nav-justified>.active>a:focus,
 .nav-tabs.nav-justified>.active>a:hover{
     border: 2px solid #009639;
+}
+
+.main_panel .content_container{
+    margin-top: 10px;
 }
 
 .feed .media{
@@ -127,11 +158,34 @@ nav.menu{
     margin-top: 10px;
 }
 
-.feed .content{
-
+.feed .media-body hr{
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
-.feed .media-body hr{
+.routes .media{
+    background: #fff;
+    border: 1px solid #009639;
+    margin-bottom: 10px;
+}
+
+.routes .media-heading a{
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.routes .media-left a img{
+    width: 300px;
+    height: 200px;
+    margin: 5px 5px 5px 5px;
+    border: 2px solid #2b542c;
+}
+
+.routes .media-heading{
+    margin-top: 10px;
+}
+
+.routes .media-body hr{
     margin-top: 10px;
     margin-bottom: 10px;
 }

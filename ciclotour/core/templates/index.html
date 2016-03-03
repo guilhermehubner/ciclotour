@@ -15,8 +15,18 @@
     <link rel="stylesheet" href="{% static 'css/font-awesome.min.css'%}" type="text/css">
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css'%}" type="text/css">
     <link rel="stylesheet" href="{% static 'css/main.css'%}" type="text/css">
+
+
+    <!-- JS -->
+    <script type="text/javascript" src="{% static 'js/angular.min.js'%}"></script>
+    <script type="text/javascript" src="{% static 'js/app.js'%}"></script>
+    <script type="text/javascript" src="{% static 'js/controllers/ContentController.js'%}"></script>
+
+    <script>
+
+    </script>
 </head>
-<body>
+<body ng-app="ciclotourApp" onresize="resizeMainPanel()">
     <!-- Menu -->
     <nav class="menu navbar navbar-default" role="navigation">
 
@@ -114,77 +124,150 @@
                     </ul>
                 </div>
             </div>
-            <div class="feed col-md-8">
+
+            <div class="main_panel col-md-8" ng-controller="ContentController">
+
                 <ul class="nav nav-tabs nav-justified">
-                    <li role="presentation" class="active"><a href="#">Feed</a></li>
-                    <li><a href="#">Rotas</a></li>
+                    <li id="feed_tab" ng-class="{active: feed_active}">
+                        <a href="#" ng-click="select_feed()">Feed</a>
+                    </li>
+                    <li id="routes_tab" ng-class="{active: routes_active}">
+                        <a href="#" ng-click="select_routes()">Rotas</a>
+                    </li>
                 </ul>
 
-                <div class="media">
-                    <div class="media-left">
-                        <a href="#">
-                            <img class="media-object" src="https://avatars0.githubusercontent.com/u/5081283?v=3&s=460" />
-                        </a>
-                    </div>
-                    <div class="media-body">
-                        <div class="media-heading">
-                            <a href="#">Guilherme Hübner Franco</a>
-                            <span>comentou a rota</span>
-                            <a href="#">Belo Horizonte > Serra do cipó</a>
+                <div ng-if="feed_active" class="feed content_container">
+                    <div class="media">
+                        <div class="media-left">
+                            <a href="#">
+                                <img class="media-object" src="https://avatars0.githubusercontent.com/u/5081283?v=3&s=460" />
+                            </a>
                         </div>
-                        <hr />
-                        <div class="content">
-                            Cras sit amet nibh libero, in gravida nulla.
-                            Nulla vel metus scelerisque ante sollicitudin commodo.
-                            Cras purus odio, vestibulum in vulputate at, tempus viverra
-                            turpis. Fusce condimentum nunc ac nisi vulputate fringilla.
-                            Donec lacinia congue felis in faucibus.
+                        <div class="media-body">
+                            <div class="media-heading">
+                                <a href="#">Guilherme Hübner Franco</a>
+                                <span>comentou a rota</span>
+                                <a href="#">Belo Horizonte > Serra do cipó</a>
+                            </div>
+                            <hr />
+                            <div class="content">
+                                Cras sit amet nibh libero, in gravida nulla.
+                                Nulla vel metus scelerisque ante sollicitudin commodo.
+                                Cras purus odio, vestibulum in vulputate at, tempus viverra
+                                turpis. Fusce condimentum nunc ac nisi vulputate fringilla.
+                                Donec lacinia congue felis in faucibus.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="media">
+                        <div class="media-left">
+                            <a href="#">
+                                <img class="media-object" src="https://avatars0.githubusercontent.com/u/5081283?v=3&s=460" />
+                            </a>
+                        </div>
+                        <div class="media-body">
+                            <div class="media-heading">
+                                <a href="#">Guilherme Hübner Franco</a>
+                                <span>comentou a rota</span>
+                                <a href="#">Belo Horizonte > Serra do cipó</a>
+                            </div>
+                            <hr />
+                            <div class="content">
+                                Cras sit amet nibh libero, in gravida nulla.
+                                Nulla vel metus scelerisque ante sollicitudin commodo.
+                                Cras purus odio, vestibulum in vulputate at, tempus viverra
+                                turpis. Fusce condimentum nunc ac nisi vulputate fringilla.
+                                Donec lacinia congue felis in faucibus.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="media">
+                        <div class="media-left">
+                            <a href="#">
+                                <img class="media-object" src="https://avatars0.githubusercontent.com/u/5081283?v=3&s=460" />
+                            </a>
+                        </div>
+                        <div class="media-body">
+                            <div class="media-heading">
+                                <a href="#">Guilherme Hübner Franco</a>
+                                <span>comentou a rota</span>
+                                <a href="#">Belo Horizonte > Serra do cipó</a>
+                            </div>
+                            <hr />
+                            <div class="content">
+                                Cras sit amet nibh libero, in gravida nulla.
+                                Nulla vel metus scelerisque ante sollicitudin commodo.
+                                Cras purus odio, vestibulum in vulputate at, tempus viverra
+                                turpis. Fusce condimentum nunc ac nisi vulputate fringilla.
+                                Donec lacinia congue felis in faucibus.
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="media">
-                    <div class="media-left">
-                        <a href="#">
-                            <img class="media-object" src="https://avatars0.githubusercontent.com/u/5081283?v=3&s=460" />
-                        </a>
-                    </div>
-                    <div class="media-body">
-                        <div class="media-heading">
-                            <a href="#">Guilherme Hübner Franco</a>
-                            <span>comentou a rota</span>
-                            <a href="#">Belo Horizonte > Serra do cipó</a>
+                <div ng-if="routes_active" id="routes_container" class="routes content_container">
+                    <div class="media">
+                        <div class="media-left">
+                            <a href="#">
+                                <img class="media-object" src="http://visiteaserradocipo.com.br/wp-content/uploads/2012/08/c%C3%A2nion-das-bandeirinhas-c%C3%B3pia1.jpg" />
+                            </a>
                         </div>
-                        <hr />
-                        <div class="content">
-                            Cras sit amet nibh libero, in gravida nulla.
-                            Nulla vel metus scelerisque ante sollicitudin commodo.
-                            Cras purus odio, vestibulum in vulputate at, tempus viverra
-                            turpis. Fusce condimentum nunc ac nisi vulputate fringilla.
-                            Donec lacinia congue felis in faucibus.
+                        <div class="media-body">
+                            <div class="media-heading">
+                                <a href="#">Belo Horizonte > Serra do cipó</a>
+                            </div>
+                            <hr />
+                            <div class="content">
+                                Cras sit amet nibh libero, in gravida nulla.
+                                Nulla vel metus scelerisque ante sollicitudin commodo.
+                                Cras purus odio, vestibulum in vulputate at, tempus viverra
+                                turpis. Fusce condimentum nunc ac nisi vulputate fringilla.
+                                Donec lacinia congue felis in faucibus.
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="media">
-                    <div class="media-left">
-                        <a href="#">
-                            <img class="media-object" src="https://avatars0.githubusercontent.com/u/5081283?v=3&s=460" />
-                        </a>
-                    </div>
-                    <div class="media-body">
-                        <div class="media-heading">
-                            <a href="#">Guilherme Hübner Franco</a>
-                            <span>comentou a rota</span>
-                            <a href="#">Belo Horizonte > Serra do cipó</a>
+                    <div class="media">
+                        <div class="media-left">
+                            <a href="#">
+                                <img class="media-object" src="http://visiteaserradocipo.com.br/wp-content/uploads/2012/08/c%C3%A2nion-das-bandeirinhas-c%C3%B3pia1.jpg" />
+                            </a>
                         </div>
-                        <hr />
-                        <div class="content">
-                            Cras sit amet nibh libero, in gravida nulla.
-                            Nulla vel metus scelerisque ante sollicitudin commodo.
-                            Cras purus odio, vestibulum in vulputate at, tempus viverra
-                            turpis. Fusce condimentum nunc ac nisi vulputate fringilla.
-                            Donec lacinia congue felis in faucibus.
+                        <div class="media-body">
+                            <div class="media-heading">
+                                <a href="#">Belo Horizonte > Serra do cipó</a>
+                            </div>
+                            <hr />
+                            <div class="content">
+                                Cras sit amet nibh libero, in gravida nulla.
+                                Nulla vel metus scelerisque ante sollicitudin commodo.
+                                Cras purus odio, vestibulum in vulputate at, tempus viverra
+                                turpis. Fusce condimentum nunc ac nisi vulputate fringilla.
+                                Donec lacinia congue felis in faucibus.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="media">
+                        <div class="media-left">
+                            <a href="#">
+                                <img class="media-object" src="http://visiteaserradocipo.com.br/wp-content/uploads/2012/08/c%C3%A2nion-das-bandeirinhas-c%C3%B3pia1.jpg" />
+                            </a>
+                        </div>
+                        <div class="media-body">
+                            <div class="media-heading">
+                                <a href="#">Belo Horizonte > Serra do cipó</a>
+                            </div>
+                            <hr />
+                            <div class="content">
+                                Cras sit amet nibh libero, in gravida nulla.
+                                Nulla vel metus scelerisque ante sollicitudin commodo.
+                                Cras purus odio, vestibulum in vulputate at, tempus viverra
+                                turpis. Fusce condimentum nunc ac nisi vulputate fringilla.
+                                Donec lacinia congue felis in faucibus.
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -194,12 +277,12 @@
     </section>
     <!-- Conteúdo  -->
 
+    <div class="footer">
+
+    </div>
+
     <script type="text/javascript" src="{% static 'js/jquery-1.12.1.min.js'%}"></script>
     <script type="text/javascript" src="{% static 'js/bootstrap.min.js'%}"></script>
-    <script>
-        $(document).ready(function(){
-            $('[data-toggle="tooltip"]').tooltip();
-        });
-    </script>
+    <script type="text/javascript" src="{% static 'js/plugins.js'%}"></script>
 </body>
 </html>
