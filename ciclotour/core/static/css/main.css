@@ -163,10 +163,14 @@ nav.menu{
     margin-bottom: 10px;
 }
 
-.routes .media{
+.routes .row{
     background: #fff;
     border: 1px solid #009639;
-    margin-bottom: 10px;
+    margin: 0 0 10px 0;
+}
+
+.routes .media-heading{
+    margin-top: 10px;
 }
 
 .routes .media-heading a{
@@ -174,15 +178,21 @@ nav.menu{
     font-weight: bold;
 }
 
-.routes .media-left a img{
-    width: 300px;
-    height: 200px;
-    margin: 5px 5px 5px 5px;
+.routes a>img{
+    margin: 5px 5px 5px 0;
     border: 2px solid #2b542c;
+    max-height: 300px;
 }
 
-.routes .media-heading{
-    margin-top: 10px;
+@media (max-width: 766px) {
+    .routes a>img{
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    .routes .media-heading{
+        text-align: center;
+    }
 }
 
 .routes .media-body hr{
