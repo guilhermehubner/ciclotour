@@ -6,7 +6,7 @@ angular.module("ciclotourApp").controller('RoutesFormController', function($scop
     $scope.destinationCoordinates = null;
 
     $scope.setOrigin = function (){
-            var url = "http://maps.googleapis.com/maps/api/geocode/json?address=" + $scope.origin.toString();
+            var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + $scope.origin.toString();
             if($scope.origin != "") {
                 $http.get(url).success(function(data){
                     $scope.originCoordinates = {
@@ -25,7 +25,7 @@ angular.module("ciclotourApp").controller('RoutesFormController', function($scop
 
     $scope.setDestination = function (){
             if($scope.destination) {
-                var url = "http://maps.googleapis.com/maps/api/geocode/json?address=" + $scope.destination.toString();
+                var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + $scope.destination.toString();
                 $http.get(url).success(function(data){
                     $scope.destinationCoordinates = {
                         lat: data.results[0].geometry.location.lat,
