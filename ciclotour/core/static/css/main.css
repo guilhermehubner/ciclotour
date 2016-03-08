@@ -217,6 +217,45 @@ nav.menu{
     float: right;
 }
 
+.routes #map{
+    border: 2px solid #009639;
+    margin: 5px 0 5px 0;
+}
+
+.routes .title{
+    margin: 5px 0 0 5px;
+}
+
+.routes .title hr,
+.routes .actions hr{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.routes .title span{
+    font-weight: bold;
+    font-size: 1.5em;
+    color: #2e6da4;
+    cursor: pointer;
+}
+
+.routes .description,
+.routes .actions{
+    margin: 5px 0 0 5px;
+}
+
+.routes .description span{
+    text-align: justify;
+}
+
+.routes .points button{
+    margin-left: 10px;
+}
+
+.routes .points .tableContainer{
+    overflow-x: scroll;
+}
+
 .main_content_form{
     background: #fff;
     border: 1px solid #009639;
