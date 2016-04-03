@@ -259,7 +259,7 @@ nav.menu{
 .main_content_form{
     background: #fff;
     border: 1px solid #009639;
-    margin: 0 0 10px 20px;
+    margin: 0 20px 10px 20px;
 
     overflow-y: auto;
     overflow-x: hidden;
@@ -267,6 +267,13 @@ nav.menu{
 
 .main_content_form form{
     margin-top: 10px;
+}
+
+.mapMenuLeft{
+    position: absolute;
+    z-index: 5;
+    right:20px;
+    top:5px;
 }
 
 /* Fim Customizações */

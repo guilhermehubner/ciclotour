@@ -9,10 +9,16 @@
 {% endblock %}
 
 {% block main_panel %}
-    <div ng-controller="RoutesFormController" id="main_panel" class="main_content_form col-sm-8">
+    <div ng-controller="RoutesFormController" id="main_panel" class="main_content_form col-md-8">
         <h2 class="form-title">Cadastro de Rota</h2>
         <hr />
         <form class="form-horizontal">
+            <div class="form-group">
+                <label class="control-label col-sm-2">Título:</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" />
+                </div>
+            </div>
             <div class="form-group">
                 <label class="control-label col-sm-2">Origem:</label>
                 <div class="col-sm-6">
@@ -21,21 +27,36 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-2">Destino:</label>
-                <div class="col-sm-6">
-                    <input ng-model="destination" ng-change="setDestination()"
-                           ng-model-options="{debounce:1000}" type="text" class="form-control" />
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-6 col-sm-offset-2">
-                    <div id="map" style="height: 200px"></div>
+                <div class="col-sm-12">
+                    <div class="mapMenuLeft">
+                        <button class="btn btn-danger" ng-click="undo()">Desfazer</button>
+                    </div>
+                    <div id="map" style="height: 400px"></div>
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-sm-2">Descrição:</label>
                 <div class="col-sm-6">
                     <textarea class="form-control" rows="4"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2">Terreno:</label>
+                <div class="col-sm-6">
+                    <select class="form-control">
+                        <option value="">Opção 1</option>
+                        <option value="">Opção 2</option>
+                        <option value="">Opção 3</option>
+                        <option value="">Opção 3</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 col-sm-offset-2">
+                    <select class="form-control">
+                        <option value="">Privada</option>
+                        <option value="">Pública</option>
+                    </select>
                 </div>
             </div>
             <div class="form-group">
