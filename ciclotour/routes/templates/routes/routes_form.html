@@ -29,6 +29,7 @@
             <div class="form-group">
                 <div class="col-sm-12">
                     <div class="mapMenuLeft">
+                        <button class="btn btn-primary" ng-click="manualMode = !manualMode" ng-class="{active:manualMode}">Manual</button>
                         <button class="btn btn-danger" ng-click="undo()">Desfazer</button>
                     </div>
                     <div id="map" style="height: 400px"></div>
