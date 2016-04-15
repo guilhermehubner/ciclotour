@@ -30,6 +30,7 @@
 <!-- Fim Menu -->
 
 <!-- Conteúdo -->
+{% block content %}
 <section class="container-fluid" onmove="resizeMainPanel()">
 
     {% include 'profile.html' only %}
@@ -37,6 +38,7 @@
     {% block main_panel %}{% endblock %}
 
 </section>
+{% endblock %}
 <!-- Conteúdo  -->
 
 <div class="footer">
