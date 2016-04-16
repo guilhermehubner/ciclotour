@@ -50,8 +50,22 @@
     <form class="login-form" action="/login/" method="POST">
         {% csrf_token %}
 
-        {{ form.email|set_placeholder_as_label}}
-        {{ form.password|set_placeholder_as_label }}
+        <div class="formFields">
+            {{ form.email|set_placeholder_as_label}}
+            {{ form.email.errors }}
+        </div>
+        <div class="formFields">
+            {{ form.password|set_placeholder_as_label }}
+            {{ form.password.errors }}
+        </div>
+
+        {% if form.non_field_errors %}
+            <div class="non-field-errors">
+                {% for err in form.non_field_errors %}
+                    <p class="form-error">{{ err }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
 
         <button type="submit">Login</button>
 

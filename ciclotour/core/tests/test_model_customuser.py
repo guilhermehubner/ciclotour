@@ -55,7 +55,7 @@ class CustomUserModelTest(TestCase):
 
 class CustomUserManagerTest(TestCase):
     def setUp(self):
-        self.regular_user = CustomUser.objects.create_user(
+        self.staff_user = CustomUser.objects.create_user(
             name='Guilherme',
             last_name='Hübner',
             email='guilherme_hubner@msn.com',
@@ -67,12 +67,22 @@ class CustomUserManagerTest(TestCase):
             email='guilherme_hubner@immortalopus.com',
             password='123456'
         )
+        self.regular_user = CustomUser.objects.create_regularuser(
+            name='Guilherme',
+            last_name='Hübner',
+            email='guilherme.hubner@hotmail.com',
+            password='123456'
+        )
 
     def test_manager(self):
         self.assertIsInstance(CustomUser.objects, CustomUserManager)
 
     def test_create_user(self):
-        self.assertFalse(self.regular_user.is_staff or self.regular_user.is_superuser)
+        self.assertFalse(self.staff_user.is_staff or self.staff_user.is_superuser)
 
     def test_create_superuser(self):
         self.assertTrue(self.super_user.is_staff and self.super_user.is_superuser)
+
+    def test_create_regular_user(self):
+        self.assertFalse(self.regular_user.is_staff or self.regular_user.is_superuser or
+                         self.regular_user.is_active)

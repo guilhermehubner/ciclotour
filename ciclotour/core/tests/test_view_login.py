@@ -98,3 +98,39 @@ class LoginViewPostInvalid(TestCase):
     def test_user_logged_in(self):
         """POST /login/ with invalid data shouldn't login an user"""
         self.assertNotIn('_auth_user_id', self.client.session)
+
+    def test_invalid_message(self):
+        """POST /login/ with invalid data should show a error message"""
+        self.assertContains(self.response, LoginForm.error_messages['invalid_login'])
+
+
+class LoginViewInvalidFieldsTest(TestCase):
+    def test_invalid_email(self):
+        """In case of invalid e-mail user must be notified"""
+        data = {
+            'email': 'guilherme_hubner.com',
+            'password': '1234'
+        }
+
+        response = self.client.post(resolve_url('login'), data=data)
+        self.assertContains(response, 'Informe um endereço de email válido.')
+
+    def test_empty_email(self):
+        """In case of empty e-mail user must be notified"""
+        data = {
+            'email': '',
+            'password': '1234'
+        }
+
+        response = self.client.post(resolve_url('login'), data=data)
+        self.assertContains(response, 'Este campo é obrigatório')
+
+    def test_empty_password(self):
+        """In case of empty password user must be notified"""
+        data = {
+            'email': 'guilherme_hubner@msn.com',
+            'password': ''
+        }
+
+        response = self.client.post(resolve_url('login'), data=data)
+        self.assertContains(response, 'Este campo é obrigatório')
