@@ -287,7 +287,9 @@ nav.menu{
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
 
-.loginForm input {
+.loginForm input[type="password"],
+.loginForm input[type="submit"],
+.loginForm input[type="email"]{
   font-family: "Roboto", sans-serif;
   outline: 0;
   background: #f2f2f2;
@@ -335,6 +337,13 @@ nav.menu{
 
 .loginForm .register-form {
   display: none;
+}
+
+.login-form label{
+    font-weight: normal;
+    float: left;
+    font-size: 0.9em;
+    margin-bottom: 10px;
 }
 
 form ul.errorlist{

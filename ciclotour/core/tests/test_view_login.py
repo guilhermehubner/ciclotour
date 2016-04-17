@@ -20,11 +20,12 @@ class LoginViewTest(TestCase):
         """HTML must contain input tags"""
         tags = (
             ('<form', 2),
-            ('<input', 9),
+            ('<input', 10),
             ('type="password"', 3),
             ('type="email"', 2),
             ('type="text"', 2),
             ('type="submit"', 2),
+            ('type="checkbox"', 1),
             ('<button', 2)
         )
 

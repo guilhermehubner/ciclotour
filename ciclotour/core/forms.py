@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate
 class LoginForm(forms.Form):
     email = forms.EmailField(label='E-mail', max_length=254)
     password = forms.CharField(label='Senha', widget=forms.PasswordInput)
+    remember_me = forms.BooleanField(label='Lembrar-me', required=False)
 
     error_messages = {
         'invalid_login': 'Por favor informe e-mail e senha válidos!',

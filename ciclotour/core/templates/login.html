@@ -59,6 +59,10 @@
             {{ form.password.errors }}
         </div>
 
+        <div class="formFields">
+            <label>{{ form.remember_me }} {{ form.remember_me.label }}</label>
+        </div>
+
         {% if form.non_field_errors %}
             <div class="non-field-errors">
                 {% for err in form.non_field_errors %}

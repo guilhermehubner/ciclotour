@@ -56,6 +56,8 @@ AUTH_USER_MODEL = 'core.CustomUser'
 
 AUTHENTICATION_BACKENDS = ('ciclotour.core.backends.CustomUserAuth',)
 
+SESSION_COOKIE_AGE = 3600
+
 ###################################################
 
 MIDDLEWARE_CLASSES = [

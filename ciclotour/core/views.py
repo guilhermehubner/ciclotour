@@ -19,6 +19,8 @@ def login(request):
         form = LoginForm(request.POST)
 
         if form.is_valid():
+            if form.cleaned_data['remember_me']:
+                request.session.set_expiry(0)
             django_login(request, form.get_user())
             return HttpResponseRedirect(resolve_url('home'))
 

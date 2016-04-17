@@ -7,7 +7,7 @@ class LoginFormTest(TestCase):
     def test_form_has_fields(self):
         """Form must have email and password fields"""
         form = LoginForm()
-        expected = ['email', 'password']
+        expected = ['email', 'password', 'remember_me']
         self.assertSequenceEqual(expected, list(form.fields))
 
     def test_authentication(self):
