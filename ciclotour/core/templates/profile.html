@@ -1,10 +1,16 @@
+{% load static %}
+
 <div class="profile col-md-3 hidden-xs">
 
     <div class="row">
         <a href="#">
-            <img class="img-responsive img-circle" src="https://avatars0.githubusercontent.com/u/5081283?v=3&s=460">
+            {% if user.profile_picture %}
+                <img class="img-responsive img-circle" src="{{ user.profile_picture.url }}" />
+            {% else %}
+                <img class="img-responsive img-circle" src="{% static 'img/non_user.png'%}" />
+            {% endif %}
             <div class="name">
-                <label>Guilherme Hübner Franco</label>
+                <label>{{ user.name }} {{ user.last_name }}</label>
             </div>
         </a>
         <div class="icons">

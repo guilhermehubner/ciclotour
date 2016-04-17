@@ -37,3 +37,14 @@ class HomeTest(TestCase):
         """GET / must have a link to logout"""
         self.assertContains(self.response, resolve_url('logout'))
 
+    def test_html(self):
+        """HTML must contains user info"""
+
+        contents = [
+            self.user.name + ' ' + self.user.last_name,
+            self.user.profile_picture.url if self.user.profile_picture else '/img/non_user.png'
+        ]
+
+        for content in contents:
+            with self.subTest():
+                self.assertContains(self.response, content)
