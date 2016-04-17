@@ -38,11 +38,21 @@
     <form class="register-form">
         {% csrf_token %}
 
-        <input type="email" placeholder="E-mail"/>
-        <input type="text" placeholder="Nome"/>
-        <input type="text" placeholder="Sobrenome"/>
-        <input type="password" placeholder="Senha"/>
-        <input type="password" placeholder="Confirmar Senha"/>
+        <div class="formFields">
+            <input type="email" placeholder="E-mail"/>
+        </div>
+        <div class="formFields">
+            <input type="text" placeholder="Nome"/>
+        </div>
+        <div class="formFields">
+            <input type="text" placeholder="Sobrenome"/>
+        </div>
+        <div class="formFields">
+            <input type="password" placeholder="Senha"/>
+        </div>
+        <div class="formFields">
+            <input type="password" placeholder="Confirmar Senha"/>
+        </div>
         <button type="submit">Cadastrar</button>
         <p class="message">Já cadastrado? <a href="#">Logar-se</a></p>
     </form>
