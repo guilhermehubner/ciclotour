@@ -40,12 +40,15 @@ DJANGO_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
-    'test_without_migrations'
+    'test_without_migrations',
+    'rest_framework',
+    'rest_framework.authtoken',
 ]
 
 LOCAL_APPS = [
     'ciclotour.core',
     'ciclotour.routes',
+    'ciclotour.api',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -59,6 +62,18 @@ AUTHENTICATION_BACKENDS = ('ciclotour.core.backends.CustomUserAuth',)
 SESSION_COOKIE_AGE = 3600
 
 ###################################################
+
+
+#################### REST FRAMEWORK ###############
+
+REST_FRAMEWORK = {
+   'DEFAULT_AUTHENTICATION_CLASSES': (
+       'rest_framework.authentication.SessionAuthentication',
+       'rest_framework.authentication.TokenAuthentication',
+   )
+}
+
+####################################################
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',

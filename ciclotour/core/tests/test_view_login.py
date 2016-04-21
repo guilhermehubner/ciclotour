@@ -114,7 +114,7 @@ class LoginViewInvalidFieldsTest(TestCase):
         }
 
         response = self.client.post(resolve_url('login'), data=data)
-        self.assertContains(response, 'Informe um endereço de email válido.')
+        self.assertContains(response, 'Insira um endereço de email válido.')
 
     def test_empty_email(self):
         """In case of empty e-mail user must be notified"""

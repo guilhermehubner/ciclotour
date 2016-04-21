@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load myfilters %}
 
 {% block title %}Ciclotour{% endblock %}
 
@@ -16,14 +17,13 @@
             <div class="form-group">
                 <label class="control-label col-sm-2">Título:</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" />
+                    {{ form.title|add_class:"form-control" }}
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-sm-2">Origem:</label>
                 <div class="col-sm-6">
-                    <input ng-model="origin" ng-change="setOrigin()"
-                           ng-model-options="{debounce:1000}" type="text" class="form-control" />
+                    {{ form.origin|add_class:"form-control"|add_ngModel:"origin"|add_ngChange:"setOrigin()"|add_ngModelOptions:"{debounce:1000}" }}
                 </div>
             </div>
             <div class="form-group">
@@ -38,18 +38,13 @@
             <div class="form-group">
                 <label class="control-label col-sm-2">Descrição:</label>
                 <div class="col-sm-6">
-                    <textarea class="form-control" rows="4"></textarea>
+                    {{ form.description|add_class:"form-control"|set_rows:"4" }}
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-sm-2">Terreno:</label>
                 <div class="col-sm-6">
-                    <select class="form-control">
-                        <option value="">Opção 1</option>
-                        <option value="">Opção 2</option>
-                        <option value="">Opção 3</option>
-                        <option value="">Opção 3</option>
-                    </select>
+                    {{ form.field|add_class:"form-control" }}
                 </div>
             </div>
             <div class="form-group">

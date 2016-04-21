@@ -1,4 +1,5 @@
 from ciclotour.core.models import CustomUser
+from ciclotour.routes.forms import RouteForm
 from django.test import TestCase
 from django.shortcuts import resolve_url
 
@@ -32,3 +33,8 @@ class RouteCreateViewTest(TestCase):
     def test_logout_link(self):
         """GET /routes/create/ must have a link to logout"""
         self.assertContains(self.response, resolve_url('logout'))
+
+    def test_context_has_form(self):
+        """Context must have RouteForm"""
+        form = self.response.context['form']
+        self.assertIsInstance(form, RouteForm)
