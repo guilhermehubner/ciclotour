@@ -17,7 +17,7 @@
             <div class="form-group">
                 <label class="control-label col-sm-2">Título:</label>
                 <div class="col-sm-6">
-                    {{ form.title|add_class:"form-control" }}
+                    {{ form.title|add_class:"form-control"|add_ngModel:"title" }}
                 </div>
             </div>
             <div class="form-group">
@@ -38,13 +38,13 @@
             <div class="form-group">
                 <label class="control-label col-sm-2">Descrição:</label>
                 <div class="col-sm-6">
-                    {{ form.description|add_class:"form-control"|set_rows:"4" }}
+                    {{ form.description|add_class:"form-control"|set_rows:"4"|add_ngModel:"description" }}
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-sm-2">Terreno:</label>
                 <div class="col-sm-6">
-                    {{ form.field|add_class:"form-control" }}
+                    {{ form.field|add_class:"form-control"|add_ngModel:"field" }}
                 </div>
             </div>
             <div class="form-group">
@@ -57,9 +57,27 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <button type="submit" class="btn btn-success">Criar Rota!</button>
+                    <button ng-click="save()" type="button" class="btn btn-success">Criar Rota!</button>
                 </div>
             </div>
         </form>
     </div>
+
+
+    <div id="myModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                    <p id="modal-content"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal">OK</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 {% endblock %}

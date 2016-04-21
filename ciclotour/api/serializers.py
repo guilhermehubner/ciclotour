@@ -23,5 +23,5 @@ class RouteSerializer(ModelSerializer):
 
     class Meta:
         model = Route
-        fields = ['pk', 'title', 'origin', 'description', 'field', 'owner', 'waypoint_set']
-        read_only_fields = ['pk', 'owner']
+        fields = ['pk', 'title', 'origin', 'description', 'field', 'owner', 'waypoint_set', 'get_url']
+        read_only_fields = ['pk', 'owner', 'get_url']

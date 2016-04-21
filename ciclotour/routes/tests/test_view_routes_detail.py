@@ -3,7 +3,7 @@ from django.test import TestCase
 
 class RoutesDetailViewTest(TestCase):
     def setUp(self):
-        self.response = self.client.get('/routes/belo-horizonte-serra-do-cipo/')
+        self.response = self.client.get('/routes/1/')
 
     def test_get(self):
         self. assertEqual(self.response.status_code, 200)

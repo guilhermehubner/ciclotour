@@ -1,6 +1,15 @@
 angular.module("ciclotourApp").controller('RoutesFormController', function($scope, $http){
+
+    /********** ROUTE FIELDS ************/
+
     $scope.origin = ""; //origin name get from user entry
     $scope.wayPoints = []; //the list of points will be sent to server
+    $scope.title = "";
+    $scope.field = null;
+    $scope.description = "";
+
+    /************************************/
+
     $scope.mapMarkers = []; //the list of route markers
     $scope.mapPolylines = []; //the list of routes path's
     $scope.manualMode = false; //boolean which indicates if path should be drawn by google or
@@ -53,6 +62,46 @@ angular.module("ciclotourApp").controller('RoutesFormController', function($scop
     };
 
     /******************************************
+     * Submit form data to server
+    *******************************************/
+    $scope.save = function(){
+        var obj = {
+            "title": $scope.title,
+            "origin": $scope.origin,
+            "description": $scope.description,
+            "field": $scope.field,
+            "waypoint_set": $scope.wayPoints
+        };
+
+        $http.post("/api/routes/",
+            JSON.stringify(obj),
+            { withCredentials: true }).then(
+                function(response){
+                    $('.modal-title').text('Rota cadastrada com sucesso!');
+                    $('#modal-content').text('A Rota foi cadastrada com sucesso.');
+                    $("#myModal").modal('show');
+
+                    window.location = response.data.get_url;
+                },
+                function(response){
+                    $('.modal-title').text('Falha ao cadastrar Rota');
+                    $('#modal-content').text('Ocorreu uma falha ao tentar cadastrar a rota.');
+                    $("#myModal").modal('show');
+                }
+        );
+    };
+
+    /******************************************
+     * Responsible method to initiate the map
+    *******************************************/
+    function getLastWayPointCoordinates(){
+        return {
+            lat: $scope.wayPoints[$scope.wayPoints.length - 1].latitude,
+            lng: $scope.wayPoints[$scope.wayPoints.length - 1].longitude
+        };
+    }
+
+    /******************************************
      * Responsible method to render map
     *******************************************/
     function startMap(center, target){
@@ -92,7 +141,7 @@ angular.module("ciclotourApp").controller('RoutesFormController', function($scop
 
             if($scope.manualMode){ //If manual, mode must render a linear route
                 //Defines the path as the last way point added until the actual informed
-                var path = [$scope.wayPoints[$scope.wayPoints.length - 1].coordinates, coordinates];
+                var path = [getLastWayPointCoordinates(), coordinates];
 
                 //Render the straight line
                 renderLinearRoute(path, map);
@@ -103,12 +152,12 @@ angular.module("ciclotourApp").controller('RoutesFormController', function($scop
                 //Add actual way point
                 $scope.wayPoints.push({
                     kind: 'L', // LINEAR
-                    coordinates: coordinates
+                    latitude: coordinates.lat(),
+                    longitude: coordinates.lng()
                 });
             }
             else{ //If not manual mode, must render a route indicated by google
-                renderRoute($scope.wayPoints[$scope.wayPoints.length - 1].coordinates,
-                    coordinates, map);
+                renderRoute(getLastWayPointCoordinates(), coordinates, map);
             }
         }
         else{ // Case this is the first way point, only add a marker on map
@@ -117,7 +166,8 @@ angular.module("ciclotourApp").controller('RoutesFormController', function($scop
             //Add actual way point
             $scope.wayPoints.push({
                 kind: 'I', //INITIAL
-                coordinates: coordinates
+                latitude: coordinates.lat(),
+                longitude: coordinates.lng()
             });
         }
     }
@@ -185,8 +235,8 @@ angular.module("ciclotourApp").controller('RoutesFormController', function($scop
 
                     //Check if google have changed the origin coordinates, case true,
                     //add a path to link the last waypoint to new google route
-                    if($scope.wayPoints[$scope.wayPoints.length - 1].coordinates != originCoordinates)
-                        path.push($scope.wayPoints[$scope.wayPoints.length - 1].coordinates);
+                    if(getLastWayPointCoordinates() != originCoordinates)
+                        path.push(getLastWayPointCoordinates());
 
                     //Add marker on list
                     addMarker(destinationCoordinates, map);
@@ -194,7 +244,8 @@ angular.module("ciclotourApp").controller('RoutesFormController', function($scop
                     //Add waypoint on list
                     $scope.wayPoints.push({
                         kind: 'G', //GOOGLE
-                        coordinates: destinationCoordinates
+                        latitude: destinationCoordinates.lat(),
+                        longitude: destinationCoordinates.lng()
                     });
 
                     //Build the path to render a polyline

@@ -1,5 +1,6 @@
 from ciclotour.api.serializers import RouteSerializer
 from ciclotour.routes.models import Route
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated

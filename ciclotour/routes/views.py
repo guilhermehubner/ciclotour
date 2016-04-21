@@ -9,5 +9,5 @@ def create(request):
     return render(request, 'routes/routes_form.html', {'form': RouteForm()})
 
 
-def detail(request, slug):
+def detail(request, pk):
     return render(request, 'routes/routes_detail.html')
