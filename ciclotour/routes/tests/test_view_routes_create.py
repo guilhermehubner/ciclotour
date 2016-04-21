@@ -1,4 +1,4 @@
-from ciclotour.core.models.custom_user import CustomUser
+from ciclotour.core.models import CustomUser
 from django.test import TestCase
 from django.shortcuts import resolve_url
 
@@ -19,7 +19,7 @@ class RouteCreateViewTest(TestCase):
         self.assertEqual(self.response.status_code, 200)
 
     def test_template(self):
-        """GET / must render the template routes/routes_form.html"""
+        """GET /routes/create/ must render the template routes/routes_form.html"""
         self.assertTemplateUsed(self.response, 'routes/routes_form.html')
 
     def test_login_required(self):

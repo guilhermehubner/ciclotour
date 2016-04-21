@@ -1,4 +1,4 @@
-from ciclotour.core.models.custom_user import CustomUser
+from ciclotour.core.models import CustomUser
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm

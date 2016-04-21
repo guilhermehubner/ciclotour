@@ -1,4 +1,4 @@
-from ciclotour.core.models.custom_user import CustomUser
+from ciclotour.core.models import CustomUser
 
 
 class CustomUserAuth(object):

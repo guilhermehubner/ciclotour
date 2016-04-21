@@ -1,4 +1,4 @@
-from ciclotour.core.models.custom_user import CustomUser
+from ciclotour.core.models import CustomUser
 from django.shortcuts import resolve_url
 from django.test import TestCase
 

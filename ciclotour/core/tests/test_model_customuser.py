@@ -1,6 +1,6 @@
 import os
 
-from ciclotour.core.models.custom_user import CustomUser, _user_profile_directory_path, CustomUserManager
+from ciclotour.core.models import CustomUser, _user_profile_directory_path, CustomUserManager
 from django.conf import settings
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase, override_settings

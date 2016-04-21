@@ -102,7 +102,7 @@ angular.module("ciclotourApp").controller('RoutesFormController', function($scop
 
                 //Add actual way point
                 $scope.wayPoints.push({
-                    type: 'L', // LINEAR
+                    kind: 'L', // LINEAR
                     coordinates: coordinates
                 });
             }
@@ -116,7 +116,7 @@ angular.module("ciclotourApp").controller('RoutesFormController', function($scop
 
             //Add actual way point
             $scope.wayPoints.push({
-                type: 'N', //NONE
+                kind: 'I', //INITIAL
                 coordinates: coordinates
             });
         }
@@ -193,7 +193,7 @@ angular.module("ciclotourApp").controller('RoutesFormController', function($scop
 
                     //Add waypoint on list
                     $scope.wayPoints.push({
-                        type: 'G', //GOOGLE
+                        kind: 'G', //GOOGLE
                         coordinates: destinationCoordinates
                     });
 
