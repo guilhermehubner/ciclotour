@@ -5,26 +5,18 @@
 
 {% block jsImports %}
     <script type="text/javascript" src="{% static 'js/controllers/RoutesDetailController.js'%}"></script>
-    <script src="{% static 'js/googlemaps.js'%}"></script>
+{#    <script src="{% static 'js/googlemaps.js'%}"></script>#}
+    <script src="https://maps.googleapis.com/maps/api/js?v=3&libraries=geometry"></script>
 {% endblock %}
 
 {% block main_panel %}
 
     <div id="main_panel" class="routes main_panel col-md-8" ng-controller="RoutesDetailController">
         <input type="hidden" id="wayPoints" value="{{ waypoints }}" />
+        <input type="hidden" id="polylines" value="{{ polylines }}" />
         <div class="mapContainer">
-
-            <div class="progress" ng-hide="loaded">
-                <div class="progress-bar progress-bar-success progress-bar-striped active"
-                     role="progressbar" aria-valuenow="40"
-                     aria-valuemin="0" aria-valuemax="100"
-                     style="width: [[percentage]]%">
-                </div>
-            </div>
-
             <div id="map" style="height: 200px" data-ng-init="initMap()">
             </div>
-
         </div>
 
         <div class="row">

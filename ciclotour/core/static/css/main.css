@@ -342,8 +342,9 @@ nav.menu{
 }
 
 .login-form label{
+    width: 100%;
     font-weight: normal;
-    float: left;
+    text-align: left;
     font-size: 0.9em;
     margin-bottom: 10px;
 }

@@ -15,10 +15,12 @@ def create(request):
 def detail(request, pk):
     route = get_object_or_404(Route, pk=pk)
     waypoints = route.waypoint_set.all()
+    polylines = route.polyline_set.all()
 
     context = {
         'route': route,
-        'waypoints': serializer.serialize(waypoints)
+        'waypoints': serializer.serialize(waypoints),
+        'polylines': serializer.serialize(polylines)
     }
 
     return render(request, 'routes/routes_detail.html', context)

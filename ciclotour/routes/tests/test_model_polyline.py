@@ -1,9 +1,9 @@
 from ciclotour.core.models import CustomUser
+from ciclotour.routes.models import Route, FieldKind, Polyline
 from django.test import TestCase
-from ciclotour.routes.models import Route, FieldKind
 
 
-class RouteModelTest(TestCase):
+class PolylineModelTest(TestCase):
     def setUp(self):
         self.user = CustomUser.objects.create_regularuser(
             'Guilherme',
@@ -24,25 +24,11 @@ class RouteModelTest(TestCase):
             field=self.fieldKind
         )
 
-    def test_create(self):
-        """One route must exist on database"""
-        self.assertTrue(Route.objects.exists())
-
-    def test_has_many_waypoints(self):
-        """Route has many waypoints"""
-        self.route.waypoint_set.create(
-            kind='I',
-            latitude='-19.92171275',
-            longitude='-43.93655777',
-        )
-
-        self.assertEqual(self.route.waypoint_set.count(), 1)
-
-    def test_has_many_polylines(self):
-        """Route has many polylines"""
-        self.route.polyline_set.create(
+        self.polyline = Polyline.objects.create(
             route = self.route,
             encoded_polyline='a'
         )
 
-        self.assertEqual(self.route.polyline_set.count(), 1)
+    def test_create(self):
+        """One polyline must exist on database"""
+        self.assertTrue(Polyline.objects.exists())

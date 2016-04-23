@@ -3,6 +3,11 @@ from django.db  import models
 from django.shortcuts import resolve_url
 
 
+class Polyline(models.Model):
+    route = models.ForeignKey('Route')
+    encoded_polyline = models.CharField(max_length=1300)
+
+
 class FieldKind(models.Model):
     kind = models.CharField(max_length=50)
 

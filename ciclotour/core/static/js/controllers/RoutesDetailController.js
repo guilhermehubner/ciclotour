@@ -7,45 +7,27 @@ angular.module("ciclotourApp").controller('RoutesDetailController', function($sc
     };
 
     $scope.mapMarkers = [];
-    $scope.mapPolylines = [];
+    $scope.polylines = [];
     $scope.wayPoints = [];
 
     $scope.percentage = 0;
-    $scope.loaded = false;
 
     $scope.initMap = function(){
         var map = startMap("map");
 
         $scope.wayPoints = JSON.parse($('#wayPoints').val());
+        $scope.polylines  = JSON.parse($('#polylines').val());
 
         for(var i=0; i< $scope.wayPoints.length; i++){
-            if($scope.wayPoints[i].kind == "G"){
-                addNumericMarker(getCoordinates($scope.wayPoints[i]), map, i);
-
-                setTimeout(
-                    renderRoute, 1000*i, getCoordinates($scope.wayPoints[i - 1]),
-                    getCoordinates($scope.wayPoints[i]),
-                    map
-                );
-            }else if($scope.wayPoints[i].kind == "L"){
-                addNumericMarker(getCoordinates($scope.wayPoints[i]), map, i);
-
-                renderLinearRoute([getCoordinates($scope.wayPoints[i-1]),
-                            getCoordinates($scope.wayPoints[i])],
-                            map
-                );
-            }else{
-                addNumericMarker(getCoordinates($scope.wayPoints[i]), map, i);
-            }
+            addNumericMarker(getCoordinates($scope.wayPoints[i]), map, i);
         }
 
-        var count =0;
-        $interval(function(){
-            if($scope.percentage<=100)
-                $scope.percentage += (1 /$scope.wayPoints.length) * 100;
-
-            $scope.loaded = ++count == $scope.wayPoints.length;
-        },1000, $scope.wayPoints.length);
+        for(i=0; i< $scope.polylines.length; i++){
+            renderPolyline(
+                google.maps.geometry.encoding.decodePath(
+                    $scope.polylines[i].encoded_polyline)
+                , map);
+        }
 
         setZoom(map);
     };
@@ -78,58 +60,15 @@ angular.module("ciclotourApp").controller('RoutesDetailController', function($sc
      * Responsible method to render a polyline(path)
      * on map and add it to polyline's list
     *******************************************/
-    function renderLinearRoute(path, map){
+    function renderPolyline(path, map){
         //Create polyline and render it on map
-        var polyLine = new google.maps.Polyline({
+        new google.maps.Polyline({
             path: path,
             map: map,
             geodesic: true,
             strokeColor: '#000000',
             strokeWeight: 5
         });
-
-        //Add polyline on list
-        $scope.mapPolylines.push(polyLine);
-    }
-
-    /******************************************
-     * Responsible method to request a route from
-     * google and render it on map
-    *******************************************/
-    function renderRoute(originCoordinates, destinationCoordinates, map){
-        //Starts the google directions service
-        var directionsService = new google.maps.DirectionsService();
-
-        //Performs the bicycling route request between the origin and destination
-        directionsService.route({
-                origin: originCoordinates,
-                destination: destinationCoordinates,
-                travelMode: google.maps.TravelMode.BICYCLING //BICYCLING, DRIVING, TRANSIT, WALKING
-            },
-            function(response, status) {
-                //If success on request, render the route
-                if (status === google.maps.DirectionsStatus.OK) {
-                    var path = [];
-                    var legs = response.routes[0].legs;
-
-                    //Build the path to render a polyline
-                    for (i = 0; i < legs.length; i++) {
-                        var steps = legs[i].steps;
-                        for (j = 0; j < steps.length; j++) {
-                            var nextSegment = steps[j].path;
-                            for (k = 0; k < nextSegment.length; k++) {
-                                path.push(nextSegment[k]);
-                            }
-                        }
-                    }
-
-                    //Render the polyline with the google path on map
-                    renderLinearRoute(path, map);
-                }
-                else { // If request failed, log it on console
-                    console.log('Directions request failed due to ' + status);
-                }
-            });
     }
 
     function startMap(target){

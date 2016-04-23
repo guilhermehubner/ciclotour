@@ -3,11 +3,11 @@ angular.module("ciclotourApp").controller('RoutesFormController', function($scop
     /********** ROUTE FIELDS ************/
 
     $scope.origin = ""; //origin name get from user entry
-    $scope.wayPoints = []; //the list of points will be sent to server
+    $scope.wayPoints = [];
     $scope.title = "";
     $scope.field = null;
     $scope.description = "";
-
+    $scope.encodedPoylines = []; //the list of polylines which will sent to server
     /************************************/
 
     $scope.mapMarkers = []; //the list of route markers
@@ -24,6 +24,7 @@ angular.module("ciclotourApp").controller('RoutesFormController', function($scop
         $scope.wayPoints = [];
         $scope.mapMarkers = [];
         $scope.mapPolylines = [];
+        $scope.encodedPoylines = [];
 
         if($scope.origin != "") {
             //Build the URL to get place from google maps api
@@ -57,8 +58,10 @@ angular.module("ciclotourApp").controller('RoutesFormController', function($scop
         $scope.wayPoints.pop();
         $scope.mapMarkers.pop().setMap(null);
 
-        if($scope.mapPolylines.length > 0)
+        if($scope.mapPolylines.length > 0) {
             $scope.mapPolylines.pop().setMap(null);
+            $scope.encodedPoylines.pop();
+        }
     };
 
     /******************************************
@@ -70,7 +73,8 @@ angular.module("ciclotourApp").controller('RoutesFormController', function($scop
             "origin": $scope.origin,
             "description": $scope.description,
             "field": $scope.field,
-            "waypoint_set": $scope.wayPoints
+            "waypoint_set": $scope.wayPoints,
+            "polyline_set": $scope.encodedPoylines
         };
 
         $http.post("/api/routes/",
@@ -84,6 +88,8 @@ angular.module("ciclotourApp").controller('RoutesFormController', function($scop
                     window.location = response.data.get_url;
                 },
                 function(response){
+                    console.log(response);
+
                     $('.modal-title').text('Falha ao cadastrar Rota');
                     $('#modal-content').text('Ocorreu uma falha ao tentar cadastrar a rota.');
                     $("#myModal").modal('show');
@@ -95,10 +101,10 @@ angular.module("ciclotourApp").controller('RoutesFormController', function($scop
      * Responsible method to initiate the map
     *******************************************/
     function getLastWayPointCoordinates(){
-        return {
-            lat: $scope.wayPoints[$scope.wayPoints.length - 1].latitude,
-            lng: $scope.wayPoints[$scope.wayPoints.length - 1].longitude
-        };
+        return new google.maps.LatLng(
+            $scope.wayPoints[$scope.wayPoints.length - 1].latitude,
+            $scope.wayPoints[$scope.wayPoints.length - 1].longitude
+        );
     }
 
     /******************************************
@@ -111,6 +117,7 @@ angular.module("ciclotourApp").controller('RoutesFormController', function($scop
             scrollwheel: false,
             streetViewControl: false,
             zoom: 12,
+            minZoom: 10,
             draggableCursor: 'default',
             mapTypeId: google.maps.MapTypeId.HYBRID //ROADMAP, SATELLITE, HYBRID, TERRAIN
         };
@@ -138,7 +145,6 @@ angular.module("ciclotourApp").controller('RoutesFormController', function($scop
     *******************************************/
     function addWayPoint(coordinates, map){
         if($scope.wayPoints.length > 0) { //Case this is the second way point or above
-
             if($scope.manualMode){ //If manual, mode must render a linear route
                 //Defines the path as the last way point added until the actual informed
                 var path = [getLastWayPointCoordinates(), coordinates];
@@ -205,6 +211,9 @@ angular.module("ciclotourApp").controller('RoutesFormController', function($scop
 
         //Add polyline on list
         $scope.mapPolylines.push(polyLine);
+        $scope.encodedPoylines.push({
+            "encoded_polyline":google.maps.geometry.encoding.encodePath(path)
+        });
     }
 
     /******************************************
@@ -224,6 +233,12 @@ angular.module("ciclotourApp").controller('RoutesFormController', function($scop
             function(response, status) {
                 //If success on request, render the route
                 if (status === google.maps.DirectionsStatus.OK) {
+                    if(response.routes[0].overview_polyline.length > 1300){
+                        alert("Não foi possível criar o ponto, tente criar um ponto mais " +
+                            "próximo ao anterior.");
+                        return;
+                    }
+
                     var path = [];
                     var legs = response.routes[0].legs;
 
@@ -257,11 +272,12 @@ angular.module("ciclotourApp").controller('RoutesFormController', function($scop
                             }
                         }
                     }
-                    
+
                     //Render the polyline with the google path on map
                     renderLinearRoute(path, map);
                 }
                 else { // If request failed, log it on console
+                    alert("Não foi possível criar o ponto, tente novamente.");
                     console.log('Directions request failed due to ' + status);
                 }
             });
