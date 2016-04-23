@@ -1,8 +1,7 @@
-from ciclotour.api.serializers import RouteSerializer
-from ciclotour.routes.models import Route
-from django.views.decorators.csrf import csrf_exempt
+from ciclotour.api.serializers import RouteSerializer, WayPointSerializer
+from ciclotour.routes.models import Route, WayPoint
 from rest_framework import status
-from rest_framework.decorators import permission_classes
+from rest_framework.decorators import permission_classes, api_view
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
@@ -23,3 +22,15 @@ class RouteViewSet(ModelViewSet):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+
+@api_view(['GET'])
+@permission_classes((IsAuthenticated, ))
+def route_waypoints(request, route_id):
+    waypoints = WayPoint.objects.filter(route__id=route_id)
+
+    if waypoints.count() == 0:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    serializer = WayPointSerializer(waypoints, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)

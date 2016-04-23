@@ -240,7 +240,8 @@ nav.menu{
 }
 
 .routes .description,
-.routes .actions{
+.routes .actions,
+.routes .field{
     margin: 5px 0 0 5px;
 }
 
@@ -362,6 +363,15 @@ form ul.errorlist li:before{
 form .non-field-errors{
     color: #CC0000;
     font-size: 0.85em;
+}
+
+.mapContainer .progress{
+    position: absolute;
+    z-index: 30;
+    width: 20%;
+    left: 50%;
+    margin-top: 20px;
+    margin-left: -100px;
 }
 
 /* Fim Customizações */

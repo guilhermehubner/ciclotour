@@ -200,8 +200,7 @@ angular.module("ciclotourApp").controller('RoutesFormController', function($scop
             map: map,
             geodesic: true,
             strokeColor: '#000000',
-            strokeWeight: 6,
-            strokeOpacity: 0.6
+            strokeWeight: 5
         });
 
         //Add polyline on list
@@ -258,7 +257,7 @@ angular.module("ciclotourApp").controller('RoutesFormController', function($scop
                             }
                         }
                     }
-
+                    
                     //Render the polyline with the google path on map
                     renderLinearRoute(path, map);
                 }
