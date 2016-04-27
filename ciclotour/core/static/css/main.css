@@ -133,6 +133,7 @@ nav.menu{
 .main_panel .nav-tabs.nav-justified>li>a{
     border-bottom: 2px solid #009639;
     font-weight: bold;
+    cursor: pointer;
 }
 
 .main_panel .nav-tabs.nav-justified>.active>a,
@@ -278,28 +279,28 @@ nav.menu{
 }
 
 .loginForm {
-  position: relative;
-  z-index: 1;
-  background: #FFFFFF;
-  max-width: 360px;
-  margin: 0 auto 100px;
-  padding: 45px;
-  text-align: center;
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    position: relative;
+    z-index: 1;
+    background: #FFFFFF;
+    max-width: 360px;
+    margin: 0 auto 100px;
+    padding: 45px;
+    text-align: center;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
 
 .loginForm input[type="password"],
 .loginForm input[type="submit"],
 .loginForm input[type="email"],
 .loginForm input[type="text"]{
-  font-family: "Roboto", sans-serif;
-  outline: 0;
-  background: #f2f2f2;
-  width: 100%;
-  border: 0;
-  padding: 15px;
-  box-sizing: border-box;
-  font-size: 14px;
+    font-family: "Roboto", sans-serif;
+    outline: 0;
+    background: #f2f2f2;
+    width: 100%;
+    border: 0;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 14px;
 }
 
 .loginForm .formFields{
@@ -307,38 +308,43 @@ nav.menu{
 }
 
 .loginForm button {
-  font-family: "Roboto", sans-serif;
-  text-transform: uppercase;
-  outline: 0;
-  background: #4CAF50;
-  width: 100%;
-  border: 0;
-  padding: 15px;
-  color: #FFFFFF;
-  font-size: 14px;
-  -webkit-transition: all 0.3 ease;
-  transition: all 0.3 ease;
-  cursor: pointer;
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    outline: 0;
+    background: #4CAF50;
+    width: 100%;
+    border: 0;
+    padding: 15px;
+    color: #FFFFFF;
+    font-size: 14px;
+    -webkit-transition: all 0.3 ease;
+    transition: all 0.3 ease;
+    cursor: pointer;
 }
 
 .loginForm button:hover,
 .loginForm button:active,
 .loginForm button:focus {
-  background: #43A047;
+    background: #43A047;
 }
 
 .loginForm .message {
-  margin: 15px 0 0;
-  color: #b3b3b3;
-  font-size: 12px;
+    margin: 15px 0 0;
+    color: #b3b3b3;
+    font-size: 12px;
 }
-.loginForm .message a {
-  color: #4CAF50;
-  text-decoration: none;
+.loginForm .message input[type="button"] {
+    color: #4CAF50;
+    text-decoration: none;
+    background:none!important;
+    border:none;
+    padding:0!important;
+    font: inherit;
+    cursor: pointer;
 }
 
 .loginForm .register-form {
-  display: none;
+    display: none;
 }
 
 .login-form label{
@@ -373,6 +379,10 @@ form .non-field-errors{
     left: 50%;
     margin-top: 20px;
     margin-left: -100px;
+}
+
+.cursorPointer{
+    cursor: pointer;
 }
 
 /* Fim Customizações */

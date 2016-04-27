@@ -1,0 +1,53 @@
+<div class="loginForm">
+    <form class="register-form">
+        <div class="formFields">
+            <input type="email" placeholder="E-mail"/>
+        </div>
+        <div class="formFields">
+            <input type="text" placeholder="Nome"/>
+        </div>
+        <div class="formFields">
+            <input type="text" placeholder="Sobrenome"/>
+        </div>
+        <div class="formFields">
+            <input type="password" placeholder="Senha"/>
+        </div>
+        <div class="formFields">
+            <input type="password" placeholder="Confirmar Senha"/>
+        </div>
+        <button type="submit">Cadastrar</button>
+        <p class="message">Já cadastrado?
+            <input type="button" onclick="changeForm()" value="Logar-se" />
+        </p>
+    </form>
+
+    <form class="login-form" ng-controller="LoginController">
+        <div class="formFields">
+            <input type="email" placeholder="E-mail" ng-model="email" />
+        </div>
+        <div class="formFields">
+            <input type="password" placeholder="Senha" ng-model="password" />
+        </div>
+
+        <div class="formFields">
+            <label><input type="checkbox" /> Lembrar-me</label>
+        </div>
+
+        <!--
+        {% if form.non_field_errors %}
+            <div class="formFields">
+                <div class="non-field-errors">
+                    {% for err in form.non_field_errors %}
+                        <p class="form-error">{{ err }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+        -->
+        <button ng-click="login()">Login</button>
+
+        <p class="message">Não cadastrado?
+            <input type="button" onclick="changeForm()" value="Crie uma conta" />
+        </p>
+    </form>
+</div>

@@ -11,4 +11,8 @@ angular.module("ciclotourApp").controller('ContentController', function($scope){
         $scope.routes_active = true;
         $scope.feed_active = false;
     };
+
+    angular.element(document).ready(function () {
+        resizeMainPanel();
+    });
 });

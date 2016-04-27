@@ -1,0 +1,126 @@
+<profile-info></profile-info>
+
+<div id="main_panel" class="routes main_panel col-md-8" ng-controller="RoutesDetailController">
+    <input type="hidden" id="wayPoints" value="{{ waypoints }}" />
+    <input type="hidden" id="polylines" value="{{ polylines }}" />
+    <div class="mapContainer">
+        <div id="map" style="height: 200px" data-ng-init="initMap()">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="title">
+            <span>{{ route.title }}</span>
+            <hr>
+        </div>
+
+        <div class="actions">
+            <div class="hidden-xs">
+                <button class="btn btn-success"><i class="fa fa-check"></i> Marcar como Realizada</button>
+                <button class="btn btn-warning"><i class="fa fa-check"></i> Marcar como Pendente</button>
+                <button class="btn btn-info"><i class="fa fa-plus"></i> Adicionar Fotos</button>
+            </div>
+            <div class="center-block visible-xs">
+                <button class="btn btn-success" title="Marcar como Realizada"><i class="fa fa-check"></i></button>
+                <button class="btn btn-warning" title="Marcar como Pendente"><i class="fa fa-check"></i></button>
+                <button class="btn btn-info" title="Adicionar Fotos"><i class="fa fa-plus"></i></button>
+            </div>
+            <hr>
+        </div>
+
+        <div class="description">
+            <b>Descrição:</b>
+                <span>
+                    {{ route.description }}
+                </span>
+            <hr>
+        </div>
+
+        <div class="field">
+            <b>Terreno:</b>
+                <span>
+                    {{ route.field }}
+                </span>
+            <hr>
+        </div>
+
+        <div class="points">
+            <div class="tableContainer">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Ícone</th>
+                        <th>Ponto</th>
+                        <th>Descrição</th>
+                        <th>Localização</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><img src="{% static 'img/mapIcons/nature.png' %}"></td>
+                        <td>Cachoeira Andorinhas</td>
+                        <td>Natureza Exuberante!</td>
+                        <td>Endereço/Referências aqui</td>
+                    </tr>
+                    <tr>
+                        <td><img src="{% static 'img/mapIcons/nature.png' %}"></td>
+                        <td>Cachoeira Grande</td>
+                        <td>Natureza Exuberante!</td>
+                        <td>Endereço/Referências aqui</td>
+                    </tr>
+                    <tr>
+                        <td><img src="{% static 'img/mapIcons/hotel.png' %}"></td>
+                        <td>Pousada Banana Cipó</td>
+                        <td>Estadia de primeira!</td>
+                        <td>Endereço/Referências aqui</td>
+                    </tr>
+                    <tr>
+                        <td><img src="{% static 'img/mapIcons/restaurant.png' %}"></td>
+                        <td>Panela de Pedra</td>
+                        <td>Comida de primeira!</td>
+                        <td>Endereço/Referências aqui</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <button class="btn btn-success"><i class="fa fa-plus"></i>Adicionar Ponto</button>
+            <hr>
+        </div>
+
+        <div class="photos">
+            <div class="col-sm-4">
+                <div class="thumbnail">
+                    <img style="height: 200px; width: 100%; display: block;" src="http://s.pousadinhas.com.br/wordpress/wp-content/uploads/2013/12/conheca-serra-do-cipo.jpg">
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="thumbnail">
+                    <img style="height: 200px; width: 100%; display: block;" src="http://www.alugueldevansbhmg.com.br/wp-content/gallery/serra-do-cipo/serra-do-cipo-5.jpg">
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="thumbnail">
+                    <img style="height: 200px; width: 100%; display: block;" src="http://www.alugueldevansbhmg.com.br/wp-content/gallery/serra-do-cipo/serra-do-cipo-2.jpg">
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="thumbnail">
+                    <img style="height: 200px; width: 100%; display: block;" src="http://www.alugueldevansbhmg.com.br/wp-content/gallery/serra-do-cipo/serra-do-cipo-2.jpg">
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="thumbnail">
+                    <img style="height: 200px; width: 100%; display: block;" src="https://media-cdn.tripadvisor.com/media/photo-s/04/18/02/94/cachoeira-grande.jpg">
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="thumbnail">
+                    <div class="caption">
+                        <a href="#"><h3>Ver Mais >></h3></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,6 +1,7 @@
 from ciclotour.core.managers import CustomUserManager
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
+from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.db import models
 
 
@@ -23,6 +24,12 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = ['name', 'last_name']
 
     objects = CustomUserManager()
+
+    def get_profile_pic(self):
+        if self.profile_picture:
+            return self.profile_picture.url
+
+        return static('non_user.png')
 
     def get_full_name(self):
         return '{} {}'.format(self.name, self.last_name)

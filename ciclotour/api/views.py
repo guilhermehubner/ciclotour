@@ -1,4 +1,4 @@
-from ciclotour.api.serializers import RouteSerializer, WayPointSerializer
+from ciclotour.api.serializers import RouteSerializer, WayPointSerializer, UserProfileInfoSerializer
 from ciclotour.routes.models import Route, WayPoint
 from rest_framework import status
 from rest_framework.decorators import permission_classes, api_view
@@ -34,3 +34,18 @@ def route_waypoints(request, route_id):
 
     serializer = WayPointSerializer(waypoints, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def user_logged(request):
+    logged = False
+    if request.user.is_authenticated():
+        logged = True
+
+    return Response({"logged": logged}, status.HTTP_200_OK)
+
+@api_view(['GET'])
+@permission_classes((IsAuthenticated, ))
+def user_profile_info(request):
+    data = UserProfileInfoSerializer(request.user).data
+    return Response(data, status.HTTP_200_OK)

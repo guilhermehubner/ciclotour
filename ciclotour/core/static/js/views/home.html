@@ -1,0 +1,125 @@
+<section class="container-fluid" onmove="resizeMainPanel()" onresize="resizeMainPanel()">
+    <profile-info></profile-info>
+
+    <div id="main_panel" class="main_panel col-md-8" ng-controller="ContentController">
+
+        <ul class="nav nav-tabs nav-justified">
+            <li id="feed_tab" ng-class="{active: feed_active}">
+                <a ng-click="select_feed()">Feed</a>
+            </li>
+            <li id="routes_tab" ng-class="{active: routes_active}">
+                <a ng-click="select_routes()">Rotas</a>
+            </li>
+        </ul>
+
+        <div ng-if="feed_active" id="main_panel" class="feed content_container">
+            <div class="media">
+                <div class="media-left">
+                    <a href="#">
+                        <img class="media-object" src="https://avatars0.githubusercontent.com/u/5081283?v=3&s=460" />
+                    </a>
+                </div>
+                <div class="media-body">
+                    <div class="media-heading">
+                        <a href="#">Guilherme Hübner Franco</a>
+                        <span>comentou a rota</span>
+                        <a href="/routes/belo-horizonte-serra-do-cipo/">Belo Horizonte > Serra do cipó</a>
+                    </div>
+                    <hr />
+                    <div class="content">
+                        Cras sit amet nibh libero, in gravida nulla.
+                        Nulla vel metus scelerisque ante sollicitudin commodo.
+                        Cras purus odio, vestibulum in vulputate at, tempus viverra
+                        turpis. Fusce condimentum nunc ac nisi vulputate fringilla.
+                        Donec lacinia congue felis in faucibus.
+                    </div>
+                </div>
+            </div>
+
+            <div class="media">
+                <div class="media-left">
+                    <a href="#">
+                        <img class="media-object" src="https://avatars0.githubusercontent.com/u/5081283?v=3&s=460" />
+                    </a>
+                </div>
+                <div class="media-body">
+                    <div class="media-heading">
+                        <a href="#">Guilherme Hübner Franco</a>
+                        <span>comentou a rota</span>
+                        <a href="/routes/belo-horizonte-serra-do-cipo/">Belo Horizonte > Serra do cipó</a>
+                    </div>
+                    <hr />
+                    <div class="content">
+                        Cras sit amet nibh libero, in gravida nulla.
+                        Nulla vel metus scelerisque ante sollicitudin commodo.
+                        Cras purus odio, vestibulum in vulputate at, tempus viverra
+                        turpis. Fusce condimentum nunc ac nisi vulputate fringilla.
+                        Donec lacinia congue felis in faucibus.
+                    </div>
+                </div>
+            </div>
+
+            <div class="media">
+                <div class="media-left">
+                    <a href="#">
+                        <img class="media-object" src="https://avatars0.githubusercontent.com/u/5081283?v=3&s=460" />
+                    </a>
+                </div>
+                <div class="media-body">
+                    <div class="media-heading">
+                        <a href="#">Guilherme Hübner Franco</a>
+                        <span>comentou a rota</span>
+                        <a href="/routes/belo-horizonte-serra-do-cipo/">Belo Horizonte > Serra do cipó</a>
+                    </div>
+                    <hr />
+                    <div class="content">
+                        Cras sit amet nibh libero, in gravida nulla.
+                        Nulla vel metus scelerisque ante sollicitudin commodo.
+                        Cras purus odio, vestibulum in vulputate at, tempus viverra
+                        turpis. Fusce condimentum nunc ac nisi vulputate fringilla.
+                        Donec lacinia congue felis in faucibus.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div ng-if="routes_active" id="routes_container" class="routes content_container">
+            <div class="row">
+                <div class="col-xs-12 form-inline">
+                    <div class="form-group">
+                        <input class="form-control" placeholder="Origem..." />
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" placeholder="Destino..." />
+                    </div>
+                    <button class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
+                    <a id="new-route" class="btn btn-success" href="/#routeCreate/"><i class="fa fa-plus"></i> Nova Rota</a>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <a class="change-on-hover" href="#">
+                        <img class="img-responsive" src="http://visiteaserradocipo.com.br/wp-content/uploads/2012/08/c%C3%A2nion-das-bandeirinhas-c%C3%B3pia1.jpg" />
+                    </a>
+                </div>
+                <div class="col-sm-8">
+                    <div class="media-body">
+                        <div class="media-heading">
+                            <a href="/routes/belo-horizonte-serra-do-cipo/">Belo Horizonte > Serra do cipó</a>
+                        </div>
+                        <hr />
+                        <div class="content">
+                            Cras sit amet nibh libero, in gravida nulla.
+                            Nulla vel metus scelerisque ante sollicitudin commodo.
+                            Cras purus odio, vestibulum in vulputate at, tempus viverra
+                            turpis. Fusce condimentum nunc ac nisi vulputate fringilla.
+                            Donec lacinia congue felis in faucibus.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>

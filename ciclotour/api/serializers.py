@@ -1,5 +1,12 @@
+from ciclotour.core.models import CustomUser
 from ciclotour.routes.models import Route, WayPoint, Polyline
 from rest_framework.serializers import ModelSerializer
+
+
+class UserProfileInfoSerializer(ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ['name', 'last_name', 'get_profile_pic']
 
 
 class WayPointSerializer(ModelSerializer):

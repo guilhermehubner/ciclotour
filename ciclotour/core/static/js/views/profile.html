@@ -1,16 +1,10 @@
-{% load static %}
-
 <div class="profile col-md-3 hidden-xs">
 
     <div class="row">
         <a href="#">
-            {% if user.profile_picture %}
-                <img class="img-responsive img-circle" src="{{ user.profile_picture.url }}" />
-            {% else %}
-                <img class="img-responsive img-circle" src="{% static 'img/non_user.png'%}" />
-            {% endif %}
+            <img class="img-responsive img-circle" src="[[image]]" />
             <div class="name">
-                <label>{{ user.name }} {{ user.last_name }}</label>
+                <label>[[name]] [[lastName]]</label>
             </div>
         </a>
         <div class="icons">
@@ -38,7 +32,7 @@
                 <a href="#">Amigos</a>
             </li>
             <li class="list-group-item">
-                <a href="/logout/">Sair <i class="fa fa-sign-out"></i></a>
+                <a ng-click="logout()" class="cursorPointer">Sair <i class="fa fa-sign-out"></i></a>
             </li>
         </ul>
     </div>
