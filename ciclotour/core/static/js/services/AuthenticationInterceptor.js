@@ -2,9 +2,11 @@ angular.module("ciclotourApp").factory('authInterceptor', function ($rootScope, 
     return {
         request: function (config) {
             config.headers = config.headers || {};
-            if ($cookies.get("token")) {
+
+            if ($cookies.get("token") && !config.withoutAuthToken) {
                 config.headers.Authorization = 'Token ' + $cookies.get("token");
             }
+
             return config;
         },
         response: function (response) {

@@ -1,5 +1,6 @@
-from ciclotour.api.serializers import RouteSerializer, WayPointSerializer, UserProfileInfoSerializer
-from ciclotour.routes.models import Route, WayPoint
+from ciclotour.api.serializers import RouteSerializer, WayPointSerializer, UserProfileInfoSerializer, \
+    FieldKindSerializer
+from ciclotour.routes.models import Route, WayPoint, FieldKind
 from rest_framework import status
 from rest_framework.decorators import permission_classes, api_view
 from rest_framework.permissions import IsAuthenticated
@@ -44,8 +45,16 @@ def user_logged(request):
 
     return Response({"logged": logged}, status.HTTP_200_OK)
 
+
 @api_view(['GET'])
 @permission_classes((IsAuthenticated, ))
 def user_profile_info(request):
     data = UserProfileInfoSerializer(request.user).data
+    return Response(data, status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes((IsAuthenticated, ))
+def fields_list(request):
+    data = FieldKindSerializer(FieldKind.objects.all(), many=True).data
     return Response(data, status.HTTP_200_OK)

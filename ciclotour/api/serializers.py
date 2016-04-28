@@ -1,30 +1,35 @@
 from ciclotour.core.models import CustomUser
-from ciclotour.routes.models import Route, WayPoint, Polyline
-from rest_framework.serializers import ModelSerializer
+from ciclotour.routes.models import Route, WayPoint, Polyline, FieldKind
+from rest_framework import serializers
 
 
-class UserProfileInfoSerializer(ModelSerializer):
+class FieldKindSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FieldKind
+
+
+class UserProfileInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ['name', 'last_name', 'get_profile_pic']
 
 
-class WayPointSerializer(ModelSerializer):
+class WayPointSerializer(serializers.ModelSerializer):
     class Meta:
         model = WayPoint
         fields = ['kind', 'latitude', 'longitude']
 
 
-class PolylineSerializer(ModelSerializer):
+class PolylineSerializer(serializers.ModelSerializer):
     class Meta:
         model = Polyline
         fields = ['encoded_polyline']
 
 
-class RouteSerializer(ModelSerializer):
-
+class RouteSerializer(serializers.ModelSerializer):
     waypoint_set = WayPointSerializer(many=True)
     polyline_set = PolylineSerializer(many=True)
+    field_info = FieldKindSerializer(source='field', read_only=True)
 
     def create(self, validated_data):
         waypoints_data = validated_data.pop('waypoint_set')
@@ -42,5 +47,5 @@ class RouteSerializer(ModelSerializer):
     class Meta:
         model = Route
         fields = ['pk', 'title', 'origin', 'description', 'field', 'owner',
-                  'waypoint_set', 'get_url', 'polyline_set']
-        read_only_fields = ['pk', 'owner', 'get_url']
+                  'waypoint_set', 'polyline_set', 'field_info']
+        read_only_fields = ['pk', 'owner', 'field_info']

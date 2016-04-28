@@ -1,4 +1,4 @@
-angular.module("ciclotourApp").controller('RoutesFormController', function($scope, $http){
+angular.module("ciclotourApp").controller('RoutesFormController', function($scope, $http, $state, RoutesAPI){
     /********** ROUTE FIELDS ************/
 
     $scope.origin = ""; //origin name get from user entry
@@ -6,6 +6,7 @@ angular.module("ciclotourApp").controller('RoutesFormController', function($scop
     $scope.title = "";
     $scope.field = null;
     $scope.description = "";
+    $scope.fields = [];
     $scope.encodedPoylines = []; //the list of polylines which will sent to server
     /************************************/
 
@@ -31,7 +32,7 @@ angular.module("ciclotourApp").controller('RoutesFormController', function($scop
                 + $scope.origin.toString();
 
             //Performs request and get coordinates
-            $http.get(url).success(function(data){
+            $http.get(url, { withoutAuthToken: true }).success(function(data){
                 var originCoordinates = {
                     lat: data.results[0].geometry.location.lat,
                     lng: data.results[0].geometry.location.lng
@@ -76,25 +77,39 @@ angular.module("ciclotourApp").controller('RoutesFormController', function($scop
             "polyline_set": $scope.encodedPoylines
         };
 
-        $http.post("/api/routes/",
-            JSON.stringify(obj),
-            { withCredentials: true }).then(
-                function(response){
-                    $('.modal-title').text('Rota cadastrada com sucesso!');
-                    $('#modal-content').text('A Rota foi cadastrada com sucesso.');
-                    $("#myModal").modal('show');
-
-                    window.location = response.data.get_url;
-                },
-                function(response){
-                    console.log(response);
-
-                    $('.modal-title').text('Falha ao cadastrar Rota');
-                    $('#modal-content').text('Ocorreu uma falha ao tentar cadastrar a rota.');
-                    $("#myModal").modal('show');
-                }
-        );
+        RoutesAPI.save_route(obj).success(saveRouteSuccess).error(saveRouteFail);
     };
+
+    /******************************************
+     * Responsible method to populate fields list
+    *******************************************/
+    $scope.getFields = function(){
+        RoutesAPI.get_fields().success(function(data){
+            $scope.fields = data;
+        });
+    };
+
+    /******************************************
+     * Responsible method to alert success to user
+     * on saving route
+    *******************************************/
+    function saveRouteSuccess(data){
+        $('.modal-title').text('Rota cadastrada com sucesso!');
+        $('#modal-content').text('A Rota foi cadastrada com sucesso.');
+        $("#myModal").modal('show');
+
+        $state.go("routeDetail", {id: data.pk});
+    }
+
+    /******************************************
+     * Responsible method to alert errors to user
+     * on saving route
+    *******************************************/
+    function saveRouteFail(data){
+        $('.modal-title').text('Falha ao cadastrar Rota');
+        $('#modal-content').text('Ocorreu uma falha ao tentar cadastrar a rota.');
+        $("#myModal").modal('show');
+    }
 
     /******************************************
      * Responsible method to initiate the map
@@ -157,8 +172,8 @@ angular.module("ciclotourApp").controller('RoutesFormController', function($scop
                 //Add actual way point
                 $scope.wayPoints.push({
                     kind: 'L', // LINEAR
-                    latitude: coordinates.lat(),
-                    longitude: coordinates.lng()
+                    latitude: coordinates.lat().toFixed(15),
+                    longitude: coordinates.lng().toFixed(15)
                 });
             }
             else{ //If not manual mode, must render a route indicated by google
@@ -171,8 +186,8 @@ angular.module("ciclotourApp").controller('RoutesFormController', function($scop
             //Add actual way point
             $scope.wayPoints.push({
                 kind: 'I', //INITIAL
-                latitude: coordinates.lat(),
-                longitude: coordinates.lng()
+                latitude: coordinates.lat().toFixed(15),
+                longitude: coordinates.lng().toFixed(15)
             });
         }
     }
@@ -232,12 +247,6 @@ angular.module("ciclotourApp").controller('RoutesFormController', function($scop
             function(response, status) {
                 //If success on request, render the route
                 if (status === google.maps.DirectionsStatus.OK) {
-                    if(response.routes[0].overview_polyline.length > 1300){
-                        alert("Não foi possível criar o ponto, tente criar um ponto mais " +
-                            "próximo ao anterior.");
-                        return;
-                    }
-
                     var path = [];
                     var legs = response.routes[0].legs;
 
@@ -251,16 +260,6 @@ angular.module("ciclotourApp").controller('RoutesFormController', function($scop
                     if(getLastWayPointCoordinates() != originCoordinates)
                         path.push(getLastWayPointCoordinates());
 
-                    //Add marker on list
-                    addMarker(destinationCoordinates, map);
-
-                    //Add waypoint on list
-                    $scope.wayPoints.push({
-                        kind: 'G', //GOOGLE
-                        latitude: destinationCoordinates.lat(),
-                        longitude: destinationCoordinates.lng()
-                    });
-
                     //Build the path to render a polyline
                     for (i = 0; i < legs.length; i++) {
                         var steps = legs[i].steps;
@@ -271,6 +270,23 @@ angular.module("ciclotourApp").controller('RoutesFormController', function($scop
                             }
                         }
                     }
+
+                    //Check if route don't exceed the limit
+                    if(google.maps.geometry.encoding.encodePath(path).length > 1300){
+                        alert("Não foi possível criar o ponto, tente criar um ponto mais " +
+                            "próximo ao anterior.");
+                        return;
+                    }
+
+                     //Add marker on list
+                    addMarker(destinationCoordinates, map);
+
+                    //Add waypoint on list
+                    $scope.wayPoints.push({
+                        kind: 'G', //GOOGLE
+                        latitude: destinationCoordinates.lat().toFixed(15),
+                        longitude: destinationCoordinates.lng().toFixed(15)
+                    });
 
                     //Render the polyline with the google path on map
                     renderLinearRoute(path, map);

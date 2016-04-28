@@ -13,6 +13,9 @@ angular.module('ciclotourApp', ['ui.router', 'ngCookies']).config(function($http
             Auth.isLoggedIn().success(
                 function(data){
                     if(data.logged){
+                        if($state.current.name === "login")
+                            $state.go("home");
+
                         $urlRouter.sync();
                     }
                     else {

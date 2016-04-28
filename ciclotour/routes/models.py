@@ -37,7 +37,3 @@ class Route(models.Model):
     description = models.TextField()
     owner = models.ForeignKey('core.CustomUser')
     field = models.ForeignKey('FieldKind')
-
-
-    def get_url(self):
-        return resolve_url('routes:detail', pk=self.pk)

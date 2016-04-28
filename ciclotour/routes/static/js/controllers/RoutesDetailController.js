@@ -1,4 +1,4 @@
-angular.module("ciclotourApp").controller('RoutesDetailController', function($scope) {
+angular.module("ciclotourApp").controller('RoutesDetailController', function($scope, $stateParams, RoutesAPI) {
 
     var icons = {
         nature: "https://mt.googleapis.com/vt/icon/name=icons/onion/145-tree.png",
@@ -7,31 +7,38 @@ angular.module("ciclotourApp").controller('RoutesDetailController', function($sc
     };
 
     $scope.mapMarkers = [];
-    $scope.polylines = [];
-    $scope.wayPoints = [];
+    $scope.route = {};
 
     $scope.percentage = 0;
 
+    /******************************************
+     * Responsible method to get server
+     * informations and init map
+    *******************************************/
     $scope.initMap = function(){
-        var map = startMap("map");
+        RoutesAPI.get_route($stateParams.id).success(function(data){
+            $scope.route = data;
+            var map = startMap("map");
 
-        $scope.wayPoints = JSON.parse($('#wayPoints').val());
-        $scope.polylines  = JSON.parse($('#polylines').val());
+            $scope.route.waypoint_set.forEach(function(waypoint, index){
+                addNumericMarker(getCoordinates(waypoint), map, index);
+            });
 
-        for(var i=0; i< $scope.wayPoints.length; i++){
-            addNumericMarker(getCoordinates($scope.wayPoints[i]), map, i);
-        }
+            $scope.route.polyline_set.forEach(function(polyline){
+                renderPolyline(
+                    google.maps.geometry.encoding.decodePath(
+                        polyline.encoded_polyline)
+                    , map);
+            });
 
-        for(i=0; i< $scope.polylines.length; i++){
-            renderPolyline(
-                google.maps.geometry.encoding.decodePath(
-                    $scope.polylines[i].encoded_polyline)
-                , map);
-        }
-
-        setZoom(map);
+            setZoom(map);
+        });
     };
 
+    /******************************************
+     * Responsible method to return coodinates
+     * from an waypoint
+    *******************************************/
     function getCoordinates(wayPoint){
         return {
             lat: Number(wayPoint.latitude),
@@ -71,6 +78,9 @@ angular.module("ciclotourApp").controller('RoutesDetailController', function($sc
         });
     }
 
+    /******************************************
+     * Responsible method to render map
+    *******************************************/
     function startMap(target){
         return map = new google.maps.Map(document.getElementById(target), {
             center:{lat:-19.9435015,lng:-43.968830108642600},
@@ -81,6 +91,9 @@ angular.module("ciclotourApp").controller('RoutesDetailController', function($sc
         });
     }
 
+    /******************************************
+     * Responsible method to fit map zoom
+    *******************************************/
     function setZoom(map){
         var bounds = new google.maps.LatLngBounds();
 

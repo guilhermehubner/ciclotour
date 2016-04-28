@@ -1,8 +1,6 @@
 <profile-info></profile-info>
 
 <div id="main_panel" class="routes main_panel col-md-8" ng-controller="RoutesDetailController">
-    <input type="hidden" id="wayPoints" value="{{ waypoints }}" />
-    <input type="hidden" id="polylines" value="{{ polylines }}" />
     <div class="mapContainer">
         <div id="map" style="height: 200px" data-ng-init="initMap()">
         </div>
@@ -10,7 +8,7 @@
 
     <div class="row">
         <div class="title">
-            <span>{{ route.title }}</span>
+            <span>[[ route.title ]]</span>
             <hr>
         </div>
 
@@ -31,7 +29,7 @@
         <div class="description">
             <b>Descrição:</b>
                 <span>
-                    {{ route.description }}
+                    [[ route.description ]]
                 </span>
             <hr>
         </div>
@@ -39,7 +37,7 @@
         <div class="field">
             <b>Terreno:</b>
                 <span>
-                    {{ route.field }}
+                    [[ route.field_info.kind ]]
                 </span>
             <hr>
         </div>
@@ -57,25 +55,25 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <td><img src="{% static 'img/mapIcons/nature.png' %}"></td>
+                        <td><img src="/static/img/mapIcons/nature.png"></td>
                         <td>Cachoeira Andorinhas</td>
                         <td>Natureza Exuberante!</td>
                         <td>Endereço/Referências aqui</td>
                     </tr>
                     <tr>
-                        <td><img src="{% static 'img/mapIcons/nature.png' %}"></td>
+                        <td><img src="/static/img/mapIcons/nature.png"></td>
                         <td>Cachoeira Grande</td>
                         <td>Natureza Exuberante!</td>
                         <td>Endereço/Referências aqui</td>
                     </tr>
                     <tr>
-                        <td><img src="{% static 'img/mapIcons/hotel.png' %}"></td>
+                        <td><img src="/static/img/mapIcons/hotel.png"></td>
                         <td>Pousada Banana Cipó</td>
                         <td>Estadia de primeira!</td>
                         <td>Endereço/Referências aqui</td>
                     </tr>
                     <tr>
-                        <td><img src="{% static 'img/mapIcons/restaurant.png' %}"></td>
+                        <td><img src="/static/img/mapIcons/restaurant.png"></td>
                         <td>Panela de Pedra</td>
                         <td>Comida de primeira!</td>
                         <td>Endereço/Referências aqui</td>
