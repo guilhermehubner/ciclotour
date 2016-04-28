@@ -1,15 +1,21 @@
-angular.module("ciclotourApp").config(function ($routeProvider) {
-    $routeProvider.when("/login", {
-        templateUrl: "static/js/views/login.html"
-    });
-    $routeProvider.when("/home", {
-        templateUrl: "static/js/views/home.html"
-    });
-    $routeProvider.when("/routeCreate", {
-        templateUrl: "static/js/views/routes_form.html"
-    });
-    $routeProvider.when("/routeDetail/:id", {
-        templateUrl: "static/js/views/routes_detail.html"
-    });
-    $routeProvider.otherwise({redirectTo: "/home"});
+angular.module("ciclotourApp").config(function ($stateProvider, $urlRouterProvider) {
+    $stateProvider
+        .state('login', {
+            url: "/login",
+            templateUrl: "static/js/views/login.html"
+        })
+        .state('home', {
+            url: "/home",
+            templateUrl: "static/js/views/home.html"
+        })
+        .state('routeCreate',{
+            url: "/routeCreate",
+            templateUrl: "static/js/views/routes_form.html"
+        })
+        .state('routeDetail',{
+            url: "/routeDetail/{id:[0-9]+}",
+            templateUrl: "static/js/views/routes_detail.html"
+        });
+
+    $urlRouterProvider.otherwise("/home");
 });

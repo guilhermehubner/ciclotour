@@ -1,4 +1,4 @@
-angular.module("ciclotourApp").controller('LoginController', function ($scope, $location, $cookies, Auth) {
+angular.module("ciclotourApp").controller('LoginController', function ($scope, $state, $cookies, Auth) {
     $scope.email = "";
     $scope.password = "";
 
@@ -11,7 +11,7 @@ angular.module("ciclotourApp").controller('LoginController', function ($scope, $
         cookieExpire.setFullYear(cookieExpire.getFullYear() +1);
 
         $cookies.put("token", res.token, {'expires': cookieExpire});
-        $location.path("/home");
+        $state.go("home");
     }
 
     function errorAuth(res){

@@ -1,4 +1,4 @@
-angular.module("ciclotourApp").factory('authInterceptor', function ($rootScope, $q, $cookies, $location) {
+angular.module("ciclotourApp").factory('authInterceptor', function ($rootScope, $q, $cookies) {
     return {
         request: function (config) {
             config.headers = config.headers || {};
@@ -13,7 +13,6 @@ angular.module("ciclotourApp").factory('authInterceptor', function ($rootScope, 
         responseError: function (response) {
             if (response.status === 401) {
                 $cookies.remove("token");
-                $location.path("/login");
             }
 
             return $q.reject(response);

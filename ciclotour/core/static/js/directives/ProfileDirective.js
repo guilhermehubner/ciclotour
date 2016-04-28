@@ -2,7 +2,7 @@ angular.module("ciclotourApp").directive("profileInfo",function(){
     return {
         templateUrl: "static/js/views/profile.html",
         restrict: "E",
-        controller: function($scope, $cookies, $location, UserProfileInfoAPI){
+        controller: function($scope, $cookies, $state, UserProfileInfoAPI){
             $scope.image = "";
             $scope.name = "";
             $scope.lastName = "";
@@ -17,7 +17,7 @@ angular.module("ciclotourApp").directive("profileInfo",function(){
 
             $scope.logout = function(){
                 $cookies.remove("token");
-                $location.path("/login");
+                $state.go("login");
             }
         },
         link: function(scope){

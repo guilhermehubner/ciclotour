@@ -20,9 +20,8 @@
 
     <!-- JS -->
     <script type="text/javascript" src="{% static 'js/angular.min.js'%}"></script>
-    <script type="text/javascript" src="{% static 'js/angular-route.min.js'%}"></script>
     <script type="text/javascript" src="{% static 'js/angular-cookies.min.js'%}"></script>
-    <!--<script type="text/javascript" src="{% static 'js/angular-ui-router.min.js'%}"></script>-->
+    <script type="text/javascript" src="{% static 'js/angular-ui-router.min.js'%}"></script>
 
     <script type="text/javascript" src="{% static 'js/jquery-1.12.1.min.js'%}"></script>
     <script type="text/javascript" src="{% static 'js/plugins.js'%}"></script>
@@ -42,6 +41,7 @@
     <script type="text/javascript" src="{% static 'js/controllers/RoutesFormController.js'%}"></script>
     <script type="text/javascript" src="{% static 'js/controllers/RoutesDetailController.js'%}"></script>
 
+
     <script type="text/javascript" src="{% static 'js/directives/ProfileDirective.js'%}"></script>
 </head>
 <body ng-app="ciclotourApp" onresize="resizeMainPanel()">
@@ -49,11 +49,11 @@
 
 <nav class="menu navbar navbar-default" role="navigation">
     <div class="menu-expandido navbar-header" style="width: 100%">
-        <a class="logo navbar-brand fa fa-bicycle" href="#"> Ciclotour</a>
+        <a class="logo navbar-brand fa fa-bicycle" ui-sref="home"> Ciclotour</a>
     </div>
 </nav>
 
-<div ng-view></div>
+<div ui-view></div>
 </body>
 <script type="text/javascript" src="{% static 'js/bootstrap.min.js'%}"></script>
 </html>
