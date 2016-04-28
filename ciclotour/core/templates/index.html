@@ -25,17 +25,19 @@
 
     <script type="text/javascript" src="{% static 'js/jquery-1.12.1.min.js'%}"></script>
     <script type="text/javascript" src="{% static 'js/plugins.js'%}"></script>
-
-    <!--<script type="text/javascript" src="{% static 'js/googlemaps.js'%}"></script>-->
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=geometry"></script>
+
 
     <script type="text/javascript" src="{% static 'js/app.js'%}"></script>
     <script type="text/javascript" src="{% static 'js/config/RoutesConfig.js'%}"></script>
+    <script type="text/javascript" src="{% static 'js/config/LocationChangeConfig.js'%}"></script>
+    <script type="text/javascript" src="{% static 'js/config/HttpProviderConfig.js'%}"></script>
 
     <script type="text/javascript" src="{% static 'js/services/AuthenticationService.js'%}"></script>
-    <script type="text/javascript" src="{% static 'js/services/AuthenticationInterceptor.js'%}"></script>
-    <script type="text/javascript" src="{% static 'js/services/UserProfileInfoService.js'%}"></script>
+    <script type="text/javascript" src="{% static 'js/services/UsersService.js'%}"></script>
     <script type="text/javascript" src="{% static 'js/services/RoutesService.js'%}"></script>
+
+    <script type="text/javascript" src="{% static 'js/interceptors/AuthenticationInterceptor.js'%}"></script>
 
     <script type="text/javascript" src="{% static 'js/controllers/LoginController.js'%}"></script>
     <script type="text/javascript" src="{% static 'js/controllers/ContentController.js'%}"></script>
