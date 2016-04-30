@@ -1,0 +1,26 @@
+[
+{
+  "model": "routes.pointkind",
+  "pk": 1,
+  "fields": {
+    "kind": "Natureza Exuberante",
+    "icon": "pointkind/icons/icon_Natureza_Exoberante.png"
+  }
+},
+{
+  "model": "routes.pointkind",
+  "pk": 2,
+  "fields": {
+    "kind": "Estadia",
+    "icon": "pointkind/icons/icon_Estadia.png"
+  }
+},
+{
+  "model": "routes.pointkind",
+  "pk": 3,
+  "fields": {
+    "kind": "Restaurante",
+    "icon": "pointkind/icons/icon_Restaurante.png"
+  }
+}
+]
