@@ -24,26 +24,27 @@
     <form class="login-form" ng-controller="LoginController">
         <div class="formFields">
             <input type="email" placeholder="E-mail" ng-model="email" />
+            <ul class="errorlist" ng-show="errors.username">
+                <li ng-repeat="error in errors.username">[[error]]</li>
+            </ul>
         </div>
         <div class="formFields">
             <input type="password" placeholder="Senha" ng-model="password" />
+            <ul class="errorlist" ng-show="errors.password">
+                <li ng-repeat="error in errors.password">[[error]]</li>
+            </ul>
         </div>
 
         <div class="formFields">
             <label><input type="checkbox" /> Lembrar-me</label>
         </div>
 
-        <!--
-        {% if form.non_field_errors %}
-            <div class="formFields">
-                <div class="non-field-errors">
-                    {% for err in form.non_field_errors %}
-                        <p class="form-error">{{ err }}</p>
-                    {% endfor %}
-                </div>
+        <div ng-show="errors.non_field_errors" class="formFields">
+            <div class="non-field-errors" ng-repeat="error in errors.non_field_errors">
+                <p class="form-error">[[error]]</p>
             </div>
-        {% endif %}
-        -->
+        </div>
+
         <button ng-click="login()">Login</button>
 
         <p class="message">Não cadastrado?

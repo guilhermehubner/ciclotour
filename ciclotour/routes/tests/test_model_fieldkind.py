@@ -8,7 +8,7 @@ class FieldKindModelTest(TestCase):
         )
 
     def test_create(self):
-        """One route must exist on database"""
+        """One fieldkind must exist on database"""
         self.assertTrue(FieldKind.objects.exists())
 
     def test_str(self):

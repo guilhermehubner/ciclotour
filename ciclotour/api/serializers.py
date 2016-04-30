@@ -49,3 +49,4 @@ class RouteSerializer(serializers.ModelSerializer):
         fields = ['pk', 'title', 'origin', 'description', 'field', 'owner',
                   'waypoint_set', 'polyline_set', 'field_info']
         read_only_fields = ['pk', 'owner', 'field_info']
+        extra_kwargs = {'field': {'write_only': True}}
