@@ -1,15 +1,6 @@
-angular.module("ciclotourApp").controller('RoutesDetailController', function($scope, $stateParams, RoutesAPI) {
-
-    var icons = {
-        nature: "https://mt.googleapis.com/vt/icon/name=icons/onion/145-tree.png",
-        restaurant: "http://awesomeberlin.net/wp-content/uploads/leaflet-maps-marker-icons/restaurant.png",
-        hotel: "http://google-maps-icons.googlecode.com/files/hotel.png"
-    };
-
+angular.module("ciclotourApp").controller('RoutesDetailController', function($scope, $stateParams, $state, RoutesAPI) {
     $scope.mapMarkers = [];
     $scope.route = {};
-
-    $scope.percentage = 0;
 
     /******************************************
      * Responsible method to get server
@@ -32,7 +23,12 @@ angular.module("ciclotourApp").controller('RoutesDetailController', function($sc
             });
 
             setZoom(map);
+            addRoutePointMarkers(map);
         });
+    };
+
+    $scope.addPoint = function(){
+        $state.go("routePointCreate", {'id': $stateParams.id});
     };
 
     /******************************************
@@ -61,6 +57,21 @@ angular.module("ciclotourApp").controller('RoutesDetailController', function($sc
 
         //Add marker on list
         $scope.mapMarkers.push(marker);
+    }
+
+    /******************************************
+     * Responsible method to render all route point
+     * markers on map
+    *******************************************/
+    function addRoutePointMarkers(map){
+        $scope.route.points.forEach(function(point) {
+            //Create marker and render it on map
+            var marker = new google.maps.Marker({
+                position: getCoordinates(point),
+                map: map,
+                icon: point.kind_info.icon
+            });
+        });
     }
 
     /******************************************

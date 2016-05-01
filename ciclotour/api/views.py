@@ -1,11 +1,18 @@
 from ciclotour.api.serializers import RouteSerializer, WayPointSerializer, UserProfileInfoSerializer, \
-    FieldKindSerializer
-from ciclotour.routes.models import Route, WayPoint, FieldKind
+    FieldKindSerializer, PointKindSerializer, PointSerializer
+from ciclotour.routes.models import Route, WayPoint, FieldKind, PointKind, Point
 from rest_framework import status
 from rest_framework.decorators import permission_classes, api_view
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
+
+
+@permission_classes((IsAuthenticated, ))
+class PointViewSet(ModelViewSet):
+    serializer_class = PointSerializer
+    queryset = Point.objects.all()
+    lookup_field = 'id'
 
 
 @permission_classes((IsAuthenticated, ))
@@ -57,4 +64,11 @@ def user_profile_info(request):
 @permission_classes((IsAuthenticated, ))
 def fields_list(request):
     data = FieldKindSerializer(FieldKind.objects.all(), many=True).data
+    return Response(data, status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes((IsAuthenticated, ))
+def point_kind_list(request):
+    data = PointKindSerializer(PointKind.objects.all(), many=True).data
     return Response(data, status.HTTP_200_OK)

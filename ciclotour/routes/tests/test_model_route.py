@@ -46,3 +46,7 @@ class RouteModelTest(TestCase):
         )
 
         self.assertEqual(self.route.polyline_set.count(), 1)
+
+    def test_str(self):
+        """str(route) must return the route's title"""
+        self.assertEqual(str(self.route), self.route.title)

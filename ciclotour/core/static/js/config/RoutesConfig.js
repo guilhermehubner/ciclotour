@@ -15,6 +15,10 @@ angular.module("ciclotourApp").config(function ($stateProvider, $urlRouterProvid
         .state('routeDetail',{
             url: "/routeDetail/{id:[0-9]+}",
             templateUrl: "static/js/views/routes_detail.html"
+        })
+        .state('routePointCreate',{
+            url: "/routePointCreate/{id:[0-9]+}",
+            templateUrl: "static/js/views/routes_point_form.html"
         });
 
     $urlRouterProvider.otherwise("/home");

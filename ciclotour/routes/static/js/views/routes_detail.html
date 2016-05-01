@@ -54,34 +54,18 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td><img src="/static/img/mapIcons/nature.png"></td>
-                        <td>Cachoeira Andorinhas</td>
-                        <td>Natureza Exuberante!</td>
-                        <td>Endereço/Referências aqui</td>
-                    </tr>
-                    <tr>
-                        <td><img src="/static/img/mapIcons/nature.png"></td>
-                        <td>Cachoeira Grande</td>
-                        <td>Natureza Exuberante!</td>
-                        <td>Endereço/Referências aqui</td>
-                    </tr>
-                    <tr>
-                        <td><img src="/static/img/mapIcons/hotel.png"></td>
-                        <td>Pousada Banana Cipó</td>
-                        <td>Estadia de primeira!</td>
-                        <td>Endereço/Referências aqui</td>
-                    </tr>
-                    <tr>
-                        <td><img src="/static/img/mapIcons/restaurant.png"></td>
-                        <td>Panela de Pedra</td>
-                        <td>Comida de primeira!</td>
-                        <td>Endereço/Referências aqui</td>
+                    <tr ng-repeat="point in route.points">
+                        <td><img src="[[point.kind_info.icon]]"></td>
+                        <td>[[point.title]]</td>
+                        <td>[[point.description]]</td>
+                        <td>[[point.address]]</td>
                     </tr>
                     </tbody>
                 </table>
             </div>
-            <button class="btn btn-success"><i class="fa fa-plus"></i>Adicionar Ponto</button>
+            <button class="btn btn-success" ng-click="addPoint()">
+                <i class="fa fa-plus"></i>Adicionar Ponto
+            </button>
             <hr>
         </div>
 
