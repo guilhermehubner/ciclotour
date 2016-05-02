@@ -29,7 +29,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         if self.profile_picture:
             return self.profile_picture.url
 
-        return static('non_user.png')
+        return static('img/non_user.png')
 
     def get_full_name(self):
         return '{} {}'.format(self.name, self.last_name)
