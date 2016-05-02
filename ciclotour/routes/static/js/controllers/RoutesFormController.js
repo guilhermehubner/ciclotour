@@ -94,8 +94,8 @@ angular.module("ciclotourApp").controller('RoutesFormController', function($scop
      * on saving route
     *******************************************/
     function saveRouteSuccess(data){
-        $('.modal-title').text('Rota cadastrada com sucesso!');
-        $('#modal-content').text('A Rota foi cadastrada com sucesso.');
+        $('#myModal .modal-title').text('Rota cadastrada com sucesso!');
+        $('#myModal #modal-content').text('A Rota foi cadastrada com sucesso.');
         $("#myModal").modal('show');
 
         $state.go("routeDetail", {id: data.pk});
@@ -106,8 +106,8 @@ angular.module("ciclotourApp").controller('RoutesFormController', function($scop
      * on saving route
     *******************************************/
     function saveRouteFail(data){
-        $('.modal-title').text('Falha ao cadastrar Rota');
-        $('#modal-content').text('Ocorreu uma falha ao tentar cadastrar a rota.');
+        $('#myModal .modal-title').text('Falha ao cadastrar Rota');
+        $('#myModal #modal-content').text('Ocorreu uma falha ao tentar cadastrar a rota.');
         $("#myModal").modal('show');
     }
 

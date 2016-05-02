@@ -7,6 +7,21 @@ def _pointkind_icon_directory_path(instance, filename):
     return 'pointkind/icons/icon_{}.{}'.format(instance.kind, file_extension)
 
 
+def _route_picture_directory_path(instance, filename):
+    file_extension = filename.split('.')[-1]
+    return 'routes/{}/pictures/routePic.{}'.format(instance.route.pk, file_extension)
+
+
+class RoutePicture(models.Model):
+    route = models.ForeignKey('Route')
+    owner = models.ForeignKey('core.CustomUser')
+    image = models.ImageField(upload_to= _route_picture_directory_path, max_length=255)
+    description = models.CharField(max_length=255, blank=True)
+
+    class Meta:
+        ordering = ['-id']
+
+
 class Point(models.Model):
     title = models.CharField(max_length=50)
     description = models.TextField()

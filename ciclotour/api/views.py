@@ -1,11 +1,24 @@
 from ciclotour.api.serializers import RouteSerializer, WayPointSerializer, UserProfileInfoSerializer, \
-    FieldKindSerializer, PointKindSerializer, PointSerializer
-from ciclotour.routes.models import Route, WayPoint, FieldKind, PointKind, Point
+    FieldKindSerializer, PointKindSerializer, PointSerializer, RoutePictureSerializer
+from ciclotour.routes.models import Route, WayPoint, FieldKind, PointKind, Point, RoutePicture
+from rest_framework import filters
 from rest_framework import status
 from rest_framework.decorators import permission_classes, api_view
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
+
+
+@permission_classes((IsAuthenticated, ))
+class RoutePictureViewSet(ModelViewSet):
+    serializer_class = RoutePictureSerializer
+    queryset = RoutePicture.objects.all()
+    lookup_field = 'id'
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_fields = ('route',)
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 
 @permission_classes((IsAuthenticated, ))
@@ -21,16 +34,8 @@ class RouteViewSet(ModelViewSet):
     queryset = Route.objects.all()
     lookup_field = 'id'
 
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-
-        serializer.validated_data['owner'] = request.user
-
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 @api_view(['GET'])
 @permission_classes((IsAuthenticated, ))

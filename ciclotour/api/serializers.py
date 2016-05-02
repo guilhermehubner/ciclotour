@@ -1,6 +1,12 @@
 from ciclotour.core.models import CustomUser
-from ciclotour.routes.models import Route, WayPoint, Polyline, FieldKind, PointKind, Point
+from ciclotour.routes.models import Route, WayPoint, Polyline, FieldKind, PointKind, Point, RoutePicture
 from rest_framework import serializers
+
+
+class RoutePictureSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RoutePicture
+        read_only_fields = ['pk', 'owner']
 
 
 class PointKindSerializer(serializers.ModelSerializer):
@@ -50,6 +56,7 @@ class RouteSerializer(serializers.ModelSerializer):
     polyline_set = PolylineSerializer(many=True)
     points = PointSerializer(source='point_set', many=True, read_only=True)
     field_info = FieldKindSerializer(source='field', read_only=True)
+    pictures = RoutePictureSerializer(source='routepicture_set', many=True, read_only=True)
 
     def create(self, validated_data):
         waypoints_data = validated_data.pop('waypoint_set')
@@ -67,6 +74,6 @@ class RouteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Route
         fields = ['pk', 'title', 'origin', 'description', 'field', 'owner',
-                  'waypoint_set', 'polyline_set', 'field_info', 'points']
-        read_only_fields = ['pk', 'owner', 'field_info', 'points']
+                  'waypoint_set', 'polyline_set', 'field_info', 'points', 'pictures']
+        read_only_fields = ['pk', 'owner', 'field_info', 'points', 'pictures']
         extra_kwargs = {'field': {'write_only': True}}

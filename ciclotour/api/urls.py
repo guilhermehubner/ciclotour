@@ -1,5 +1,5 @@
 from ciclotour.api.views import RouteViewSet, route_waypoints, user_logged, user_profile_info, fields_list, \
-    point_kind_list, PointViewSet
+    point_kind_list, PointViewSet, RoutePictureViewSet
 from django.conf.urls import url, include
 from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework.routers import DefaultRouter
@@ -7,6 +7,7 @@ from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
 router.register(r'routes', RouteViewSet)
 router.register(r'route/points', PointViewSet)
+router.register(r'route/pictures', RoutePictureViewSet)
 
 urlpatterns = [
     url(r'^', include(router.urls)),

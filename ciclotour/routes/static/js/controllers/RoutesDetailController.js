@@ -1,6 +1,7 @@
 angular.module("ciclotourApp").controller('RoutesDetailController', function($scope, $stateParams, $state, RoutesAPI) {
     $scope.mapMarkers = [];
     $scope.route = {};
+    $scope.show = false;
 
     /******************************************
      * Responsible method to get server
@@ -27,8 +28,29 @@ angular.module("ciclotourApp").controller('RoutesDetailController', function($sc
         });
     };
 
+    /******************************************
+     * Responsible method to redirect to add point
+     * form
+    *******************************************/
     $scope.addPoint = function(){
         $state.go("routePointCreate", {'id': $stateParams.id});
+    };
+
+    /******************************************
+     * Responsible method to show picture add
+     * modal
+    *******************************************/
+    $scope.showModal = function(){
+        $scope.show = true;
+    };
+
+    /******************************************
+     * Responsible method to refresh list of pictures
+    *******************************************/
+    $scope.refreshRoutePictures = function(){
+        RoutesAPI.get_route_pictures($stateParams.id).success(function(data){
+            $scope.route.pictures = data;
+        });
     };
 
     /******************************************
