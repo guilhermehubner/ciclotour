@@ -1,4 +1,4 @@
-angular.module("ciclotourApp").controller('RoutesFormController', function($scope, $http, $state, RoutesAPI){
+angular.module("ciclotourApp").controller('RoutesFormController', function($scope, $http, $state, RoutesAPI, Message){
     /********** ROUTE FIELDS ************/
 
     $scope.origin = ""; //origin name get from user entry
@@ -94,9 +94,7 @@ angular.module("ciclotourApp").controller('RoutesFormController', function($scop
      * on saving route
     *******************************************/
     function saveRouteSuccess(data){
-        $('#myModal .modal-title').text('Rota cadastrada com sucesso!');
-        $('#myModal #modal-content').text('A Rota foi cadastrada com sucesso.');
-        $("#myModal").modal('show');
+        Message.showSuccess('Rota cadastrada com sucesso!', 'A Rota foi cadastrada com sucesso.');
 
         $state.go("routeDetail", {id: data.pk});
     }
@@ -106,9 +104,7 @@ angular.module("ciclotourApp").controller('RoutesFormController', function($scop
      * on saving route
     *******************************************/
     function saveRouteFail(data){
-        $('#myModal .modal-title').text('Falha ao cadastrar Rota');
-        $('#myModal #modal-content').text('Ocorreu uma falha ao tentar cadastrar a rota.');
-        $("#myModal").modal('show');
+        Message.showError('Falha ao cadastrar Rota', 'Ocorreu uma falha ao tentar cadastrar a rota.');
     }
 
     /******************************************
@@ -273,7 +269,8 @@ angular.module("ciclotourApp").controller('RoutesFormController', function($scop
 
                     //Check if route don't exceed the limit
                     if(google.maps.geometry.encoding.encodePath(path).length > 1300){
-                        alert("Não foi possível criar o ponto, tente criar um ponto mais " +
+                        Message.showWarning("Não foi possível criar o ponto!",
+                            "Não foi possível criar o ponto, tente criar um ponto mais " +
                             "próximo ao anterior.");
                         return;
                     }
@@ -292,7 +289,8 @@ angular.module("ciclotourApp").controller('RoutesFormController', function($scop
                     renderLinearRoute(path, map);
                 }
                 else { // If request failed, log it on console
-                    alert("Não foi possível criar o ponto, tente novamente.");
+                    Message.showWarning("Não foi possível criar o ponto!",
+                            "Não foi possível criar o ponto, tente novamente.");
                     console.log('Directions request failed due to ' + status);
                 }
             });

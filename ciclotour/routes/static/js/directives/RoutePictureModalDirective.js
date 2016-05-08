@@ -4,7 +4,7 @@ angular.module("ciclotourApp").directive("routepictureModal",function(){
         restrict: "E",
         replace:true,
         scope:{visible:'=', onHide: '&'},
-        controller: function($scope, $stateParams, RoutesAPI){
+        controller: function($scope, $stateParams, RoutesAPI, Message){
             $scope.route = $stateParams.id;
             $scope.image = null;
             $scope.description = "";
@@ -41,10 +41,8 @@ angular.module("ciclotourApp").directive("routepictureModal",function(){
              * on saving route's picture
              *******************************************/
             function saveRoutePictureSuccess(data){
-                $('#myModal .modal-title').text('Imagem enviada com sucesso!');
-                $('#myModal #modal-content').text('A Imagem foi enviada com sucesso.');
-                $("#myModal").modal('show');
-
+                Message.showSuccess('Imagem enviada com sucesso!',
+                    'A Imagem foi enviada com sucesso.');
                 $scope.visible=false;
             }
 
@@ -53,9 +51,8 @@ angular.module("ciclotourApp").directive("routepictureModal",function(){
              * on saving route's picture
              *******************************************/
             function saveRoutePictureFail(data){
-                $('#myModal .modal-title').text('Falha ao enviar Imagem');
-                $('#myModal #modal-content').text('Ocorreu uma falha ao tentar enviar a imagem.');
-                $("#myModal").modal('show');
+                Message.showError('Falha ao enviar Imagem',
+                    'Ocorreu uma falha ao tentar enviar a imagem.');
             }
         },
         link:function postLink(scope, element, attrs){

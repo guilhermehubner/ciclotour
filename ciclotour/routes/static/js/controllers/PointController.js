@@ -1,4 +1,4 @@
-angular.module("ciclotourApp").controller('PointController', function($scope, $stateParams, $state, RoutesAPI) {
+angular.module("ciclotourApp").controller('PointController', function($scope, $stateParams, $state, RoutesAPI, Message) {
 
     /*********** Point Fields ****************/
 
@@ -84,9 +84,7 @@ angular.module("ciclotourApp").controller('PointController', function($scope, $s
      * on saving point
     *******************************************/
     function saveRoutePointSuccess(data){
-        $('#myModal .modal-title').text('Ponto cadastrado com sucesso!');
-        $('#myModal #modal-content').text('A Ponto foi cadastrado com sucesso.');
-        $("#myModal").modal('show');
+        Message.showSuccess('Ponto cadastrado com sucesso!', 'A Ponto foi cadastrado com sucesso.');
 
         $state.go("routeDetail", {id: data.route});
     }
@@ -96,9 +94,8 @@ angular.module("ciclotourApp").controller('PointController', function($scope, $s
      * on saving point
     *******************************************/
     function saveRoutePointFail(data){
-        $('#myModal .modal-title').text('Falha ao cadastrar Ponto');
-        $('#myModal #modal-content').text('Ocorreu uma falha ao tentar cadastrar o ponto.');
-        $("#myModal").modal('show');
+        Message.showError('Falha ao cadastrar Ponto',
+            'Ocorreu uma falha ao tentar cadastrar o ponto.');
     }
 
     /******************************************

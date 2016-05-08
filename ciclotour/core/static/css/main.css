@@ -387,13 +387,11 @@ form .non-field-errors{
 
 .modalIcon{
     font-size: 4em;
-    margin: -20px 20px -30px 12px;
-    display: inline-block;
 }
 
 .modal-body .content{
     position: relative;
-    top: -15px;
+    top: 20px;
 }
 
 .modal-body .messageSuccess{
