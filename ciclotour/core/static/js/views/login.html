@@ -1,23 +1,46 @@
 <div class="loginForm">
-    <form class="register-form">
+    <form class="register-form" ng-controller="UserFormController">
         <div class="formFields">
-            <input type="email" placeholder="E-mail"/>
+            <input type="email" placeholder="E-mail" ng-model="email"/>
+            <ul class="errorlist" ng-show="errors.email">
+                <li ng-repeat="error in errors.email">[[error]]</li>
+            </ul>
         </div>
         <div class="formFields">
-            <input type="text" placeholder="Nome"/>
+            <input type="text" placeholder="Nome" ng-model="name"/>
+            <ul class="errorlist" ng-show="errors.name">
+                <li ng-repeat="error in errors.name">[[error]]</li>
+            </ul>
         </div>
         <div class="formFields">
-            <input type="text" placeholder="Sobrenome"/>
+            <input type="text" placeholder="Sobrenome" ng-model="last_name"/>
+            <ul class="errorlist" ng-show="errors.last_name">
+                <li ng-repeat="error in errors.last_name">[[error]]</li>
+            </ul>
         </div>
         <div class="formFields">
-            <input type="password" placeholder="Senha"/>
+            <input type="password" placeholder="Senha" ng-model="password"/>
+            <ul class="errorlist" ng-show="errors.password">
+                <li ng-repeat="error in errors.password">[[error]]</li>
+            </ul>
         </div>
         <div class="formFields">
-            <input type="password" placeholder="Confirmar Senha"/>
+            <input type="password" placeholder="Confirmar Senha" ng-model="confirm_password"/>
+            <ul class="errorlist" ng-show="errors.confirm_password">
+                <li ng-repeat="error in errors.confirm_password">[[error]]</li>
+            </ul>
         </div>
-        <button type="submit">Cadastrar</button>
+
+        <div ng-show="errors.non_field_errors" class="formFields">
+            <div class="non-field-errors" ng-repeat="error in errors.non_field_errors">
+                <p class="form-error">[[error]]</p>
+            </div>
+        </div>
+
+        <button ng-click="save()">Cadastrar</button>
+
         <p class="message">Já cadastrado?
-            <input type="button" onclick="changeForm()" value="Logar-se" />
+            <input type="button" onclick="changeForm()" ng-click="clean()" value="Logar-se" />
         </p>
     </form>
 

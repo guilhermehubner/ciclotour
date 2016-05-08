@@ -1,0 +1,9 @@
+Olá {{name}} {{last_name}}!
+
+Agradecemos por se cadastrar no Ciclotour. Para confirmar seu cadastro acesse:
+{{confirmation_link}}
+
+Caso não tenha se cadastrado no nosso site, ignore este e-mail.
+
+Atenciosamente,
+Equipe Ciclotour

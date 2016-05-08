@@ -1,12 +1,56 @@
 from ciclotour.api.serializers import RouteSerializer, WayPointSerializer, UserProfileInfoSerializer, \
-    FieldKindSerializer, PointKindSerializer, PointSerializer, RoutePictureSerializer
+    FieldKindSerializer, PointKindSerializer, PointSerializer, RoutePictureSerializer, CustomUserSerializer
+from ciclotour.core.models import CustomUser, ConfirmationToken
 from ciclotour.routes.models import Route, WayPoint, FieldKind, PointKind, Point, RoutePicture
+from django.core import mail
+from django.shortcuts import get_object_or_404
+from django.template.loader import render_to_string
 from rest_framework import filters
 from rest_framework import status
 from rest_framework.decorators import permission_classes, api_view
+from rest_framework.generics import CreateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
+
+
+@api_view(['GET'])
+def user_confirmation(request, token):
+    confirmation_token = get_object_or_404(ConfirmationToken, token=token)
+    user = confirmation_token.user
+
+    if confirmation_token.is_active():
+        user.is_active = True
+        user.save()
+
+        confirmation_token.delete()
+        data = {'success': True}
+    else:
+        user.delete()
+        data = {'success': False}
+
+    return Response(data, status.HTTP_200_OK)
+
+
+class CreateUserAPIView(CreateAPIView):
+    serializer_class = CustomUserSerializer
+    queryset = CustomUser.objects.all()
+
+    def perform_create(self, serializer):
+        validate_data = serializer.save()
+
+        data = {
+            'name': validate_data['name'],
+            'last_name': validate_data['last_name'],
+            'confirmation_link': 'http://' + self.request.META['HTTP_HOST'] +
+                                 '/#/confirmation/' + validate_data['token'],
+        }
+
+        mail.send_mail('Confirmação de cadastro',
+                       render_to_string('subscription_email.txt', data),
+                       'eventex.testes@gmail.com',
+                       [validate_data['email'], ]
+                       )
 
 
 @permission_classes((IsAuthenticated, ))

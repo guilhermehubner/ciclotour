@@ -385,4 +385,27 @@ form .non-field-errors{
     cursor: pointer;
 }
 
+.modalIcon{
+    font-size: 4em;
+    margin: -20px 20px -30px 12px;
+    display: inline-block;
+}
+
+.modal-body .content{
+    position: relative;
+    top: -15px;
+}
+
+.modal-body .messageSuccess{
+    color: #00DD00;
+}
+
+.modal-body .messageWarning{
+    color: #DDDD00;
+}
+
+.modal-body .messageError{
+    color: #CC0000;
+}
+
 /* Fim Customizações */

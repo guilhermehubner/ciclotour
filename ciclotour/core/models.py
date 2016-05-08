@@ -1,3 +1,6 @@
+import uuid
+from datetime import timedelta, datetime
+
 from ciclotour.core.managers import CustomUserManager
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
@@ -9,6 +12,10 @@ def _user_profile_directory_path(instance, filename):
     file_extension = filename.split('.')[-1]
     return 'users_profile/user_{}/profile.{}'.format(instance.email, file_extension)
 
+
+def _now_plus_7():
+    date = datetime.now() + timedelta(days = 7)
+    return date.replace(hour=23, minute=59, second=59, microsecond=0)
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length=50)
@@ -24,6 +31,10 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = ['name', 'last_name']
 
     objects = CustomUserManager()
+
+    class Meta:
+        verbose_name = 'usuário'
+        verbose_name_plural = 'usuários'
 
     def get_profile_pic(self):
         if self.profile_picture:
@@ -42,3 +53,14 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return '{} {}'.format(self.name, self.last_name)
+
+
+class ConfirmationToken(models.Model):
+    token = models.CharField(max_length=36, blank=True, unique=True,
+                             default=uuid.uuid4, primary_key=True)
+    user = models.OneToOneField('CustomUser')
+    expire_date = models.DateTimeField(default=_now_plus_7)
+
+
+    def is_active(self):
+        return datetime.now() < self.expire_date

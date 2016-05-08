@@ -36,6 +36,7 @@
     <script type="text/javascript" src="{% static 'js/services/AuthenticationService.js'%}"></script>
     <script type="text/javascript" src="{% static 'js/services/UsersService.js'%}"></script>
     <script type="text/javascript" src="{% static 'js/services/RoutesService.js'%}"></script>
+    <script type="text/javascript" src="{% static 'js/services/MessageService.js'%}"></script>
 
     <script type="text/javascript" src="{% static 'js/interceptors/AuthenticationInterceptor.js'%}"></script>
 
@@ -44,7 +45,8 @@
     <script type="text/javascript" src="{% static 'js/controllers/RoutesFormController.js'%}"></script>
     <script type="text/javascript" src="{% static 'js/controllers/RoutesDetailController.js'%}"></script>
     <script type="text/javascript" src="{% static 'js/controllers/PointController.js'%}"></script>
-
+    <script type="text/javascript" src="{% static 'js/controllers/ConfirmationController.js'%}"></script>
+    <script type="text/javascript" src="{% static 'js/controllers/UserFormController.js'%}"></script>
 
     <script type="text/javascript" src="{% static 'js/directives/ProfileDirective.js'%}"></script>
     <script type="text/javascript" src="{% static 'js/directives/FileModelDirective.js'%}"></script>
@@ -71,7 +73,8 @@
                 <h4 class="modal-title"></h4>
             </div>
             <div class="modal-body">
-                <p id="modal-content"></p>
+                <div class="modalIcon"><i id="messageIcon"></i></div>
+                <span id="modal-content" class="content"></span>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-success" data-dismiss="modal">OK</button>

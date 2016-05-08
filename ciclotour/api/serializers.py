@@ -1,6 +1,46 @@
-from ciclotour.core.models import CustomUser
+from ciclotour.core.models import CustomUser, ConfirmationToken
 from ciclotour.routes.models import Route, WayPoint, Polyline, FieldKind, PointKind, Point, RoutePicture
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
+
+
+class CustomUserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(min_length=8, required=True)
+    confirm_password = serializers.CharField(min_length=8, required=True)
+
+    class Meta:
+        model = CustomUser
+        fields = ['name', 'last_name', 'email', 'profile_picture', 'password', 'confirm_password']
+        read_only_fields = ['pk']
+        extra_kwargs = {'password': {'write_only': True}, 'confirm_password': {'write_only': True}}
+        verbose_name = 'usuário'
+        verbose_name_plural = 'usuários'
+
+    def validate(self, data):
+        if not data.get('password') and not data.get('confirm_password'):
+            return data
+
+        if data.get('password') != data.get('confirm_password'):
+            raise serializers.ValidationError('As senhas não coincidem.')
+
+        return data
+
+    def create(self, validated_data):
+        user = CustomUser(
+            name=validated_data['name'],
+            last_name=validated_data['last_name'],
+            email=validated_data['email'],
+        )
+
+        user.set_password(validated_data['password'])
+        user.save()
+
+        token = str(ConfirmationToken.objects.create(user=user).token)
+
+        validated_data['token'] = token
+
+        return validated_data
+
 
 
 class RoutePictureSerializer(serializers.ModelSerializer):
