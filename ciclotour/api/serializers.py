@@ -110,6 +110,12 @@ class RouteSerializer(serializers.ModelSerializer):
 
         return route
 
+    def validate(self, data):
+        if len(data.get('waypoint_set')) == 0 or len(data.get('polyline_set')) == 0:
+            raise serializers.ValidationError('Deve-se traçar uma rota!')
+
+        return data
+
     class Meta:
         model = Route
         fields = ['pk', 'title', 'origin', 'description', 'field', 'owner',
