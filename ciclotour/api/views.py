@@ -1,3 +1,4 @@
+from ciclotour.api.paginator import RoutePagePageNumberPagination
 from ciclotour.api.serializers import RouteSerializer, WayPointSerializer, UserProfileInfoSerializer, \
     FieldKindSerializer, PointKindSerializer, PointSerializer, RoutePictureSerializer, CustomUserSerializer
 from ciclotour.core.models import CustomUser, ConfirmationToken
@@ -85,6 +86,8 @@ class RouteViewSet(ModelViewSet):
     serializer_class = RouteSerializer
     queryset = Route.objects.all()
     lookup_field = 'id'
+
+    pagination_class = RoutePagePageNumberPagination
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)

@@ -97,29 +97,25 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row" ng-repeat="route in routes">
                 <div class="col-sm-4">
-                    <a class="change-on-hover" href="#">
-                        <img class="img-responsive" src="http://visiteaserradocipo.com.br/wp-content/uploads/2012/08/c%C3%A2nion-das-bandeirinhas-c%C3%B3pia1.jpg" />
+                    <a class="change-on-hover" ui-sref="routeDetail({id:[[route.pk]]})">
+                        <img class="img-responsive" src="[[route.get_picture]]" />
                     </a>
                 </div>
                 <div class="col-sm-8">
                     <div class="media-body">
                         <div class="media-heading">
-                            <a href="/routes/belo-horizonte-serra-do-cipo/">Belo Horizonte > Serra do cipó</a>
+                            <a ui-sref="routeDetail({id:[[route.pk]]})">[[route.title]]</a>
                         </div>
                         <hr />
                         <div class="content">
-                            Cras sit amet nibh libero, in gravida nulla.
-                            Nulla vel metus scelerisque ante sollicitudin commodo.
-                            Cras purus odio, vestibulum in vulputate at, tempus viverra
-                            turpis. Fusce condimentum nunc ac nisi vulputate fringilla.
-                            Donec lacinia congue felis in faucibus.
+                            [[route.description]]
                         </div>
                     </div>
                 </div>
             </div>
-
+            <button class="btn-lg btn-success loadMore" ng-click="getNext()">Carregar Mais</button>
         </div>
     </div>
 </section>

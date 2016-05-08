@@ -1,4 +1,4 @@
-from ciclotour.routes.models import FieldKind, PointKind
+from ciclotour.routes.models import FieldKind, PointKind, Route
 from django.contrib import admin
 
 
@@ -13,4 +13,5 @@ class PointKindModelAdmin(admin.ModelAdmin):
 
 
 admin.site.register(FieldKind)
+admin.site.register(Route)
 admin.site.register(PointKind, PointKindModelAdmin)

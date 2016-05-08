@@ -3,6 +3,12 @@ angular.module("ciclotourApp").factory('RoutesAPI', function($http){
         get_route: function(id){
             return $http.get("/api/routes/"+id);
         },
+        get_routes: function(){
+            return $http.get("/api/routes/");
+        },
+        get_next_routes: function(next){
+            return $http.get("/api/routes/?page="+next);
+        },
         get_fields: function(){
             return $http.get("/api/fields/");
         },

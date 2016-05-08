@@ -406,4 +406,12 @@ form .non-field-errors{
     color: #CC0000;
 }
 
+button.loadMore{
+    width: 100%;
+    margin-top: -5px;
+    margin-bottom: 5px;
+    border-radius: 0;
+    border: 0;
+}
+
 /* Fim Customizações */

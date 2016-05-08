@@ -1,4 +1,7 @@
+from datetime import datetime
+
 from ciclotour.routes.validators import validate_latitude, validate_longitude
+from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.db import models
 
 
@@ -74,6 +77,16 @@ class Route(models.Model):
     description = models.TextField()
     owner = models.ForeignKey('core.CustomUser')
     field = models.ForeignKey('FieldKind')
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created']
+
+    def get_picture(self):
+        picture = self.routepicture_set.first()
+        if picture:
+            return picture.image.url
+        return static('img/non_route_picture.png')
 
     def __str__(self):
         return self.title
