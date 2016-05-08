@@ -8,7 +8,7 @@ from django.template.loader import render_to_string
 from rest_framework import filters
 from rest_framework import status
 from rest_framework.decorators import permission_classes, api_view
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView, UpdateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
@@ -51,6 +51,14 @@ class CreateUserAPIView(CreateAPIView):
                        'eventex.testes@gmail.com',
                        [validate_data['email'], ]
                        )
+
+@permission_classes((IsAuthenticated, ))
+class UpdateUserAPIView(UpdateAPIView):
+    serializer_class = CustomUserSerializer
+    queryset = CustomUser.objects.all()
+
+    def get_object(self):
+        return self.request.user
 
 
 @permission_classes((IsAuthenticated, ))

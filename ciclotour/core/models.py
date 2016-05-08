@@ -51,6 +51,10 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     def if_staff(self):
         return self.is_staff
 
+    @property
+    def confirm_password(self):
+        return ''
+
     def __str__(self):
         return '{} {}'.format(self.name, self.last_name)
 

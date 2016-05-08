@@ -18,6 +18,10 @@ angular.module("ciclotourApp").config(function ($stateProvider, $urlRouterProvid
             url: "/confirmation/{token:guid}",
             templateUrl: "static/js/views/confirmation.html"
         })
+        .state('userProfile', {
+            url: "/userProfile/",
+            templateUrl: "static/js/views/user_form.html"
+        })
         .state('home', {
             url: "/home",
             templateUrl: "static/js/views/home.html"

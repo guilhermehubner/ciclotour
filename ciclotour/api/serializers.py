@@ -42,7 +42,6 @@ class CustomUserSerializer(serializers.ModelSerializer):
         return validated_data
 
 
-
 class RoutePictureSerializer(serializers.ModelSerializer):
     class Meta:
         model = RoutePicture
