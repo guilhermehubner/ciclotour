@@ -1,18 +1,114 @@
-from ciclotour.api.paginator import RoutePagePageNumberPagination
+import sys
+
+from ciclotour.api.paginator import RoutePagePageNumberPagination, UserPagePageNumberPagination
 from ciclotour.api.serializers import RouteSerializer, WayPointSerializer, UserProfileInfoSerializer, \
     FieldKindSerializer, PointKindSerializer, PointSerializer, RoutePictureSerializer, CustomUserSerializer
 from ciclotour.core.models import CustomUser, ConfirmationToken
 from ciclotour.routes.models import Route, WayPoint, FieldKind, PointKind, Point, RoutePicture
 from django.core import mail
+from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
 from rest_framework import filters
 from rest_framework import status
 from rest_framework.decorators import permission_classes, api_view
-from rest_framework.generics import CreateAPIView, UpdateAPIView
+from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
+
+
+@api_view(['GET'])
+@permission_classes((IsAuthenticated, ))
+def unfriend(request, user_id):
+    try:
+        request.user.friends.remove(user_id)
+        CustomUser.objects.get(pk=user_id).friends.remove(request.user.pk)
+    except:
+        ex = sys.exc_info()[0]
+        return Response({'error': ex}, status.HTTP_400_BAD_REQUEST)
+
+    return Response({'success': True}, status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes((IsAuthenticated, ))
+def add_friend(request, user_id):
+    try:
+        request.user.friends.add(user_id)
+    except:
+        ex = sys.exc_info()[0]
+        return Response({'error': ex}, status.HTTP_400_BAD_REQUEST)
+
+    return Response({'success': True}, status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes((IsAuthenticated, ))
+def refuse_request(request, user_id):
+    try:
+        CustomUser.objects.get(pk=user_id).friends.remove(request.user)
+    except:
+        ex = sys.exc_info()[0]
+        return Response({'error': str(ex)}, status.HTTP_400_BAD_REQUEST)
+
+    return Response({'success': True}, status.HTTP_200_OK)
+
+
+@permission_classes((IsAuthenticated, ))
+class PendingRequestsAPIView(ListAPIView):
+    serializer_class = CustomUserSerializer
+    queryset = CustomUser.objects.all()
+
+    def get_serializer_context(self):
+        return {
+            'request': self.request,
+            'format': self.format_kwarg,
+            'view': self,
+            'user': self.request.user.id
+        }
+
+    def get_queryset(self):
+        return self.request.user.get_pending_requests()
+
+
+@permission_classes((IsAuthenticated, ))
+class FriendsAPIView(ListAPIView):
+    serializer_class = CustomUserSerializer
+    queryset = CustomUser.objects.all()
+
+    def get_serializer_context(self):
+        return {
+            'request': self.request,
+            'format': self.format_kwarg,
+            'view': self,
+            'user': self.request.user.id
+        }
+
+    def get_queryset(self):
+        return self.request.user.get_friends()
+
+
+@permission_classes((IsAuthenticated, ))
+class SearchUserAPIView(ListAPIView):
+    serializer_class = CustomUserSerializer
+    queryset = CustomUser.objects.all()
+
+    pagination_class = UserPagePageNumberPagination
+
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('name', 'last_name', 'email')
+
+    def get_serializer_context(self):
+        return {
+            'request': self.request,
+            'format': self.format_kwarg,
+            'view': self,
+            'user': self.request.user.id
+        }
+
+    def get_queryset(self):
+        return super(SearchUserAPIView, self).get_queryset().filter(~Q(pk=self.request.user.id))
 
 
 @api_view(['GET'])
@@ -53,6 +149,7 @@ class CreateUserAPIView(CreateAPIView):
                        [validate_data['email'], ]
                        )
 
+
 @permission_classes((IsAuthenticated, ))
 class UpdateUserAPIView(UpdateAPIView):
     serializer_class = CustomUserSerializer
@@ -91,6 +188,7 @@ class RouteViewSet(ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
+
 
 @api_view(['GET'])
 @permission_classes((IsAuthenticated, ))

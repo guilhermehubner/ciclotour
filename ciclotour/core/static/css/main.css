@@ -414,4 +414,58 @@ button.loadMore{
     border: 0;
 }
 
+.user .row{
+    background: #fff;
+    border: 1px solid #009639;
+    margin: 0 0 10px 0;
+}
+
+.user .media-heading{
+    margin-top: 10px;
+}
+
+.user .media-heading a{
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.user a>img{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+@media (max-width: 766px) {
+    .user a>img{
+        margin-right: auto;
+        margin-left: auto;
+        max-width: 100px;
+    }
+
+    .user .media-heading{
+        text-align: center;
+    }
+}
+
+.user .media-body hr{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.user .form-inline{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.user .friendButton{
+    float: right;
+}
+
+.user .content{
+    display: inline-block;
+}
+
+.user .friendButton button{
+    min-width: 200px;
+}
+
 /* Fim Customizações */

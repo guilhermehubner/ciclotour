@@ -5,7 +5,7 @@ from ciclotour.core.managers import CustomUserManager
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.staticfiles.templatetags.staticfiles import static
-from django.db import models
+from django.db import models, connection
 
 
 def _user_profile_directory_path(instance, filename):
@@ -18,6 +18,15 @@ def _now_plus_7():
     return date.replace(hour=23, minute=59, second=59, microsecond=0)
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
+    FRIENDS = 'F'
+    PENDING = 'P'
+    NONE = 'N'
+    FRIENDSHIP_STATUS = (
+        (FRIENDS, 'Friends'),
+        (PENDING, 'Pending'),
+        (NONE, 'None')
+    )
+
     name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField(unique=True)
@@ -26,6 +35,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     is_staff = models.BooleanField(default=False)
+
+    friends = models.ManyToManyField('CustomUser')
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['name', 'last_name']
@@ -54,6 +65,66 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     @property
     def confirm_password(self):
         return ''
+
+    def get_friends_count(self):
+        cursor = connection.cursor()
+        sql = ('SELECT COUNT(*) '
+               'FROM core_customuser_friends '
+               'WHERE to_customuser_id={0} and from_customuser_id in( '
+               'SELECT to_customuser_id '
+               'FROM core_customuser_friends '
+               'WHERE from_customuser_id  = {0}) '
+               )
+
+        return cursor.execute(sql.format(self.pk)).fetchone()[0]
+
+    def get_pending_requests_count(self):
+        cursor = connection.cursor()
+        sql = ('SELECT COUNT(*) '
+               'FROM core_customuser_friends '
+               'WHERE to_customuser_id={0} and from_customuser_id  not in( '
+               'SELECT to_customuser_id '
+               'FROM core_customuser_friends '
+               'WHERE from_customuser_id  =  {0}) '
+               )
+
+        return cursor.execute(sql.format(self.pk)).fetchone()[0]
+
+    def get_friendship_status(self, id):
+        if CustomUser.objects.get(pk=id).friends.filter(pk=self.pk).exists():
+            if self.friends.filter(pk=id).exists():
+                return self.FRIENDS
+            return self.PENDING
+        return self.NONE
+
+    def get_pending_requests(self):
+        cursor = connection.cursor()
+        sql = ('SELECT from_customuser_id '
+               'FROM core_customuser_friends '
+               'WHERE to_customuser_id={0} and from_customuser_id  not in( '
+               'SELECT to_customuser_id '
+               'FROM core_customuser_friends '
+               'WHERE from_customuser_id  =  {0}) '
+               )
+        IDs = [i[0] for i in cursor.execute(sql.format(self.pk)).fetchall()]
+        if not IDs:
+            return []
+        return CustomUser.objects.filter(pk__in=IDs)
+
+    def get_friends(self):
+        cursor = connection.cursor()
+        sql = ('SELECT from_customuser_id '
+               'FROM core_customuser_friends '
+               'WHERE to_customuser_id={0} and from_customuser_id in( '
+               'SELECT to_customuser_id '
+               'FROM core_customuser_friends '
+               'WHERE from_customuser_id  = {0}) '
+               )
+
+        IDs = [i[0] for i in cursor.execute(sql.format(self.pk)).fetchall()]
+        if not IDs:
+            return []
+        return CustomUser.objects.filter(pk__in=IDs)
 
     def __str__(self):
         return '{} {}'.format(self.name, self.last_name)

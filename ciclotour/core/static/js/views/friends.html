@@ -1,0 +1,45 @@
+<section class="container-fluid" onmove="resizeMainPanel()" onresize="resizeMainPanel()">
+    <profile-info></profile-info>
+
+    <div id="main_panel" class="main_panel col-md-8" ng-controller="FriendsController">
+
+        <div class="user content_container" ng-init="init()">
+            <div class="row" ng-repeat="user in users">
+                <div class="col-sm-2 ">
+                    <a class="change-on-hover">
+                        <img class="img-responsive img-circle" src="[[user.get_profile_pic]]" />
+                    </a>
+                </div>
+                <div class="col-sm-8">
+                    <div class="media-body">
+                        <div class="media-heading">
+                            <a style="cursor: default;">[[user.name]] [[user.last_name]]</a>
+                        </div>
+                        <hr />
+                        <div class="content">
+                            <div class="icons">
+                                <i class="fa fa-users blue" data-toggle="tooltip"
+                                   data-placement="bottom" title="Amigos">[[user.get_friends_count]]</i>
+                                <i class="fa fa-bicycle green" data-toggle="tooltip"
+                                   data-placement="bottom" title="Rotas Realizadas">666</i>
+                                <i class="fa fa-compass red" data-toggle="tooltip"
+                                   data-placement="bottom" title="Rotas Pendentes">666</i>
+                            </div>
+                        </div>
+                        <div class="friendButton">
+                            <button class="btn btn-danger"
+                                    ng-click="unfriend(user)">Desfazer Amizade</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" ng-show="users.length==0">
+                <div class="col-sm-12">
+                    <div class="media-body" style="text-align: center">
+                        <h4>Você não possui amigos.</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

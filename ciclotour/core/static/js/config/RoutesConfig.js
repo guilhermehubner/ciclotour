@@ -18,9 +18,21 @@ angular.module("ciclotourApp").config(function ($stateProvider, $urlRouterProvid
             url: "/confirmation/{token:guid}",
             templateUrl: "static/js/views/confirmation.html"
         })
+        .state('pendingRequests', {
+            url: "/pendingRequests/",
+            templateUrl: "static/js/views/pending_requests.html"
+        })
+        .state('friends', {
+            url: "/friends/",
+            templateUrl: "static/js/views/friends.html"
+        })
         .state('userProfile', {
             url: "/userProfile/",
             templateUrl: "static/js/views/user_form.html"
+        })
+        .state('userSearch', {
+            url: "/userSearch/",
+            templateUrl: "static/js/views/user_search.html"
         })
         .state('home', {
             url: "/home",

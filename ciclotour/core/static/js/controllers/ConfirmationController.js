@@ -10,6 +10,8 @@ angular.module("ciclotourApp").controller('ConfirmationController', function($sc
     }
 
     function confirmationFail(data){
-        $state.go("login")
+        Message.showError("Não foi possível confirmar!",
+            "Não foi possível confirmar sua conta, tente novamente.");
+        console.log(data);
     }
 });

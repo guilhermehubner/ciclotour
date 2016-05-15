@@ -6,12 +6,16 @@ angular.module("ciclotourApp").directive("profileInfo",function(){
             $scope.image = "";
             $scope.name = "";
             $scope.lastName = "";
+            $scope.friends = "";
+            $scope.pending_requests_count = "";
 
             $scope.load = function(){
                 UsersAPI.get_info().success(function(data){
                     $scope.name = data.name;
                     $scope.lastName = data.last_name;
                     $scope.image = data.get_profile_pic;
+                    $scope.friends = data.get_friends_count;
+                    $scope.pending_requests_count = data.get_pending_requests_count;
                 });
             };
 

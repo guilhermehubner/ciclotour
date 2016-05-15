@@ -5,16 +5,18 @@ from rest_framework.exceptions import ValidationError
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(min_length=8, required=True)
-    confirm_password = serializers.CharField(min_length=8, required=True)
+    password = serializers.CharField(min_length=8, required=True, write_only=True)
+    confirm_password = serializers.CharField(min_length=8, required=True, write_only=True)
+    friendship_status = serializers.SerializerMethodField('_friendship_status')
 
     class Meta:
         model = CustomUser
-        fields = ['name', 'last_name', 'email', 'profile_picture', 'password', 'confirm_password']
-        read_only_fields = ['pk']
-        extra_kwargs = {'password': {'write_only': True}, 'confirm_password': {'write_only': True}}
+        fields = ['pk', 'name', 'last_name', 'email', 'profile_picture', 'password',
+                  'confirm_password', 'get_profile_pic', 'friendship_status', 'get_friends_count']
+        read_only_fields = ['pk', 'get_profile_pic', 'friendship_status', 'get_friends_count']
         verbose_name = 'usuário'
         verbose_name_plural = 'usuários'
+        extra_kwargs = {'profile_picture': {'write_only': True}}
 
     def validate(self, data):
         if not data.get('password') and not data.get('confirm_password'):
@@ -40,6 +42,9 @@ class CustomUserSerializer(serializers.ModelSerializer):
         validated_data['token'] = token
 
         return validated_data
+
+    def _friendship_status(self, obj):
+        return obj.get_friendship_status(self.context['user'])
 
 
 class RoutePictureSerializer(serializers.ModelSerializer):
@@ -72,8 +77,9 @@ class FieldKindSerializer(serializers.ModelSerializer):
 class UserProfileInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['name', 'last_name', 'get_profile_pic']
-        read_only_fields = ['pk']
+        fields = ['name', 'last_name', 'get_profile_pic', 'get_friends_count',
+                  'get_pending_requests_count']
+        read_only_fields = ['pk'] + fields
 
 
 class WayPointSerializer(serializers.ModelSerializer):

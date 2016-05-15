@@ -1,0 +1,58 @@
+<section class="container-fluid" onmove="resizeMainPanel()" onresize="resizeMainPanel()">
+    <profile-info></profile-info>
+
+    <div id="main_panel" class="main_panel col-md-8" ng-controller="UserSearchController">
+
+        <div class="user content_container">
+            <div class="row">
+                <div class="col-xs-12 form-inline">
+                    <div class="form-group">
+                        <input style="min-width: 265px" class="form-control"
+                               placeholder="Digite um nome ou e-mail de usuário..."
+                               ng-model="filter"/>
+                    </div>
+                    <button class="btn btn-primary" ng-click="search()">
+                        <i class="fa fa-search"></i> Buscar
+                    </button>
+                </div>
+            </div>
+
+            <div class="row" ng-repeat="user in users">
+                <div class="col-sm-2 ">
+                    <a class="change-on-hover">
+                        <img class="img-responsive img-circle" src="[[user.get_profile_pic]]" />
+                    </a>
+                </div>
+                <div class="col-sm-8">
+                    <div class="media-body">
+                        <div class="media-heading">
+                            <a style="cursor: default;">[[user.name]] [[user.last_name]]</a>
+                        </div>
+                        <hr />
+                        <div class="content">
+                            <div class="icons">
+                                <i class="fa fa-users blue" data-toggle="tooltip"
+                                   data-placement="bottom" title="Amigos">[[user.get_friends_count]]</i>
+                                <i class="fa fa-bicycle green" data-toggle="tooltip"
+                                   data-placement="bottom" title="Rotas Realizadas">666</i>
+                                <i class="fa fa-compass red" data-toggle="tooltip"
+                                   data-placement="bottom" title="Rotas Pendentes">666</i>
+                            </div>
+                        </div>
+                        <div class="friendButton">
+                            <button class="btn btn-success"
+                                    ng-show="user.friendship_status=='N'"
+                                    ng-click="addFriend(user)">Adicionar</button>
+                            <button class="btn btn-primary"
+                                    ng-show="user.friendship_status=='F'">Amigos</button>
+                            <button class="btn btn-warning"
+                                    ng-show="user.friendship_status=='P'">Solicitação Enviada</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn-lg btn-success loadMore" ng-click="getNext()"
+                    ng-show="users.length > 0">Carregar Mais</button>
+        </div>
+    </div>
+</section>

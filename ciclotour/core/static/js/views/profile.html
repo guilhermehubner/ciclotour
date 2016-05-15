@@ -9,7 +9,7 @@
         </a>
         <div class="icons">
             <i class="fa fa-users blue" data-toggle="tooltip"
-               data-placement="bottom" title="Amigos">666</i>
+               data-placement="bottom" title="Amigos">[[friends]]</i>
             <i class="fa fa-bicycle green" data-toggle="tooltip"
                data-placement="bottom" title="Rotas Realizadas">666</i>
             <i class="fa fa-compass red" data-toggle="tooltip"
@@ -23,6 +23,13 @@
                 <a ui-sref="userProfile">Meu Perfil</a>
             </li>
             <li class="list-group-item">
+                <a ui-sref="userSearch">Buscar usuários</a>
+            </li>
+            <li class="list-group-item">
+                <span class="badge">[[pending_requests_count]]</span>
+                <a ui-sref="pendingRequests">Solicitações de amizade</a>
+            </li>
+            <li class="list-group-item">
                 <span class="badge">666</span>
                 <a href="#">Rotas Realizadas</a>
             </li>
@@ -31,8 +38,8 @@
                 <a href="#">Rotas Pendentes</a>
             </li>
             <li class="list-group-item">
-                <span class="badge">666</span>
-                <a href="#">Amigos</a>
+                <span class="badge">[[friends]]</span>
+                <a ui-sref="friends">Amigos</a>
             </li>
             <li class="list-group-item">
                 <a ng-click="logout()" class="cursorPointer">Sair <i class="fa fa-sign-out"></i></a>
