@@ -5,7 +5,7 @@ from ciclotour.core.managers import CustomUserManager
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.staticfiles.templatetags.staticfiles import static
-from django.db import models, connection
+from django.db import models
 
 
 def _user_profile_directory_path(instance, filename):
@@ -14,8 +14,9 @@ def _user_profile_directory_path(instance, filename):
 
 
 def _now_plus_7():
-    date = datetime.now() + timedelta(days = 7)
+    date = datetime.now() + timedelta(days=7)
     return date.replace(hour=23, minute=59, second=59, microsecond=0)
+
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     FRIENDS = 'F'
@@ -67,28 +68,12 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         return ''
 
     def get_friends_count(self):
-        cursor = connection.cursor()
-        sql = ('SELECT COUNT(*) '
-               'FROM core_customuser_friends '
-               'WHERE to_customuser_id={0} and from_customuser_id in( '
-               'SELECT to_customuser_id '
-               'FROM core_customuser_friends '
-               'WHERE from_customuser_id  = {0}) '
-               )
-
-        return cursor.execute(sql.format(self.pk)).fetchone()[0]
+        q = CustomUser.objects.get(pk=self.id).friends.all().values_list('id', flat=True)
+        return CustomUser.objects.filter(friends=self.id, id__in=q).count()
 
     def get_pending_requests_count(self):
-        cursor = connection.cursor()
-        sql = ('SELECT COUNT(*) '
-               'FROM core_customuser_friends '
-               'WHERE to_customuser_id={0} and from_customuser_id  not in( '
-               'SELECT to_customuser_id '
-               'FROM core_customuser_friends '
-               'WHERE from_customuser_id  =  {0}) '
-               )
-
-        return cursor.execute(sql.format(self.pk)).fetchone()[0]
+        q = self.friends.all().values_list('pk', flat=True)
+        return CustomUser.objects.filter(friends=self.id).exclude(id__in=q).count()
 
     def get_friendship_status(self, id):
         if CustomUser.objects.get(pk=id).friends.filter(pk=self.pk).exists():
@@ -98,33 +83,12 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         return self.NONE
 
     def get_pending_requests(self):
-        cursor = connection.cursor()
-        sql = ('SELECT from_customuser_id '
-               'FROM core_customuser_friends '
-               'WHERE to_customuser_id={0} and from_customuser_id  not in( '
-               'SELECT to_customuser_id '
-               'FROM core_customuser_friends '
-               'WHERE from_customuser_id  =  {0}) '
-               )
-        IDs = [i[0] for i in cursor.execute(sql.format(self.pk)).fetchall()]
-        if not IDs:
-            return []
-        return CustomUser.objects.filter(pk__in=IDs)
+        q = self.friends.all().values_list('pk', flat=True)
+        return CustomUser.objects.filter(friends=self.id).exclude(id__in=q)
 
     def get_friends(self):
-        cursor = connection.cursor()
-        sql = ('SELECT from_customuser_id '
-               'FROM core_customuser_friends '
-               'WHERE to_customuser_id={0} and from_customuser_id in( '
-               'SELECT to_customuser_id '
-               'FROM core_customuser_friends '
-               'WHERE from_customuser_id  = {0}) '
-               )
-
-        IDs = [i[0] for i in cursor.execute(sql.format(self.pk)).fetchall()]
-        if not IDs:
-            return []
-        return CustomUser.objects.filter(pk__in=IDs)
+        q = CustomUser.objects.get(pk=self.id).friends.all().values_list('id', flat=True)
+        return CustomUser.objects.filter(friends=self.id, id__in=q)
 
     def __str__(self):
         return '{} {}'.format(self.name, self.last_name)
@@ -135,7 +99,6 @@ class ConfirmationToken(models.Model):
                              default=uuid.uuid4, primary_key=True)
     user = models.OneToOneField('CustomUser')
     expire_date = models.DateTimeField(default=_now_plus_7)
-
 
     def is_active(self):
         return datetime.now() < self.expire_date
