@@ -71,8 +71,8 @@ angular.module("ciclotourApp").controller('PointController', function($scope, $s
             "description": $scope.description,
             "kind": $scope.pointkind,
             "address": $scope.address,
-            "latitude": $scope.latitude,
-            "longitude": $scope.longitude,
+            "latitude": $scope.latitude.toFixed(15),
+            "longitude": $scope.longitude.toFixed(15),
             "route": $stateParams.id
         };
 
