@@ -18,6 +18,9 @@ angular.module("ciclotourApp").factory('RoutesAPI', function($http){
         get_route_pictures: function(routeId){
             return $http.get("/api/route/pictures/?route="+routeId);
         },
+        get_next_pictures: function(routeId, next){
+            return $http.get("/api/route/pictures/?route="+routeId+"&page="+next);
+        },
         save_route_point: function(point){
             return $http.post("/api/route/points/", point);
         },

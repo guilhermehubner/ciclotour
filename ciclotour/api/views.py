@@ -1,8 +1,16 @@
 import sys
 
-from ciclotour.api.paginator import RoutePagePageNumberPagination, UserPagePageNumberPagination
-from ciclotour.api.serializers import RouteSerializer, WayPointSerializer, UserProfileInfoSerializer, \
-    FieldKindSerializer, PointKindSerializer, PointSerializer, RoutePictureSerializer, CustomUserSerializer
+from ciclotour.api.paginator import (RoutePageNumberPagination,
+                                     UserPageNumberPagination,
+                                     RoutePicturePageNumberPagination)
+from ciclotour.api.serializers import (RouteSerializer,
+                                       WayPointSerializer,
+                                       UserProfileInfoSerializer,
+                                       FieldKindSerializer,
+                                       PointKindSerializer,
+                                       PointSerializer,
+                                       RoutePictureSerializer,
+                                       CustomUserSerializer)
 from ciclotour.core.models import CustomUser, ConfirmationToken
 from ciclotour.routes.models import Route, WayPoint, FieldKind, PointKind, Point, RoutePicture
 from django.core import mail
@@ -76,6 +84,7 @@ class PendingRequestsAPIView(ListAPIView):
 class FriendsAPIView(ListAPIView):
     serializer_class = CustomUserSerializer
     queryset = CustomUser.objects.all()
+    pagination_class = UserPageNumberPagination
 
     def get_serializer_context(self):
         return {
@@ -94,7 +103,7 @@ class SearchUserAPIView(ListAPIView):
     serializer_class = CustomUserSerializer
     queryset = CustomUser.objects.all()
 
-    pagination_class = UserPagePageNumberPagination
+    pagination_class = UserPageNumberPagination
 
     filter_backends = (filters.SearchFilter,)
     search_fields = ('name', 'last_name', 'email')
@@ -166,6 +175,7 @@ class RoutePictureViewSet(ModelViewSet):
     lookup_field = 'id'
     filter_backends = (filters.DjangoFilterBackend,)
     filter_fields = ('route',)
+    pagination_class = RoutePicturePageNumberPagination
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
@@ -184,7 +194,7 @@ class RouteViewSet(ModelViewSet):
     queryset = Route.objects.all()
     lookup_field = 'id'
 
-    pagination_class = RoutePagePageNumberPagination
+    pagination_class = RoutePageNumberPagination
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)

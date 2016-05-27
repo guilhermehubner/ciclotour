@@ -9,8 +9,9 @@ angular.module("ciclotourApp").controller('FriendsController', function($scope, 
     };
 
     $scope.init = get_friends;
+    $scope.getNext = get_friends;
 
-    function get_friends (){
+    function get_friends(){
         if($scope.next == null && $scope.users.length == 0)
             UsersAPI.get_friends().success(getUsersSuccess).error(getUsersFail);
         else if($scope.next && $scope.users.length > 0)
@@ -18,7 +19,8 @@ angular.module("ciclotourApp").controller('FriendsController', function($scope, 
     }
 
     function getUsersSuccess(data){
-        $scope.users = data;
+        $scope.next = data.next;
+        $scope.users = $scope.users.concat(data.results);
     }
 
     function getUsersFail(data){

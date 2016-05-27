@@ -1,0 +1,38 @@
+<profile-info></profile-info>
+
+<div id="main_panel" class="routes main_panel col-md-8" ng-controller="RoutePicturesController">
+    <div class="row">
+        <div class="title">
+            <h3>Fotos da Rota</h3>
+            <hr>
+        </div>
+
+        <div class="photos" ng-init="init()">
+            <div class="col-sm-4" ng-repeat="picture in pictures">
+                <div class="thumbnail">
+                    <img style="height: 200px; width: 100%; display: block; cursor: pointer"
+                         src="[[picture.image]]" ng-click="showPicture([[picture.image]],
+                         [[picture.description]])">
+                </div>
+            </div>
+        </div>
+
+        <button class="btn-lg btn-success loadMore" ng-click="getNext()">Carregar Mais</button>
+    </div>
+
+
+    <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <img src="" id="imagepreview" style="width: 100%;" >
+                    <h4 id="imagedescription"></h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

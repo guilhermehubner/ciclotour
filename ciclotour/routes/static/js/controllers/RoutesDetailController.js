@@ -2,13 +2,15 @@ angular.module("ciclotourApp").controller('RoutesDetailController', function($sc
     $scope.mapMarkers = [];
     $scope.route = {};
     $scope.show = false;
+    $scope.routeId = 0;
 
     /******************************************
      * Responsible method to get server
      * informations and init map
     *******************************************/
     $scope.initMap = function(){
-        RoutesAPI.get_route($stateParams.id).success(function(data){
+        $scope.routeId = $stateParams.id;
+        RoutesAPI.get_route($scope.routeId).success(function(data){
             $scope.route = data;
             var map = startMap("map");
 
@@ -33,7 +35,7 @@ angular.module("ciclotourApp").controller('RoutesDetailController', function($sc
      * form
     *******************************************/
     $scope.addPoint = function(){
-        $state.go("routePointCreate", {'id': $stateParams.id});
+        $state.go("routePointCreate", {'id': $scope.routeId});
     };
 
     /******************************************
@@ -48,9 +50,18 @@ angular.module("ciclotourApp").controller('RoutesDetailController', function($sc
      * Responsible method to refresh list of pictures
     *******************************************/
     $scope.refreshRoutePictures = function(){
-        RoutesAPI.get_route_pictures($stateParams.id).success(function(data){
-            $scope.route.pictures = data;
+        RoutesAPI.get_route_pictures($scope.routeId).success(function(data){
+            $scope.route.pictures = data.results;
         });
+    };
+
+    /******************************************
+     * Responsible method to show picture in modal
+    *******************************************/
+    $scope.showPicture = function(url, description){
+        $('#imagepreview').attr('src', url);
+        $('#imagedescription').text(description);
+        $('#imagemodal').modal('show');
     };
 
     /******************************************

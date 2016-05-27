@@ -74,17 +74,34 @@
         <div class="photos">
             <div class="col-sm-4" ng-repeat="picture in route.pictures | limitTo:5">
                 <div class="thumbnail">
-                    <img style="height: 200px; width: 100%; display: block;" src="[[picture.image]]">
+                    <img style="height: 200px; width: 100%; display: block; cursor: pointer"
+                         src="[[picture.image]]" ng-click="showPicture([[picture.image]],
+                         [[picture.description]])">
                 </div>
             </div>
             <div class="col-sm-4">
-                <div class="thumbnail" ng-show="route.pictures.length >= 5">
+                <div class="thumbnail" ng-show="route.pictures.length > 5">
                     <div class="caption">
-                        <a href="#"><h3>Ver Mais >></h3></a>
+                        <a ui-sref="routePictures({id:[[routeId]]})"><h3>Ver Todas >></h3></a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <routepicture-modal visible="show" on-hide="refreshRoutePictures()"></routepicture-modal>
+
+    <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <img src="" id="imagepreview" style="width: 100%;" >
+                    <h4 id="imagedescription"></h4>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
