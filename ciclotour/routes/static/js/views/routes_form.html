@@ -35,17 +35,18 @@
         <div class="form-group">
             <label class="control-label col-sm-2">Terreno:</label>
             <div class="col-sm-6">
-                <select class="form-control" ng-model="field">
+                <select class="form-control" ng-model="field" data-ng-init="getFields()">
                     <option value="" selected="selected">---------</option>
                     <option ng-repeat="field in fields" value="[[field.id]]">[[field.kind]]</option>
                 </select>
             </div>
         </div>
         <div class="form-group">
-            <div class="col-sm-2 col-sm-offset-2">
-                <select class="form-control" data-ng-init="getFields()">
-                    <option value="">Privada</option>
-                    <option value="">Pública</option>
+            <div class="col-sm-3 col-sm-offset-2">
+                <select class="form-control" ng-model="shared_with">
+                    <option value="PB">Pública</option>
+                    <option value="PV">Privada</option>
+                    <option value="FO">Apenas Amigos</option>
                 </select>
             </div>
         </div>

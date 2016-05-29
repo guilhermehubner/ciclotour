@@ -60,7 +60,11 @@ class RoutesSearchAPIView(ListAPIView):
                                       longitude__lte=(to_longitude+0.05),
                                       route_id__in=origin).values_list('route_id', flat=True)
 
-        return Route.objects.filter(id__in=ids)
+        return Route.objects.filter(id__in=ids).filter(Q(shared_with=Route.PUBLIC) |
+                                                       Q(shared_with=Route.PRIVATE, owner=self.request.user) |
+                                                       Q(shared_with=Route.FRIENDS_ONLY,
+                                                         owner__in=self.request.user.get_friends_id()) |
+                                                       Q(shared_with=Route.FRIENDS_ONLY, owner=self.request.user.id))
 
 
 @api_view(['GET'])
@@ -232,6 +236,13 @@ class RouteViewSet(ModelViewSet):
     lookup_field = 'id'
 
     pagination_class = RoutePageNumberPagination
+
+    def get_queryset(self):
+        return Route.objects.filter(Q(shared_with=Route.PUBLIC) |
+                                    Q(shared_with=Route.PRIVATE, owner=self.request.user) |
+                                    Q(shared_with=Route.FRIENDS_ONLY,
+                                      owner__in=self.request.user.get_friends_id()) |
+                                    Q(shared_with=Route.FRIENDS_ONLY, owner=self.request.user.id))
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)

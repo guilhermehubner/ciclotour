@@ -1,4 +1,4 @@
-angular.module("ciclotourApp").controller('RoutesDetailController', function($scope, $stateParams, $state, RoutesAPI) {
+angular.module("ciclotourApp").controller('RoutesDetailController', function($scope, $stateParams, $state, Message, RoutesAPI) {
     $scope.mapMarkers = [];
     $scope.route = {};
     $scope.show = false;
@@ -27,6 +27,11 @@ angular.module("ciclotourApp").controller('RoutesDetailController', function($sc
 
             setZoom(map);
             addRoutePointMarkers(map);
+        }).error(function(){
+            Message.showError("Não foi possível encontrar a rota.", "A rota solicitada não foi " +
+                "encontrada, tente novamente.");
+
+            $state.go("home");
         });
     };
 

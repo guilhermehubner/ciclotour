@@ -76,12 +76,23 @@ class WayPoint(models.Model):
 
 
 class Route(models.Model):
+    PRIVATE = 'PV'
+    PUBLIC = 'PB'
+    FRIENDS_ONLY = 'FO'
+
+    SHARED_WITH = (
+        (PRIVATE, 'Privada'),
+        (PUBLIC, 'Pública'),
+        (FRIENDS_ONLY, 'Com amigos'),
+    )
+
     title = models.CharField(max_length=255)
     origin = models.CharField(max_length=100)
     description = models.TextField()
     owner = models.ForeignKey('core.CustomUser')
     field = models.ForeignKey('FieldKind')
     created = models.DateTimeField(auto_now_add=True)
+    shared_with = models.CharField(max_length=2, choices=SHARED_WITH, default=PUBLIC)
 
     class Meta:
         ordering = ['-created']

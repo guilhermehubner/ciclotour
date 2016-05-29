@@ -90,6 +90,10 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         q = CustomUser.objects.get(pk=self.id).friends.all().values_list('id', flat=True)
         return CustomUser.objects.filter(friends=self.id, id__in=q)
 
+    def get_friends_id(self):
+        q = CustomUser.objects.get(pk=self.id).friends.all().values_list('id', flat=True)
+        return CustomUser.objects.filter(friends=self.id, id__in=q).values_list('id', flat=True)
+
     def __str__(self):
         return '{} {}'.format(self.name, self.last_name)
 

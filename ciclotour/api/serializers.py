@@ -133,6 +133,7 @@ class RouteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Route
         fields = ['pk', 'title', 'origin', 'description', 'field', 'owner',
-                  'waypoint_set', 'polyline_set', 'field_info', 'points', 'pictures', 'get_picture']
+                  'waypoint_set', 'polyline_set', 'field_info', 'points', 'pictures', 'get_picture',
+                  'shared_with']
         read_only_fields = ['pk', 'owner', 'field_info', 'points', 'pictures', 'get_picture']
         extra_kwargs = {'field': {'write_only': True}}

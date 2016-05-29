@@ -6,6 +6,7 @@ angular.module("ciclotourApp").controller('RoutesFormController', function($scop
     $scope.title = "";
     $scope.field = null;
     $scope.description = "";
+    $scope.shared_with = "PB";
     $scope.fields = [];
     $scope.encodedPoylines = []; //the list of polylines which will sent to server
     /************************************/
@@ -74,7 +75,8 @@ angular.module("ciclotourApp").controller('RoutesFormController', function($scop
             "description": $scope.description,
             "field": $scope.field,
             "waypoint_set": $scope.wayPoints,
-            "polyline_set": $scope.encodedPoylines
+            "polyline_set": $scope.encodedPoylines,
+            "shared_with": $scope.shared_with
         };
 
         RoutesAPI.save_route(obj).success(saveRouteSuccess).error(saveRouteFail);
