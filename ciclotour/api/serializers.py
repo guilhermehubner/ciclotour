@@ -108,8 +108,16 @@ class RouteSerializer(serializers.ModelSerializer):
         polylines_data = validated_data.pop('polyline_set')
         route = Route.objects.create(**validated_data)
 
+        wp = None
         for waypoint_data in waypoints_data:
-            WayPoint.objects.create(route=route, **waypoint_data)
+            wp = WayPoint.objects.create(route=route, **waypoint_data)
+
+        if wp.kind == WayPoint.GOOGLE:
+            wp.kind = WayPoint.FINAL_GOOGLE
+        else:
+            wp.kind = WayPoint.FINAL_LINEAR
+
+        wp.save()
 
         for polyline_data in polylines_data:
             Polyline.objects.create(route=route, **polyline_data)

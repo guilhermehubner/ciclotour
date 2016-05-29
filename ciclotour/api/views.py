@@ -26,6 +26,43 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 
+@permission_classes((IsAuthenticated, ))
+class RoutesSearchAPIView(ListAPIView):
+    serializer_class = RouteSerializer
+    queryset = Route.objects.all()
+    pagination_class = RoutePageNumberPagination
+
+    def get_queryset(self):
+        from_latitude = self.request.query_params.get("from_lat", None)
+        from_longitude = self.request.query_params.get("from_lng", None)
+
+        to_latitude = self.request.query_params.get("to_lat", None)
+        to_longitude = self.request.query_params.get("to_lng", None)
+
+        try:
+            from_latitude = float(from_latitude)
+            from_longitude = float(from_longitude)
+            to_latitude = float(to_latitude)
+            to_longitude = float(to_longitude)
+        except:
+            return Route.objects.none()
+
+        origin = WayPoint.objects.filter(latitude__gte=(from_latitude-0.05),
+                                      latitude__lte=(from_latitude+0.05),
+                                      longitude__gte=(from_longitude-0.05),
+                                      longitude__lte=(from_longitude+0.05),
+                                      kind=WayPoint.INITIAL).values_list('route_id', flat=True)
+
+        ids = WayPoint.objects.filter(Q(kind=WayPoint.FINAL_GOOGLE) | Q(kind=WayPoint.FINAL_LINEAR),
+                                      latitude__gte=(to_latitude-0.05),
+                                      latitude__lte=(to_latitude+0.05),
+                                      longitude__gte=(to_longitude-0.05),
+                                      longitude__lte=(to_longitude+0.05),
+                                      route_id__in=origin).values_list('route_id', flat=True)
+
+        return Route.objects.filter(id__in=ids)
+
+
 @api_view(['GET'])
 @permission_classes((IsAuthenticated, ))
 def unfriend(request, user_id):

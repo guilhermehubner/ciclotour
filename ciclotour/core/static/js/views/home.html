@@ -87,12 +87,13 @@
             <div class="row">
                 <div class="col-xs-12 form-inline">
                     <div class="form-group">
-                        <input class="form-control" placeholder="Origem..." />
+                        <input class="form-control" placeholder="Origem..." ng-model="origin" />
                     </div>
                     <div class="form-group">
-                        <input class="form-control" placeholder="Destino..." />
+                        <input class="form-control" placeholder="Destino..." ng-model="destination" />
                     </div>
-                    <button class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
+                    <button class="btn btn-primary" ng-click="search(origin,destination)">
+                        <i class="fa fa-search"></i> Buscar</button>
                     <a id="new-route" class="btn btn-success" ui-sref="routeCreate"><i class="fa fa-plus"></i> Nova Rota</a>
                 </div>
             </div>

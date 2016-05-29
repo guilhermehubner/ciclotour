@@ -1,6 +1,6 @@
 from ciclotour.api.views import RouteViewSet, route_waypoints, user_logged, user_profile_info, fields_list, \
     point_kind_list, PointViewSet, RoutePictureViewSet, CreateUserAPIView, user_confirmation, UpdateUserAPIView, \
-    SearchUserAPIView, add_friend, PendingRequestsAPIView, refuse_request, FriendsAPIView, unfriend
+    SearchUserAPIView, add_friend, PendingRequestsAPIView, refuse_request, FriendsAPIView, unfriend, RoutesSearchAPIView
 from django.conf.urls import url, include
 from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework.routers import DefaultRouter
@@ -27,7 +27,8 @@ urlpatterns = [
     url(r'^pointkinds/$', point_kind_list),
     url(r'^route/waypoints/(?P<route_id>[\d]+)/$', route_waypoints),
     url(r'^confirmation/(?P<token>[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})/$',
-        user_confirmation)
+        user_confirmation),
+    url(r'^routes_search/', RoutesSearchAPIView.as_view())
 ]
 
 

@@ -59,14 +59,18 @@ class WayPoint(models.Model):
     INITIAL = 'I'
     LINEAR = 'L'
     GOOGLE = 'G'
+    FINAL_GOOGLE = 'FG'
+    FINAL_LINEAR = 'FL'
     KINDS = (
         (INITIAL, 'Inicial'),
         (LINEAR, 'Linear'),
-        (GOOGLE, 'Google')
+        (GOOGLE, 'Google'),
+        (FINAL_GOOGLE, 'Final Google'),
+        (FINAL_LINEAR, 'Final Linear')
     )
 
     route = models.ForeignKey('Route')
-    kind = models.CharField(max_length=1, choices=KINDS)
+    kind = models.CharField(max_length=2, choices=KINDS)
     latitude = models.DecimalField(max_digits=17, decimal_places=15, validators=[validate_latitude, ])
     longitude = models.DecimalField(max_digits=18, decimal_places=15, validators=[validate_longitude, ])
 

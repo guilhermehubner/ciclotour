@@ -38,6 +38,16 @@ angular.module("ciclotourApp").factory('RoutesAPI', function($http){
         },
         save_route: function(route){
             return $http.post("/api/routes/", route);
+        },
+        search: function(originCoordinates, destinationCoordinates){
+            return $http.get("/api/routes_search/?from_lat="+originCoordinates.lat+"&from_lng="+
+                originCoordinates.lng+"&to_lat="+destinationCoordinates.lat+"&to_lng="+
+                destinationCoordinates.lng);
+        },
+        search_next: function(originCoordinates, destinationCoordinates, next){
+            return $http.get("/api/routes_search/?from_lat="+originCoordinates.lat+"&from_lng="+
+                originCoordinates.lng+"&to_lat="+destinationCoordinates.lat+"&to_lng="+
+                destinationCoordinates.lng+"&page="+next);
         }
     }
 });
