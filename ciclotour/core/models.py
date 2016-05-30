@@ -39,6 +39,9 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     friends = models.ManyToManyField('CustomUser')
 
+    pending_routes = models.ManyToManyField('routes.Route', related_name='pending_routes')
+    performed_routes = models.ManyToManyField('routes.Route', related_name='performed_routes')
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['name', 'last_name']
 
@@ -93,6 +96,12 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     def get_friends_id(self):
         q = CustomUser.objects.get(pk=self.id).friends.all().values_list('id', flat=True)
         return CustomUser.objects.filter(friends=self.id, id__in=q).values_list('id', flat=True)
+
+    def pending_routes_count(self):
+        return self.pending_routes.count()
+
+    def performed_routes_count(self):
+        return self.performed_routes.count()
 
     def __str__(self):
         return '{} {}'.format(self.name, self.last_name)

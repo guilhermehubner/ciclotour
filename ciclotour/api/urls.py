@@ -1,6 +1,7 @@
 from ciclotour.api.views import RouteViewSet, route_waypoints, user_logged, user_profile_info, fields_list, \
     point_kind_list, PointViewSet, RoutePictureViewSet, CreateUserAPIView, user_confirmation, UpdateUserAPIView, \
-    SearchUserAPIView, add_friend, PendingRequestsAPIView, refuse_request, FriendsAPIView, unfriend, RoutesSearchAPIView
+    SearchUserAPIView, add_friend, PendingRequestsAPIView, refuse_request, FriendsAPIView, unfriend, RoutesSearchAPIView, \
+    mark_route_as_performed, mark_route_as_pending, PendingRoutesAPIView, PerformedRoutesAPIView
 from django.conf.urls import url, include
 from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework.routers import DefaultRouter
@@ -28,7 +29,11 @@ urlpatterns = [
     url(r'^route/waypoints/(?P<route_id>[\d]+)/$', route_waypoints),
     url(r'^confirmation/(?P<token>[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})/$',
         user_confirmation),
-    url(r'^routes_search/', RoutesSearchAPIView.as_view())
+    url(r'^routes_search/', RoutesSearchAPIView.as_view()),
+    url(r'^route/mark-as-performed/(?P<routeId>[\d]+)/$', mark_route_as_performed),
+    url(r'^route/mark-as-pending/(?P<routeId>[\d]+)/$', mark_route_as_pending),
+    url(r'^pending-routes/$', PendingRoutesAPIView.as_view()),
+    url(r'^performed-routes/$', PerformedRoutesAPIView.as_view()),
 ]
 
 

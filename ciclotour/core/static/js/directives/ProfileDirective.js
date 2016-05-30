@@ -16,6 +16,8 @@ angular.module("ciclotourApp").directive("profileInfo",function(){
                     $scope.image = data.get_profile_pic;
                     $scope.friends = data.get_friends_count;
                     $scope.pending_requests_count = data.get_pending_requests_count;
+                    $scope.pending_routes_count = data.pending_routes_count;
+                    $scope.performed_routes_count = data.performed_routes_count;
                 });
             };
 

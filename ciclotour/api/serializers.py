@@ -12,8 +12,10 @@ class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ['pk', 'name', 'last_name', 'email', 'profile_picture', 'password',
-                  'confirm_password', 'get_profile_pic', 'friendship_status', 'get_friends_count']
-        read_only_fields = ['pk', 'get_profile_pic', 'friendship_status', 'get_friends_count']
+                  'confirm_password', 'get_profile_pic', 'friendship_status', 'get_friends_count',
+                  'pending_routes_count', 'performed_routes_count']
+        read_only_fields = ['pk', 'get_profile_pic', 'friendship_status', 'get_friends_count',
+                            'pending_routes_count', 'performed_routes_count']
         verbose_name = 'usuário'
         verbose_name_plural = 'usuários'
         extra_kwargs = {'profile_picture': {'write_only': True}}
@@ -78,7 +80,7 @@ class UserProfileInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ['name', 'last_name', 'get_profile_pic', 'get_friends_count',
-                  'get_pending_requests_count']
+                  'get_pending_requests_count', 'pending_routes_count', 'performed_routes_count']
         read_only_fields = ['pk'] + fields
 
 

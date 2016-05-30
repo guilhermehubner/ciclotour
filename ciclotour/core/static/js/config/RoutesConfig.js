@@ -19,19 +19,19 @@ angular.module("ciclotourApp").config(function ($stateProvider, $urlRouterProvid
             templateUrl: "static/js/views/confirmation.html"
         })
         .state('pendingRequests', {
-            url: "/pendingRequests/",
+            url: "/pendingRequests",
             templateUrl: "static/js/views/pending_requests.html"
         })
         .state('friends', {
-            url: "/friends/",
+            url: "/friends",
             templateUrl: "static/js/views/friends.html"
         })
         .state('userProfile', {
-            url: "/userProfile/",
+            url: "/userProfile",
             templateUrl: "static/js/views/user_form.html"
         })
         .state('userSearch', {
-            url: "/userSearch/",
+            url: "/userSearch",
             templateUrl: "static/js/views/user_search.html"
         })
         .state('home', {
@@ -53,6 +53,14 @@ angular.module("ciclotourApp").config(function ($stateProvider, $urlRouterProvid
         .state('routePictures',{
             url: "/routePictures/{id:[0-9]+}",
             templateUrl: "static/js/views/route_pictures.html"
+        })
+        .state('pendingRoutes',{
+            url: "/pendingRoutes",
+            templateUrl: "static/js/views/pending_routes.html"
+        })
+        .state('performedRoutes',{
+            url: "/performedRoutes",
+            templateUrl: "static/js/views/performed_routes.html"
         });
 
     $urlRouterProvider.otherwise("/home");

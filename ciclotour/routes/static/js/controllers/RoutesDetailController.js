@@ -1,4 +1,4 @@
-angular.module("ciclotourApp").controller('RoutesDetailController', function($scope, $stateParams, $state, Message, RoutesAPI) {
+angular.module("ciclotourApp").controller('RoutesDetailController', function($scope, $stateParams, $state, RoutesAPI, Message) {
     $scope.mapMarkers = [];
     $scope.route = {};
     $scope.show = false;
@@ -28,10 +28,7 @@ angular.module("ciclotourApp").controller('RoutesDetailController', function($sc
             setZoom(map);
             addRoutePointMarkers(map);
         }).error(function(){
-            Message.showError("Não foi possível encontrar a rota.", "A rota solicitada não foi " +
-                "encontrada, tente novamente.");
-
-            $state.go("home");
+            Message.showError("Não foi possível encontrar a rota.")
         });
     };
 
@@ -68,6 +65,40 @@ angular.module("ciclotourApp").controller('RoutesDetailController', function($sc
         $('#imagedescription').text(description);
         $('#imagemodal').modal('show');
     };
+
+    $scope.markAsPending = function (){
+        RoutesAPI.mark_as_pending($scope.routeId).success(markAsPendingSuccess)
+            .error(markAsPendingFail);
+    };
+
+    $scope.markAsPerformed = function (){
+        RoutesAPI.mark_as_performed($scope.routeId).success(markAsPerformedSuccess)
+            .error(markAsPerformedFail);
+    };
+
+    function markAsPendingSuccess(data){
+        if(data.marked)
+            Message.showSuccess("Rota marcada como pendente", "A rota foi marcada como pendente.");
+        else
+            Message.showSuccess("Rota marcada como pendente", "A rota foi desmarcada como pendente.");
+    }
+
+    function markAsPendingFail(data){
+        Message.showError("Falha ao marcar como pendente", "Não foi possível marcar a " +
+            "rota como pendente. Tente novamente.");
+    }
+
+    function markAsPerformedSuccess(data){
+        if(data.marked)
+            Message.showSuccess("Rota marcada como realizada", "A rota foi marcada como realizada.");
+        else
+            Message.showSuccess("Rota marcada como realizada", "A rota foi desmarcada como realizada.");
+    }
+
+    function markAsPerformedFail(data){
+        Message.showError("Falha ao marcar como realizada", "Não foi possível marcar a " +
+            "rota como realizada. Tente novamente.");
+    }
 
     /******************************************
      * Responsible method to return coodinates

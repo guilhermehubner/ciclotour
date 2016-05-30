@@ -11,9 +11,9 @@
             <i class="fa fa-users blue" data-toggle="tooltip"
                data-placement="bottom" title="Amigos">[[friends]]</i>
             <i class="fa fa-bicycle green" data-toggle="tooltip"
-               data-placement="bottom" title="Rotas Realizadas">666</i>
+               data-placement="bottom" title="Rotas Realizadas">[[performed_routes_count]]</i>
             <i class="fa fa-compass red" data-toggle="tooltip"
-               data-placement="bottom" title="Rotas Pendentes">666</i>
+               data-placement="bottom" title="Rotas Pendentes">[[pending_routes_count]]</i>
         </div>
     </div>
 
@@ -30,12 +30,12 @@
                 <a ui-sref="pendingRequests">Solicitações de amizade</a>
             </li>
             <li class="list-group-item">
-                <span class="badge">666</span>
-                <a href="#">Rotas Realizadas</a>
+                <span class="badge">[[performed_routes_count]]</span>
+                <a ui-sref="performedRoutes">Rotas Realizadas</a>
             </li>
             <li class="list-group-item">
-                <span class="badge">666</span>
-                <a href="#">Rotas Pendentes</a>
+                <span class="badge">[[pending_routes_count]]</span>
+                <a ui-sref="pendingRoutes">Rotas Pendentes</a>
             </li>
             <li class="list-group-item">
                 <span class="badge">[[friends]]</span>

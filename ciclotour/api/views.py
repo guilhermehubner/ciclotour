@@ -25,6 +25,25 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
+@permission_classes((IsAuthenticated, ))
+class PendingRoutesAPIView(ListAPIView):
+    serializer_class = RouteSerializer
+    queryset = Route.objects.all()
+    pagination_class = RoutePageNumberPagination
+
+    def get_queryset(self):
+        return self.request.user.pending_routes.all()
+
+
+@permission_classes((IsAuthenticated, ))
+class PerformedRoutesAPIView(ListAPIView):
+    serializer_class = RouteSerializer
+    queryset = Route.objects.all()
+    pagination_class = RoutePageNumberPagination
+
+    def get_queryset(self):
+        return self.request.user.performed_routes.all()
+
 
 @permission_classes((IsAuthenticated, ))
 class RoutesSearchAPIView(ListAPIView):
@@ -66,6 +85,36 @@ class RoutesSearchAPIView(ListAPIView):
                                                          owner__in=self.request.user.get_friends_id()) |
                                                        Q(shared_with=Route.FRIENDS_ONLY, owner=self.request.user.id))
 
+
+@api_view(['GET'])
+@permission_classes((IsAuthenticated, ))
+def mark_route_as_pending(request, routeId):
+    get_object_or_404(Route, pk=routeId)
+
+    if request.user.pending_routes.filter(pk=routeId).exists():
+       request.user.pending_routes.remove(routeId)
+       return Response({'marked': False}, status.HTTP_200_OK)
+
+    if request.user.performed_routes.filter(pk=routeId).exists():
+        request.user.performed_routes.remove(routeId)
+
+    request.user.pending_routes.add(routeId)
+    return Response({'marked': True}, status.HTTP_200_OK)
+
+@api_view(['GET'])
+@permission_classes((IsAuthenticated, ))
+def mark_route_as_performed(request, routeId):
+    get_object_or_404(Route, pk=routeId)
+
+    if request.user.performed_routes.filter(pk=routeId).exists():
+       request.user.performed_routes.remove(routeId)
+       return Response({'marked': False}, status.HTTP_200_OK)
+
+    if request.user.pending_routes.filter(pk=routeId).exists():
+        request.user.pending_routes.remove(routeId)
+
+    request.user.performed_routes.add(routeId)
+    return Response({'marked': True}, status.HTTP_200_OK)
 
 @api_view(['GET'])
 @permission_classes((IsAuthenticated, ))

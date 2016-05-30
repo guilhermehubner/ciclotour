@@ -48,6 +48,24 @@ angular.module("ciclotourApp").factory('RoutesAPI', function($http){
             return $http.get("/api/routes_search/?from_lat="+originCoordinates.lat+"&from_lng="+
                 originCoordinates.lng+"&to_lat="+destinationCoordinates.lat+"&to_lng="+
                 destinationCoordinates.lng+"&page="+next);
+        },
+        mark_as_performed: function(id){
+            return $http.get("api/route/mark-as-performed/"+id);
+        },
+        mark_as_pending: function(id){
+            return $http.get("api/route/mark-as-pending/"+id);
+        },
+        get_pending_routes: function(){
+            return $http.get("/api/pending-routes/");
+        },
+        get_next_pending_routes: function(next){
+            return $http.get("/api/pending-routes/?page="+next);
+        },
+        get_performed_routes: function(){
+            return $http.get("/api/performed-routes/");
+        },
+        get_next_performed_routes: function(next){
+            return $http.get("/api/performed-routes/?page="+next);
         }
     }
 });

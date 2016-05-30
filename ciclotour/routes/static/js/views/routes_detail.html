@@ -14,8 +14,12 @@
 
         <div class="actions">
             <div class="hidden-xs">
-                <button class="btn btn-success"><i class="fa fa-check"></i> Marcar como Realizada</button>
-                <button class="btn btn-warning"><i class="fa fa-check"></i> Marcar como Pendente</button>
+                <button class="btn btn-success" ng-click="markAsPerformed()">
+                    <i class="fa fa-check"></i> Marcar como Realizada
+                </button>
+                <button class="btn btn-warning" ng-click="markAsPending()">
+                    <i class="fa fa-check"></i> Marcar como Pendente
+                </button>
                 <button class="btn btn-info" ng-click="showModal()">
                     <i class="fa fa-plus"></i> Adicionar Fotos
                 </button>
