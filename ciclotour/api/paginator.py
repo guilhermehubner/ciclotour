@@ -54,7 +54,7 @@ class RoutePicturePageNumberPagination(PageNumberPagination):
         return page_number
 
 
-class RouteCommentsPageNumberPagination(PageNumberPagination):
+class CommentsPageNumberPagination(PageNumberPagination):
     page_size = 10
     page_size_query_param = 'size'
     max_page_size = 20

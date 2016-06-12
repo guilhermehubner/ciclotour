@@ -28,7 +28,7 @@ angular.module("ciclotourApp").controller('ContentController', function($scope, 
             UsersAPI.get_feed().success(getFeedSuccess)
                 .error(getFeedFail);
         else if($scope.next && $scope.feeds.length > 0)
-            RoutesAPI.get_next_feed($scope.next)
+            UsersAPI.get_next_feed($scope.next)
                 .success(getFeedSuccess).error(getFeedFail);
     };
 

@@ -15,6 +15,16 @@
 
         <div ng-if="feed_active" id="main_panel" class="feed content_container">
 
+            <div class="row" ng-show="feeds.length==0">
+                <div class="col-sm-12">
+                    <div class="media-body" style="text-align: center; background: #fff;">
+                        <h4>
+                            Você não possui notícias. Adicione amigos para exibir suas atualizações.
+                        </h4>
+                    </div>
+                </div>
+            </div>
+
             <div class="media" ng-repeat="feed in feeds">
                 <div class="media-left">
                     <a href="#">
@@ -36,7 +46,9 @@
                 </div>
             </div>
 
-            <button class="btn-lg btn-success loadMore" ng-click="getFeed()">Carregar Mais</button>
+            <button class="btn-lg btn-success loadMore" ng-click="getFeed()" ng-show="feeds.length>0">
+                Carregar Mais
+            </button>
 
         </div>
 

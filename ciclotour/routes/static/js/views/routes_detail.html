@@ -62,7 +62,7 @@
                     <tbody>
                     <tr ng-repeat="point in route.points">
                         <td><img src="[[point.kind_info.icon]]"></td>
-                        <td>[[point.title]]</td>
+                        <td><a ui-sref="routePointDetail({id:[[point.id]]})">[[point.title]]</a></td>
                         <td>[[point.description]]</td>
                         <td>[[point.address]]</td>
                     </tr>

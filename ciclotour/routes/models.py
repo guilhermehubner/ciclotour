@@ -121,3 +121,19 @@ class RouteComment(models.Model):
 
     def user_name(self):
         return self.user.get_full_name()
+
+
+class PointComment(models.Model):
+    user = models.ForeignKey('core.CustomUser')
+    point = models.ForeignKey('Point')
+    description = models.TextField()
+    published = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-published']
+
+    def user_photo(self):
+        return self.user.get_profile_pic()
+
+    def user_name(self):
+        return self.user.get_full_name()

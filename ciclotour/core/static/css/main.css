@@ -146,6 +146,10 @@ nav.menu{
     margin-top: 10px;
 }
 
+.feed {
+    padding-bottom: 5px;
+}
+
 .feed .media{
     background: #fff;
     border: 1px solid #009639;

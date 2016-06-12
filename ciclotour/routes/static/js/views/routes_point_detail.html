@@ -1,0 +1,70 @@
+<profile-info></profile-info>
+
+<div id="main_panel" class="routes main_panel col-md-8" ng-controller="PointDetailController">
+    <div class="mapContainer">
+        <div id="map" style="height: 200px" data-ng-init="initMap()">
+        </div>
+    </div>
+
+    <div class="row">
+        <h2 class="form-title">Informações do Ponto</h2>
+        <hr />
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="control-label col-sm-2">Título:</label>
+                [[point.title]]
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2">Tipo:</label>
+                [[point.kind_info.kind]]
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2">Descrição:</label>
+                [[point.description]]
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2">Endereço/<br/>Referência:</label>
+                [[point.address]]
+            </div>
+        </form>
+
+        <hr/>
+
+        <div class="comments">
+        <div class="form-horizontal">
+            <div class="form-group">
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" ng-model="comment"
+                           placeholder="Escreva um comentário..." />
+                </div>
+                <div class="col-sm-2">
+                    <button class="btn btn-success" style="width: 100%" ng-click="postComment()">
+                        Postar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="media" ng-repeat="comment in comments">
+            <div class="media-left">
+                <a>
+                    <img class="media-object" src="[[comment.user_photo]]" />
+                </a>
+            </div>
+            <div class="media-body">
+                <div class="media-heading">
+                    <a>[[comment.user_name]]</a>
+                    <span style="float:right">[[comment.published | date : 'dd/MM/yyyy HH:mm' ]]</span>
+                 </div>
+                <hr />
+                <div class="content">
+                    [[comment.description]]
+                </div>
+            </div>
+        </div>
+        <button class="btn-lg btn-success loadMore" ng-click="getComments()"
+            ng-show="comments.length>0 && point != null">Carregar Mais</button>
+    </div>
+
+    </div>
+</div>

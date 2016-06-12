@@ -80,6 +80,23 @@ angular.module("ciclotourApp").factory('RoutesAPI', function($http){
             };
 
             return $http.post("/api/comment-route/", data);
+        },
+        get_point_comments: function(pointId){
+            return $http.get("/api/point-comments/?pointId="+pointId);
+        },
+        get_next_point_comments: function(pointId, next){
+            return $http.get("/api/point-comments/?pointId="+pointId+"&page="+next);
+        },
+        post_point_comment: function(pointId, comment){
+            data = {
+                point: pointId,
+                description: comment
+            };
+
+            return $http.post("/api/comment-point/", data);
+        },
+        get_route_point: function(pointId){
+            return $http.get("/api/route/points/"+pointId);
         }
     }
 });

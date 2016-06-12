@@ -2,8 +2,8 @@ import sys
 
 from ciclotour.api.paginator import (RoutePageNumberPagination,
                                      UserPageNumberPagination,
-                                     RoutePicturePageNumberPagination, RouteCommentsPageNumberPagination,
-                                     FeedPageNumberPagination)
+                                     RoutePicturePageNumberPagination,
+                                     FeedPageNumberPagination, CommentsPageNumberPagination)
 from ciclotour.api.serializers import (RouteSerializer,
                                        WayPointSerializer,
                                        UserProfileInfoSerializer,
@@ -11,9 +11,11 @@ from ciclotour.api.serializers import (RouteSerializer,
                                        PointKindSerializer,
                                        PointSerializer,
                                        RoutePictureSerializer,
-                                       CustomUserSerializer, RouteCommentSerializer, UserActivitySerializer)
+                                       CustomUserSerializer, RouteCommentSerializer, UserActivitySerializer,
+                                       PointCommentSerializer)
 from ciclotour.core.models import CustomUser, ConfirmationToken, UserActivity
-from ciclotour.routes.models import Route, WayPoint, FieldKind, PointKind, Point, RoutePicture, RouteComment
+from ciclotour.routes.models import Route, WayPoint, FieldKind, PointKind, Point, RoutePicture, RouteComment, \
+    PointComment
 from django.core import mail
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
@@ -28,6 +30,38 @@ from rest_framework.viewsets import ModelViewSet
 
 
 @permission_classes((IsAuthenticated, ))
+class PointCommentListAPIView(ListAPIView):
+    serializer_class = PointCommentSerializer
+    queryset = PointComment.objects.all()
+    pagination_class = CommentsPageNumberPagination
+
+    def get_queryset(self):
+        pointId = self.request.query_params.get("pointId", None)
+        try:
+            pointId = int(pointId)
+        except:
+            return PointComment.objects.none()
+
+        return PointComment.objects.filter(point=pointId)
+
+
+@permission_classes((IsAuthenticated, ))
+class PointCommentCreateAPIView(CreateAPIView):
+    serializer_class = PointCommentSerializer
+    queryset = PointComment.objects.all()
+
+    def perform_create(self, serializer):
+        comment = serializer.save(user=self.request.user)
+        UserActivity.objects.create(
+            action=UserActivity.COMMENT,
+            target=UserActivity.POINT,
+            description=comment.description,
+            user=self.request.user,
+            point_comment=comment
+        )
+
+
+@permission_classes((IsAuthenticated, ))
 class FeedListAPIView(ListAPIView):
     serializer_class = UserActivitySerializer
     queryset = UserActivity.objects.all()
@@ -37,11 +71,12 @@ class FeedListAPIView(ListAPIView):
         friends = self.request.user.get_friends_id()
         return UserActivity.objects.filter(user__in=friends)
 
+
 @permission_classes((IsAuthenticated, ))
 class RouteCommentListAPIView(ListAPIView):
     serializer_class = RouteCommentSerializer
     queryset = RouteComment.objects.all()
-    pagination_class = RouteCommentsPageNumberPagination
+    pagination_class = CommentsPageNumberPagination
 
     def get_queryset(self):
         routeId = self.request.query_params.get("routeId", None)
@@ -51,6 +86,7 @@ class RouteCommentListAPIView(ListAPIView):
             return RouteComment.objects.none()
 
         return RouteComment.objects.filter(route=routeId)
+
 
 @permission_classes((IsAuthenticated, ))
 class RouteCommentCreateAPIView(CreateAPIView):

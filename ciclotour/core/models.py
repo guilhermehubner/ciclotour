@@ -141,6 +141,7 @@ class UserActivity(models.Model):
 
     ##Related##
     route_comment = models.ForeignKey('routes.RouteComment', null=True)
+    point_comment = models.ForeignKey('routes.PointComment', null=True)
 
     def action_name(self):
         dic = dict(UserActivity.ACTIONS)
@@ -159,12 +160,16 @@ class UserActivity(models.Model):
     def target_link(self):
         if self.route_comment != None:
             return {'value':'routeDetail','keys':{'id':self.route_comment.route.id}}
+        if self.point_comment != None:
+            return {'value':'routePointDetail','keys':{'id':self.point_comment.point.id}}
 
         return None
 
     def target_object_name(self):
         if self.route_comment != None:
             return self.route_comment.route.title
+        if self.point_comment != None:
+            return self.point_comment.point.title
 
         return None
 
