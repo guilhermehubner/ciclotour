@@ -66,6 +66,20 @@ angular.module("ciclotourApp").factory('RoutesAPI', function($http){
         },
         get_next_performed_routes: function(next){
             return $http.get("/api/performed-routes/?page="+next);
+        },
+        get_route_comments: function(routeId){
+            return $http.get("/api/route-comments/?routeId="+routeId);
+        },
+        get_next_route_comments: function(routeId, next){
+            return $http.get("/api/route-comments/?routeId="+routeId+"&page="+next);
+        },
+        post_comment: function(routeId, comment){
+            data = {
+                route: routeId,
+                description: comment
+            };
+
+            return $http.post("/api/comment-route/", data);
         }
     }
 });

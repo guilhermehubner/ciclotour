@@ -3,6 +3,9 @@ angular.module("ciclotourApp").controller('RoutesDetailController', function($sc
     $scope.route = {};
     $scope.show = false;
     $scope.routeId = 0;
+    $scope.comments = [];
+    $scope.next = null;
+    $scope.comment = "";
 
     /******************************************
      * Responsible method to get server
@@ -28,7 +31,8 @@ angular.module("ciclotourApp").controller('RoutesDetailController', function($sc
             setZoom(map);
             addRoutePointMarkers(map);
         }).error(function(){
-            Message.showError("Não foi possível encontrar a rota.")
+            Message.showError("Rota não encontrada", "Não foi possível encontrar a rota.");
+            $state.go("home");
         });
     };
 
@@ -75,6 +79,47 @@ angular.module("ciclotourApp").controller('RoutesDetailController', function($sc
         RoutesAPI.mark_as_performed($scope.routeId).success(markAsPerformedSuccess)
             .error(markAsPerformedFail);
     };
+
+    $scope.getComments = function(){
+        if($scope.next == null && $scope.comments.length == 0)
+            RoutesAPI.get_route_comments($scope.routeId).success(getCommentsSuccess)
+                .error(getCommentsFail);
+        else if($scope.next && $scope.comments.length > 0)
+            RoutesAPI.get_next_route_comments($scope.routeId, $scope.next)
+                .success(getCommentsSuccess).error(getCommentsFail);
+    };
+
+    $scope.postComment = function(){
+        if ($scope.comment == "")
+            return;
+
+        RoutesAPI.post_comment($scope.routeId, $scope.comment)
+            .success(postCommentSuccess).error(postCommentFail);
+    };
+
+    function postCommentSuccess(data){
+        $scope.comments.unshift(data);
+        $scope.comment = "";
+    }
+
+    function postCommentFail(data){
+        Message.showWarning('Não foi possível postar comentário.', 'Ocorreu uma falha ao tentar ' +
+            'postar comentário. Tente novamente.');
+
+        console.log(data);
+    }
+
+    function getCommentsSuccess(data){
+        $scope.next = data.next;
+        $scope.comments = $scope.comments.concat(data.results);
+    }
+
+    function getCommentsFail(data){
+        Message.showWarning('Não foi possível obter comentários.', 'Ocorreu uma falha ao tentar ' +
+            'obter comentários. Tente novamente.');
+
+        console.log(data);
+    }
 
     function markAsPendingSuccess(data){
         if(data.marked)

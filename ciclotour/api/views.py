@@ -2,7 +2,7 @@ import sys
 
 from ciclotour.api.paginator import (RoutePageNumberPagination,
                                      UserPageNumberPagination,
-                                     RoutePicturePageNumberPagination)
+                                     RoutePicturePageNumberPagination, RouteCommentsPageNumberPagination)
 from ciclotour.api.serializers import (RouteSerializer,
                                        WayPointSerializer,
                                        UserProfileInfoSerializer,
@@ -10,9 +10,9 @@ from ciclotour.api.serializers import (RouteSerializer,
                                        PointKindSerializer,
                                        PointSerializer,
                                        RoutePictureSerializer,
-                                       CustomUserSerializer)
+                                       CustomUserSerializer, RouteCommentSerializer)
 from ciclotour.core.models import CustomUser, ConfirmationToken
-from ciclotour.routes.models import Route, WayPoint, FieldKind, PointKind, Point, RoutePicture
+from ciclotour.routes.models import Route, WayPoint, FieldKind, PointKind, Point, RoutePicture, RouteComment
 from django.core import mail
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
@@ -24,6 +24,31 @@ from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
+
+
+@permission_classes((IsAuthenticated, ))
+class RouteCommentListAPIView(ListAPIView):
+    serializer_class = RouteCommentSerializer
+    queryset = RouteComment.objects.all()
+    pagination_class = RouteCommentsPageNumberPagination
+
+    def get_queryset(self):
+        routeId = self.request.query_params.get("routeId", None)
+        try:
+            routeId = int(routeId)
+        except:
+            return RouteComment.objects.none()
+
+        return RouteComment.objects.filter(route=routeId)
+
+@permission_classes((IsAuthenticated, ))
+class RouteCommentCreateAPIView(CreateAPIView):
+    serializer_class = RouteCommentSerializer
+    queryset = RouteComment.objects.all()
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
 
 @permission_classes((IsAuthenticated, ))
 class PendingRoutesAPIView(ListAPIView):
@@ -101,6 +126,7 @@ def mark_route_as_pending(request, routeId):
     request.user.pending_routes.add(routeId)
     return Response({'marked': True}, status.HTTP_200_OK)
 
+
 @api_view(['GET'])
 @permission_classes((IsAuthenticated, ))
 def mark_route_as_performed(request, routeId):
@@ -115,6 +141,7 @@ def mark_route_as_performed(request, routeId):
 
     request.user.performed_routes.add(routeId)
     return Response({'marked': True}, status.HTTP_200_OK)
+
 
 @api_view(['GET'])
 @permission_classes((IsAuthenticated, ))

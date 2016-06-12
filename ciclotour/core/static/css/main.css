@@ -468,4 +468,42 @@ button.loadMore{
     min-width: 200px;
 }
 
+.comments{
+    background: #fff;
+    padding-top: 5px;
+    padding-bottom: 1px;
+    margin-bottom: 5px;
+}
+
+.comments .media{
+    border: 1px solid #009639;
+    margin: 0 5px 10px 5px;
+    min-height: 105px;
+}
+
+.comments .media-heading a{
+    text-decoration: none;
+    font-weight: bold;
+    cursor: default;
+}
+
+.comments .media-left a img{
+    width: 80px;
+    height: 80px;
+    margin: 10px 0 0 10px;
+}
+
+.comments .media-heading{
+    margin-top: 10px;
+}
+
+.comments .media-body hr{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.comments .form-horizontal{
+    margin: 0 5px 0 5px;
+}
+
 /* Fim Customizações */
