@@ -1,4 +1,4 @@
-angular.module("ciclotourApp").controller('ContentController', function($scope, $http, RoutesAPI, Message){
+angular.module("ciclotourApp").controller('ContentController', function($scope, $http, RoutesAPI, UsersAPI, Message){
     $scope.feed_active = true;
     $scope.routes_active = false;
     $scope.routes = [];
@@ -12,9 +12,24 @@ angular.module("ciclotourApp").controller('ContentController', function($scope, 
 
     $scope.next = null;
 
+    $scope.feeds = [];
+
     $scope.select_feed = function(){
         $scope.feed_active = true;
         $scope.routes_active = false;
+        $scope.next = null;
+        $scope.feeds = [];
+
+        $scope.getFeed();
+    };
+
+    $scope.getFeed = function(){
+         if($scope.next == null && $scope.feeds.length == 0)
+            UsersAPI.get_feed().success(getFeedSuccess)
+                .error(getFeedFail);
+        else if($scope.next && $scope.feeds.length > 0)
+            RoutesAPI.get_next_feed($scope.next)
+                .success(getFeedSuccess).error(getFeedFail);
     };
 
     $scope.select_routes = function(){
@@ -91,6 +106,18 @@ angular.module("ciclotourApp").controller('ContentController', function($scope, 
     function getRoutesFail(data){
         Message.showWarning('Não foi possível buscar rotas.', 'Ocorreu uma falha ao buscar rotas. ' +
             'Tente novamente.');
+
+        console.log(data);
+    }
+
+    function getFeedSuccess(data){
+        $scope.next = data.next;
+        $scope.feeds = $scope.feeds.concat(data.results);
+    }
+
+    function getFeedFail(data){
+        Message.showWarning('Não foi possível obter feeds.', 'Ocorreu uma falha ao tentar ' +
+            'obter feeds. Tente novamente.');
 
         console.log(data);
     }

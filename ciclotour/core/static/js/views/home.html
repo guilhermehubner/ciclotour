@@ -1,7 +1,8 @@
 <section class="container-fluid" onmove="resizeMainPanel()" onresize="resizeMainPanel()">
     <profile-info></profile-info>
 
-    <div id="main_panel" class="main_panel col-md-8" ng-controller="ContentController">
+    <div id="main_panel" class="main_panel col-md-8" ng-controller="ContentController"
+         ng-init="getFeed()">
 
         <ul class="nav nav-tabs nav-justified">
             <li id="feed_tab" ng-class="{active: feed_active}">
@@ -13,74 +14,30 @@
         </ul>
 
         <div ng-if="feed_active" id="main_panel" class="feed content_container">
-            <div class="media">
+
+            <div class="media" ng-repeat="feed in feeds">
                 <div class="media-left">
                     <a href="#">
-                        <img class="media-object" src="https://avatars0.githubusercontent.com/u/5081283?v=3&s=460" />
+                        <img class="media-object" src="[[feed.user_photo]]" />
                     </a>
                 </div>
                 <div class="media-body">
                     <div class="media-heading">
-                        <a href="#">Guilherme Hübner Franco</a>
-                        <span>comentou a rota</span>
-                        <a href="/routes/belo-horizonte-serra-do-cipo/">Belo Horizonte > Serra do cipó</a>
+                        <a href="#">[[feed.user_name]]</a>
+                        <span>[[feed.action_name]] [[feed.target_name]]</span>
+                        <a ui-sref="[[feed.target_link.value]]([[feed.target_link.keys]])">
+                            [[feed.target_object_name]]
+                        </a>
                     </div>
                     <hr />
                     <div class="content">
-                        Cras sit amet nibh libero, in gravida nulla.
-                        Nulla vel metus scelerisque ante sollicitudin commodo.
-                        Cras purus odio, vestibulum in vulputate at, tempus viverra
-                        turpis. Fusce condimentum nunc ac nisi vulputate fringilla.
-                        Donec lacinia congue felis in faucibus.
+                        [[feed.description]]
                     </div>
                 </div>
             </div>
 
-            <div class="media">
-                <div class="media-left">
-                    <a href="#">
-                        <img class="media-object" src="https://avatars0.githubusercontent.com/u/5081283?v=3&s=460" />
-                    </a>
-                </div>
-                <div class="media-body">
-                    <div class="media-heading">
-                        <a href="#">Guilherme Hübner Franco</a>
-                        <span>comentou a rota</span>
-                        <a href="/routes/belo-horizonte-serra-do-cipo/">Belo Horizonte > Serra do cipó</a>
-                    </div>
-                    <hr />
-                    <div class="content">
-                        Cras sit amet nibh libero, in gravida nulla.
-                        Nulla vel metus scelerisque ante sollicitudin commodo.
-                        Cras purus odio, vestibulum in vulputate at, tempus viverra
-                        turpis. Fusce condimentum nunc ac nisi vulputate fringilla.
-                        Donec lacinia congue felis in faucibus.
-                    </div>
-                </div>
-            </div>
+            <button class="btn-lg btn-success loadMore" ng-click="getFeed()">Carregar Mais</button>
 
-            <div class="media">
-                <div class="media-left">
-                    <a href="#">
-                        <img class="media-object" src="https://avatars0.githubusercontent.com/u/5081283?v=3&s=460" />
-                    </a>
-                </div>
-                <div class="media-body">
-                    <div class="media-heading">
-                        <a href="#">Guilherme Hübner Franco</a>
-                        <span>comentou a rota</span>
-                        <a href="/routes/belo-horizonte-serra-do-cipo/">Belo Horizonte > Serra do cipó</a>
-                    </div>
-                    <hr />
-                    <div class="content">
-                        Cras sit amet nibh libero, in gravida nulla.
-                        Nulla vel metus scelerisque ante sollicitudin commodo.
-                        Cras purus odio, vestibulum in vulputate at, tempus viverra
-                        turpis. Fusce condimentum nunc ac nisi vulputate fringilla.
-                        Donec lacinia congue felis in faucibus.
-                    </div>
-                </div>
-            </div>
         </div>
 
         <div ng-if="routes_active" id="routes_container" class="routes content_container">

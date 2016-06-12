@@ -94,6 +94,20 @@
     </div>
 
     <div class="comments" data-ng-init="getComments()">
+        <div class="form-horizontal">
+            <div class="form-group">
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" ng-model="comment"
+                           placeholder="Escreva um comentário..." />
+                </div>
+                <div class="col-sm-2">
+                    <button class="btn btn-success" style="width: 100%" ng-click="postComment()">
+                        Postar
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <div class="media" ng-repeat="comment in comments">
             <div class="media-left">
                 <a>
@@ -113,19 +127,6 @@
         </div>
         <button class="btn-lg btn-success loadMore" ng-click="getComments()"
             ng-show="comments.length>0">Carregar Mais</button>
-        <div class="form-horizontal">
-            <div class="form-group">
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" ng-model="comment"
-                           placeholder="Escreva um comentário..." />
-                </div>
-                <div class="col-sm-2">
-                    <button class="btn btn-success" style="width: 100%" ng-click="postComment()">
-                        Postar
-                    </button>
-                </div>
-            </div>
-        </div>
     </div>
 
     <routepicture-modal visible="show" on-hide="refreshRoutePictures()"></routepicture-modal>

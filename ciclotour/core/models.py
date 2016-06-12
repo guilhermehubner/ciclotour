@@ -115,3 +115,56 @@ class ConfirmationToken(models.Model):
 
     def is_active(self):
         return datetime.now() < self.expire_date
+
+
+class UserActivity(models.Model):
+    ROUTE = 'RT'
+    POINT = 'PT'
+    TARGETS = (
+        (ROUTE, 'a rota'),
+        (POINT, 'o ponto')
+    )
+
+    COMMENT = 'CO'
+    ACTIONS = (
+        (COMMENT, 'comentou'),
+    )
+
+    action = models.CharField(max_length=2, choices=ACTIONS)
+    target = models.CharField(max_length=2, choices=TARGETS)
+    description = models.TextField()
+    user = models.ForeignKey('CustomUser')
+    date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-date']
+
+    ##Related##
+    route_comment = models.ForeignKey('routes.RouteComment', null=True)
+
+    def action_name(self):
+        dic = dict(UserActivity.ACTIONS)
+        return dic[self.action]
+
+    def target_name(self):
+        dic = dict(UserActivity.TARGETS)
+        return dic[self.target]
+
+    def user_photo(self):
+        return self.user.get_profile_pic()
+
+    def user_name(self):
+        return self.user.get_full_name()
+
+    def target_link(self):
+        if self.route_comment != None:
+            return {'value':'routeDetail','keys':{'id':self.route_comment.route.id}}
+
+        return None
+
+    def target_object_name(self):
+        if self.route_comment != None:
+            return self.route_comment.route.title
+
+        return None
+

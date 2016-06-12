@@ -2,7 +2,8 @@ import sys
 
 from ciclotour.api.paginator import (RoutePageNumberPagination,
                                      UserPageNumberPagination,
-                                     RoutePicturePageNumberPagination, RouteCommentsPageNumberPagination)
+                                     RoutePicturePageNumberPagination, RouteCommentsPageNumberPagination,
+                                     FeedPageNumberPagination)
 from ciclotour.api.serializers import (RouteSerializer,
                                        WayPointSerializer,
                                        UserProfileInfoSerializer,
@@ -10,8 +11,8 @@ from ciclotour.api.serializers import (RouteSerializer,
                                        PointKindSerializer,
                                        PointSerializer,
                                        RoutePictureSerializer,
-                                       CustomUserSerializer, RouteCommentSerializer)
-from ciclotour.core.models import CustomUser, ConfirmationToken
+                                       CustomUserSerializer, RouteCommentSerializer, UserActivitySerializer)
+from ciclotour.core.models import CustomUser, ConfirmationToken, UserActivity
 from ciclotour.routes.models import Route, WayPoint, FieldKind, PointKind, Point, RoutePicture, RouteComment
 from django.core import mail
 from django.db.models import Q
@@ -25,6 +26,16 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
+
+@permission_classes((IsAuthenticated, ))
+class FeedListAPIView(ListAPIView):
+    serializer_class = UserActivitySerializer
+    queryset = UserActivity.objects.all()
+    pagination_class = FeedPageNumberPagination
+
+    def get_queryset(self):
+        friends = self.request.user.get_friends_id()
+        return UserActivity.objects.filter(user__in=friends)
 
 @permission_classes((IsAuthenticated, ))
 class RouteCommentListAPIView(ListAPIView):
@@ -47,7 +58,14 @@ class RouteCommentCreateAPIView(CreateAPIView):
     queryset = RouteComment.objects.all()
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        comment = serializer.save(user=self.request.user)
+        UserActivity.objects.create(
+            action=UserActivity.COMMENT,
+            target=UserActivity.ROUTE,
+            description=comment.description,
+            user=self.request.user,
+            route_comment=comment
+        )
 
 
 @permission_classes((IsAuthenticated, ))

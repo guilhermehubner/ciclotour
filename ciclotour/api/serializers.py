@@ -1,7 +1,15 @@
-from ciclotour.core.models import CustomUser, ConfirmationToken
+from ciclotour.core.models import CustomUser, ConfirmationToken, UserActivity
 from ciclotour.routes.models import Route, WayPoint, Polyline, FieldKind, PointKind, Point, RoutePicture, RouteComment
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
+
+class UserActivitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserActivity
+        fields = ['action_name', 'target_name', 'description', 'date',
+                  'user_name', 'user_photo', 'target_link', 'target_object_name']
+        read_only_fields = ['action_name', 'target_name', 'description', 'date',
+                            'user_name', 'user_photo', 'target_link', 'target_object_name']
 
 
 class RouteCommentSerializer(serializers.ModelSerializer):

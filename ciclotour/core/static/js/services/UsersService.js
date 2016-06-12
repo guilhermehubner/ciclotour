@@ -45,6 +45,12 @@ angular.module("ciclotourApp").factory('UsersAPI', function($http){
                 transformRequest: angular.identity,
                 headers: {'Content-Type': undefined}
             });
+        },
+        get_feed: function(){
+            return $http.get("/api/user-feed/");
+        },
+        get_next_feed: function(next){
+            return $http.get("/api/user-feed/?page="+next);
         }
     }
 });

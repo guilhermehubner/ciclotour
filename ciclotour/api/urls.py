@@ -2,7 +2,7 @@ from ciclotour.api.views import RouteViewSet, route_waypoints, user_logged, user
     point_kind_list, PointViewSet, RoutePictureViewSet, CreateUserAPIView, user_confirmation, UpdateUserAPIView, \
     SearchUserAPIView, add_friend, PendingRequestsAPIView, refuse_request, FriendsAPIView, unfriend, RoutesSearchAPIView, \
     mark_route_as_performed, mark_route_as_pending, PendingRoutesAPIView, PerformedRoutesAPIView, \
-    RouteCommentCreateAPIView, RouteCommentListAPIView
+    RouteCommentCreateAPIView, RouteCommentListAPIView, FeedListAPIView
 from django.conf.urls import url, include
 from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework.routers import DefaultRouter
@@ -36,7 +36,8 @@ urlpatterns = [
     url(r'^pending-routes/$', PendingRoutesAPIView.as_view()),
     url(r'^performed-routes/$', PerformedRoutesAPIView.as_view()),
     url(r'^comment-route/$', RouteCommentCreateAPIView.as_view()),
-    url(r'^route-comments/$', RouteCommentListAPIView.as_view())
+    url(r'^route-comments/$', RouteCommentListAPIView.as_view()),
+    url(r'^user-feed/$', FeedListAPIView.as_view())
 ]
 
 
