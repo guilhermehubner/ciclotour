@@ -335,6 +335,14 @@ class UpdateUserAPIView(UpdateAPIView):
     serializer_class = CustomUserSerializer
     queryset = CustomUser.objects.all()
 
+    def get_serializer_context(self):
+        return {
+            'request': self.request,
+            'format': self.format_kwarg,
+            'view': self,
+            'user': self.request.user.id
+        }
+
     def get_object(self):
         return self.request.user
 
